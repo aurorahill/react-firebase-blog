@@ -31,7 +31,11 @@ const Detail = () => {
       <div
         className={classes.detail__hero}
         // style={{ backgroundImage: `url('${blog?.imgUrl})` }}
-        style={{ backgroundImage: `url(${photoImg})` }}
+        style={
+          blog.imgURL
+            ? { backgroundImage: `url(${blog.imgURL})` }
+            : { backgroundImage: `url(${photoImg})` }
+        }
       >
         <div className={classes.detail__overlay}></div>
         <div className={classes.detail__title}>

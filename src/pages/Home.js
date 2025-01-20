@@ -47,6 +47,9 @@ const Home = () => {
         setLoading(true);
         await deleteDoc(doc(db, "blogs", id));
         toast.success("Blog deleted successfully!");
+        setTrendBlogs((prevBlogs) =>
+          prevBlogs.filter((blog) => blog.id !== id)
+        );
       } catch (err) {
         console.log(err);
       } finally {
