@@ -1,0 +1,13 @@
+.btn-sign-in {
+  margin-top: 3rem;
+}
+
+.btn-sign-up {
+  margin-top: 3rem;
+  background: #4287f5;
+  color: #fff;
+  transition: color 0.2s ease-in-out;
+  &:hover {
+    background: #1769ce;
+  }
+}

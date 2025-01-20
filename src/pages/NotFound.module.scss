@@ -1,0 +1,17 @@
+.error {
+  padding: 4rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 50vh;
+  font-size: 1.6rem;
+  &__header {
+    font-size: 4rem;
+    font-weight: 500;
+  }
+  &__text {
+    margin: 2rem 0;
+  }
+  
+}

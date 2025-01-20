@@ -1,0 +1,9 @@
+.trending {
+  margin-bottom: 4rem;
+  &__actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6rem;
+  }
+}

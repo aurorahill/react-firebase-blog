@@ -1,0 +1,34 @@
+.auth {
+  text-align: center;
+  &__actions {
+    margin: 3rem 0;
+    p {
+      margin: 1rem 0;
+      font-size: 1.6rem;
+      span {
+        cursor: pointer;
+        font-weight: bold;
+      }
+      .sign-up {
+        color: var(--color-primary-800);
+        transition: color 0.2s ease-in-out;
+        &:hover {
+          color: var(--color-primary-900);
+        }
+      }
+      .sign-in {
+        color: #4287f5;
+        &:hover {
+          color: #1d69e4;
+        }
+      }
+    }
+    .reset-password {
+      cursor: pointer;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}

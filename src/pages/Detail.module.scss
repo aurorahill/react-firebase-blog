@@ -1,0 +1,76 @@
+.detail {
+  margin: -3rem -2rem 0 -2rem;
+  &__hero {
+    height: 70vh;
+    position: relative;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+  }
+  &__overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 2;
+  }
+  &__title {
+    position: relative;
+    z-index: 3;
+    position: absolute;
+    bottom: 0;
+    padding: 30px;
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+    span {
+      display: block;
+      color: rgba(255, 255, 255, 0.7);
+      text-transform: uppercase;
+      font-size: 1.6rem;
+      letter-spacing: 0.05em;
+      margin-bottom: 10px;
+      @media (min-width: 768px) {
+        font-size: 2rem;
+      }
+    }
+    h2 {
+      color: white;
+      font-weight: 300;
+      font-size: 4rem;
+      @media (min-width: 768px) {
+        font-size: 6rem;
+      }
+    }
+  }
+
+  &__wrapper {
+    margin: 2rem;
+    @media (min-width: 768px) {
+      display: flex;
+      gap: 4rem;
+    }
+  }
+  &__content {
+    margin-bottom: 4rem;
+    font-size: 1.4rem;
+    @media (min-width: 768px) {
+      font-size: 1.6rem;
+      width: 70%;
+    }
+  }
+  &__data {
+    padding: 1rem 0;
+    border-bottom: 1px solid rgb(187, 187, 187);
+    margin-bottom: 1rem;
+    @media (min-width: 768px) {
+      padding-bottom: 1.6rem;
+    }
+  }
+  &__author {
+    font-weight: 600;
+  }
+}

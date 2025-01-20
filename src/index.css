@@ -1,0 +1,85 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+html {
+  font-size: 10px;
+}
+body {
+  margin: 0;
+  font-family: "Poppins", "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
+    "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+:root {
+  --color-primary-100: #fcf3e1;
+  --color-primary-200: #fceccd;
+  --color-primary-300: #fae1af;
+  --color-primary-400: #fbd997;
+  --color-primary-500: #ffd37c;
+  --color-primary-600: #f9c762;
+  --color-primary-700: #fbc14d;
+  --color-primary-800: #fab833;
+  --color-primary-900: #f6ad1b;
+  --color-primary-1000: #f1a100;
+}
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* React Components */
+.Toastify__toast {
+  font-size: 18px !important;
+}
+.react-tag-input {
+  height: 45px !important;
+  border: 1px solid #6b6b6b !important;
+  font-size: 1.8rem !important;
+}
+.react-tag-input__input {
+  margin: 0 !important;
+}
+.react-tag-input:focus {
+  border: 1px black !important;
+}
+.fa-trash {
+  color: #f35c48 !important;
+}
+.fa-edit {
+  color: rgb(255, 141, 96) !important;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  color: rgb(70, 70, 70);
+  font-size: 3rem;
+  transition: color 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  color: rgb(0, 0, 0);
+}
+
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  font-size: 16px;
+}

@@ -1,0 +1,23 @@
+.tags {
+  margin: 2rem 0;
+  font-size: 1.4rem;
+
+  & > a {
+    // text-decoration: none;
+  }
+  &__tag {
+    background: #f1f1f1;
+    padding: 1rem 1.5rem;
+    color: #222;
+    margin: 0.5rem 1rem 0.5rem 0;
+    border-radius: 3px;
+    display: inline-block;
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+    &:hover,
+    &:focus {
+      background-color: var(--color-primary-900);
+      color: #fff;
+      text-decoration: none;
+    }
+  }
+}
