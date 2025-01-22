@@ -17,7 +17,6 @@ import {
 } from "firebase/firestore";
 import { db } from "../firebase";
 import { doc } from "firebase/firestore";
-import Spinner from "../components/UI/Spinner";
 
 const initialState = {
   title: "",
@@ -97,6 +96,7 @@ const AddEditBlog = () => {
           console.log(err);
         } finally {
           setIsLoading(false);
+          navigate("/");
         }
       } else {
         try {
@@ -111,17 +111,14 @@ const AddEditBlog = () => {
           console.log(err);
         } finally {
           setIsLoading(false);
+          navigate("/");
         }
       }
     } else {
       return toast.error("All fields are mandatory to fill");
     }
-    navigate("/");
   };
 
-  if (isLoading) {
-    return <Spinner />;
-  }
   return (
     <>
       <Heading title={id ? "Update blog" : "Create Blog"} />

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { db } from "../firebase";
-import { doc, getDoc } from "firebase/firestore";
-import photoImg from "../assets/photo.png";
+import { doc, getDoc, collection, getDocs } from "firebase/firestore";
+import photoImg from "../assets/photo.jpg";
 import classes from "./Detail.module.scss";
 import Spinner from "../components/UI/Spinner";
 import Aside from "../components/Aside";
@@ -10,6 +10,8 @@ import Aside from "../components/Aside";
 const Detail = () => {
   const { id } = useParams();
   const [blog, setBlog] = useState(null);
+  // const [blogs, setBlogs] = useState([]);
+  // const [tags, setTags] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const getBlogDetail = async () => {
@@ -17,10 +19,21 @@ const Detail = () => {
     const blogDetail = await getDoc(docRef);
     setBlog(blogDetail.data());
     setLoading(false);
+    // const blogRef = collection(db, "blogs");
+    // const blogs = await getDocs(blogRef);
+    // setBlogs(blogs.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
+    // let tags = [];
+    // blogs.docs.map((doc) => tags.push(...doc.get("tags")));
+    // let uniqueTags = [...new Set(tags)];
+    // setTags(uniqueTags);
   };
 
   useEffect(() => {
     id && getBlogDetail();
+  }, [id]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
   }, [id]);
 
   if (loading) {
@@ -30,7 +43,6 @@ const Detail = () => {
     <div className={classes.detail}>
       <div
         className={classes.detail__hero}
-        // style={{ backgroundImage: `url('${blog?.imgUrl})` }}
         style={
           blog.imgURL
             ? { backgroundImage: `url(${blog.imgURL})` }

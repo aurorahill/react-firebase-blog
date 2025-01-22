@@ -1,10 +1,14 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import photoImg from "../../assets/photo.png";
+import photoImg from "../../assets/photo.jpg";
 import classes from "./MostPopularItem.module.scss";
 
 const MostPopularItem = ({ item }) => {
   const navigate = useNavigate();
+
+  if (!item || !item.timestamp) {
+    return <p>Loading...</p>;
+  }
   return (
     <div
       className={classes.popular}

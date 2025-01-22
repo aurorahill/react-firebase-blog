@@ -2,4 +2,16 @@
   &__content {
     padding: 2rem 0;
   }
+  &__message {
+    font-size: 1.6rem;
+  }
+  &__btn {
+    text-align: center;
+  }
+}
+
+.search {
+  @media (min-width: 768px) {
+    display: none;
+  }
 }

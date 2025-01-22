@@ -2,7 +2,6 @@ import React from "react";
 import SectionHeader from "../SectionHeader";
 import MostPopularItem from "./MostPopularItem";
 
-
 const MostPopular = ({ blogs }) => {
   return (
     <section>

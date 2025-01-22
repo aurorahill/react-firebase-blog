@@ -1,5 +1,11 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { collection, onSnapshot } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  query,
+  where,
+  onSnapshot,
+} from "firebase/firestore";
 import { db } from "../firebase";
 
 const BlogContext = createContext();
@@ -7,9 +13,27 @@ const BlogContext = createContext();
 export const BlogProvider = ({ children }) => {
   const [tags, setTags] = useState([]);
   const [blogs, setBlogs] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [trendBlogs, setTrendBlogs] = useState([]);
+  const [filteredBlogs, setFilteredBlogs] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [activeTag, setActiveTag] = useState(null);
+
+  //ma sie wywolywac tylko przy pobieraniu danych, nie aktualizujemy jej na biezaco (przy usuwaniu aktualizuje stan)
+  const getTrendingBlogs = async () => {
+    const blogRef = collection(db, "blogs");
+    const trendQuery = query(blogRef, where("trending", "==", "yes"));
+    const querySnapshot = await getDocs(trendQuery);
+    let trendBlogs = [];
+    querySnapshot.forEach((doc) => {
+      trendBlogs.push({ id: doc.id, ...doc.data([]) });
+    });
+    setTrendBlogs(trendBlogs);
+  };
 
   useEffect(() => {
+    setLoading(true);
+    getTrendingBlogs();
     const unsub = onSnapshot(
       collection(db, "blogs"),
       (snapshot) => {
@@ -22,21 +46,37 @@ export const BlogProvider = ({ children }) => {
         const uniqueTags = [...new Set(tags)];
         setTags(uniqueTags);
         setBlogs(list);
+        setFilteredBlogs(list);
+        setLoading(false);
       },
       (error) => {
         console.log(error);
       }
     );
-    setLoading(false);
+
     return () => {
       unsub();
+      getTrendingBlogs();
     };
   }, []);
 
+  const blogCtx = {
+    tags,
+    blogs,
+    loading,
+    setLoading,
+    trendBlogs,
+    setBlogs,
+    filteredBlogs,
+    setFilteredBlogs,
+    searchTerm,
+    setSearchTerm,
+    activeTag,
+    setActiveTag,
+  };
+
   return (
-    <BlogContext.Provider value={{ tags, blogs, loading, setLoading }}>
-      {children}
-    </BlogContext.Provider>
+    <BlogContext.Provider value={blogCtx}>{children}</BlogContext.Provider>
   );
 };
 

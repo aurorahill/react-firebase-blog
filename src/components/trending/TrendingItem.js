@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import photoImg from "../../assets/photo.png";
+import photoImg from "../../assets/photo.jpg";
 import classes from "./TrendingItem.module.scss";
 
 const TrendingItem = ({ item }) => {

@@ -1,5 +1,5 @@
 .detail {
-  margin: -3rem -2rem 0 -2rem;
+  margin: 0 -2rem 0 -2rem;
   &__hero {
     height: 70vh;
     position: relative;
@@ -14,7 +14,7 @@
     left: 0;
     right: 0;
     z-index: 10;
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(0, 0, 0, 0.5);
     z-index: 2;
   }
   &__title {
@@ -56,7 +56,7 @@
   }
   &__content {
     margin-bottom: 4rem;
-    font-size: 1.4rem;
+    font-size: 1.6rem;
     @media (min-width: 768px) {
       font-size: 1.6rem;
       width: 70%;
@@ -64,13 +64,19 @@
   }
   &__data {
     padding: 1rem 0;
+    font-size: 1.4rem;
     border-bottom: 1px solid rgb(187, 187, 187);
     margin-bottom: 1rem;
     @media (min-width: 768px) {
       padding-bottom: 1.6rem;
+      font-size: 1.6rem;
     }
   }
   &__author {
+    font-size: 1.4rem;
     font-weight: 600;
+    @media (min-width: 768px) {
+      font-size: 1.6rem;
+    }
   }
 }

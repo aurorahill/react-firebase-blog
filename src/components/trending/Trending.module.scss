@@ -1,5 +1,9 @@
 .trending {
   margin-bottom: 4rem;
+  padding-top: 2rem;
+  @media (min-width: 768px) {
+    padding-top: 4rem;
+  }
   &__actions {
     display: flex;
     align-items: center;

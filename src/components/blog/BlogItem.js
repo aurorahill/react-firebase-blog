@@ -2,15 +2,42 @@ import React, { useContext } from "react";
 import { shortText } from "../../utility/shortText";
 import Button from "../UI/Button";
 import FontAwesome from "react-fontawesome";
-import photoImg from "../../assets/photo.png";
+import photoImg from "../../assets/photo.jpg";
 import classes from "./BlogItem.module.scss";
 import { Link } from "react-router-dom";
 import { UserContext } from "../../store/auth-context";
+import { useBlogContext } from "../../store/blog-context";
+import { deleteDoc, doc } from "firebase/firestore";
+import { db } from "../../firebase";
+import { toast } from "react-toastify";
 
-const BlogItem = ({ item, handleDelete }) => {
+const BlogItem = ({ item }) => {
   const { user } = useContext(UserContext);
+  const { setLoading, setTrendBlogs } = useBlogContext();
+
   const userId = user?.uid;
 
+  const handleDelete = async (id) => {
+    if (window.confirm("Are you sure?")) {
+      try {
+        setLoading(true);
+        await deleteDoc(doc(db, "blogs", id));
+        toast.success("Blog deleted successfully!");
+        //sprawdz czy dziala!!!!!
+        setTrendBlogs((prevBlogs) =>
+          prevBlogs.filter((blog) => blog.id !== id)
+        );
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setLoading(false);
+      }
+    }
+  };
+
+  if (!item || !item.timestamp) {
+    return <p>Loading...</p>;
+  }
   return (
     <div className={classes.item}>
       <div className={classes.item__image}>

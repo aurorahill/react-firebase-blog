@@ -19,6 +19,7 @@ import Auth from "./pages/Auth";
 import UserContextProvider from "./store/auth-context";
 import { authLoader } from "./utility/authLoader";
 import { BlogProvider } from "./store/blog-context";
+import { DailyBlogProvider } from "./store/daily-blog-context";
 
 const router = createBrowserRouter([
   {
@@ -44,9 +45,10 @@ function App() {
   return (
     <UserContextProvider>
       <BlogProvider>
-        <div className="App">
-          <ToastContainer position="top-center" />
-          {/* <Routes>
+        <DailyBlogProvider>
+          <div className="App">
+            <ToastContainer position="top-center" />
+            {/* <Routes>
             <Route
               path="/"
               element={<Home />}
@@ -72,8 +74,10 @@ function App() {
               element={<NotFound />}
             />
           </Routes> */}
-          <RouterProvider router={router}></RouterProvider>
-        </div>
+
+            <RouterProvider router={router}></RouterProvider>
+          </div>
+        </DailyBlogProvider>
       </BlogProvider>
     </UserContextProvider>
   );
