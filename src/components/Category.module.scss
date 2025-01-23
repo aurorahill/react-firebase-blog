@@ -1,0 +1,30 @@
+.category {
+  margin-bottom: 3rem;
+
+  &__wrapper {
+    position: relative;
+  }
+  &__item {
+    max-width: 400px;
+    padding: 1.5rem 0 0.5rem;
+    text-transform: capitalize;
+    font-weight: 500;
+    position: relative;
+    border-bottom: 1px solid #dadada;
+    font-size: 1.4rem;
+    @media (min-width: 786px) {
+      font-size: 1.6rem;
+    }
+    &:last-child {
+      border-bottom: 0 dashed #dadada;
+    }
+    & span {
+      position: absolute;
+      right: 0;
+    }
+    & a {
+      text-decoration: none;
+      color: #777;
+    }
+  }
+}

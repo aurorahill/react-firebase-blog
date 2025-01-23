@@ -1,0 +1,10 @@
+.category-blogs {
+  &__blog {
+    @media (min-width: 768px) {
+      width: 70%;
+    }
+  }
+  &__wrapper {
+    margin: 2rem 0;
+  }
+}

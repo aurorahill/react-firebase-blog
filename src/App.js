@@ -20,6 +20,9 @@ import UserContextProvider from "./store/auth-context";
 import { authLoader } from "./utility/authLoader";
 import { BlogProvider } from "./store/blog-context";
 import { DailyBlogProvider } from "./store/daily-blog-context";
+import TagBlog from "./pages/TagBlog";
+import BlogRoot from "./pages/BlogRoot";
+import CategoryBlog from "./pages/CategoryBlog";
 
 const router = createBrowserRouter([
   {
@@ -27,7 +30,15 @@ const router = createBrowserRouter([
     element: <RootLayout />,
     errorElement: <NotFound />,
     children: [
-      { index: true, element: <Home /> },
+      {
+        path: "/",
+        element: <BlogRoot />,
+        children: [
+          { path: "/", element: <Home /> },
+          { path: "tag/:tag", element: <TagBlog /> },
+          { path: "category/:category", element: <CategoryBlog /> },
+        ],
+      },
       { path: "/detail/:id", element: <Detail /> },
       {
         path: "/create",
@@ -35,6 +46,7 @@ const router = createBrowserRouter([
         loader: authLoader,
       },
       { path: "/update/:id", element: <AddEditBlog /> },
+      // { path: "/tag/:tag", element: <TagBlog /> },
       { path: "/about", element: <About /> },
       { path: "/auth", element: <Auth /> },
     ],

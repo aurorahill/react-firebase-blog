@@ -1,6 +1,7 @@
 import React from "react";
 import classes from "./Tags.module.scss";
 import SectionHeader from "./SectionHeader";
+import { Link } from "react-router-dom";
 
 const Tags = ({ tags }) => {
   return (
@@ -9,12 +10,12 @@ const Tags = ({ tags }) => {
       {
         <div className={classes.tags}>
           {tags?.map((tag, index) => (
-            <p
-              className={classes.tags__tag}
+            <Link
+              to={`/tag/${tag}`}
               key={index}
             >
-              {tag}
-            </p>
+              <div className={classes.tags__tag}>{tag}</div>
+            </Link>
           ))}
         </div>
       }

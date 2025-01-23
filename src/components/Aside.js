@@ -6,6 +6,7 @@ import MostPopular from "./most-popular/MostPopular";
 import classes from "./Aside.module.scss";
 import Spinner from "./UI/Spinner";
 import Search from "./Search";
+import Category from "./Category";
 
 const Aside = () => {
   const { tags, blogs, loading } = useBlogContext();
@@ -21,6 +22,7 @@ const Aside = () => {
       )}
       <Tags tags={tags} />
       <MostPopular blogs={blogs} />
+      <Category />
     </div>
   );
 };

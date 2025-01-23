@@ -60,6 +60,24 @@ export const BlogProvider = ({ children }) => {
     };
   }, []);
 
+  //category count
+  const counts = blogs.reduce((prevValue, currentValue) => {
+    let name = currentValue.category;
+    if (!prevValue.hasOwnProperty(name)) {
+      prevValue[name] = 0;
+    }
+    prevValue[name]++;
+    delete prevValue["undefined"];
+    return prevValue;
+  }, {});
+
+  const categoryCount = Object.keys(counts).map((k) => {
+    return {
+      category: k,
+      count: counts[k],
+    };
+  });
+
   const blogCtx = {
     tags,
     blogs,
@@ -73,6 +91,7 @@ export const BlogProvider = ({ children }) => {
     setSearchTerm,
     activeTag,
     setActiveTag,
+    categoryCount,
   };
 
   return (
