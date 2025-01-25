@@ -5,12 +5,12 @@ import {
   signInWithEmailAndPassword,
   updateProfile,
 } from "firebase/auth";
-import { auth } from "../firebase";
-import Input from "../components/UI/Input";
+import { auth } from "../../firebase";
+import Input from "../UI/Input";
 import { useNavigate } from "react-router-dom";
-import Button from "./UI/Button";
+import Button from "../UI/Button";
 import classes from "./AuthForm.module.scss";
-import { useUserContext } from "../store/auth-context";
+import { useUserContext } from "../../store/auth-context";
 
 const initialState = {
   firstName: "",

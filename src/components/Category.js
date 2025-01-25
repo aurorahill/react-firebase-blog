@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import SectionHeader from "./SectionHeader";
+import SectionHeader from "./UI/SectionHeader";
 import classes from "./Category.module.scss";
 import { useBlogContext } from "../store/blog-context";
 

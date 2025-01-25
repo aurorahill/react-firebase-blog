@@ -23,6 +23,7 @@ import { DailyBlogProvider } from "./store/daily-blog-context";
 import TagBlog from "./pages/TagBlog";
 import BlogRoot from "./pages/BlogRoot";
 import CategoryBlog from "./pages/CategoryBlog";
+import ScrollToTop from "./components/UI/ScrollToTop";
 
 const router = createBrowserRouter([
   {
@@ -59,6 +60,7 @@ function App() {
       <BlogProvider>
         <DailyBlogProvider>
           <div className="App">
+            <ScrollToTop />
             <ToastContainer position="top-center" />
             {/* <Routes>
             <Route

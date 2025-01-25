@@ -1,11 +1,11 @@
 import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 import { useState } from "react";
 
-import Modal from "./UI/Modal";
-import Input from "./UI/Input";
-import Button from "./UI/Button";
+import Modal from "../UI/Modal";
+import Input from "../UI/Input";
+import Button from "../UI/Button";
 import classes from "./ResetPassword.module.scss";
-import Heading from "./UI/Heading";
+import Heading from "../UI/Heading";
 
 const ResetPassword = ({ onClose, open }) => {
   const [email, setEmail] = useState("");

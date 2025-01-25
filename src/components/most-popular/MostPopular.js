@@ -1,5 +1,5 @@
 import React from "react";
-import SectionHeader from "../SectionHeader";
+import SectionHeader from "../UI/SectionHeader";
 import MostPopularItem from "./MostPopularItem";
 
 const MostPopular = ({ blogs }) => {

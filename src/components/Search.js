@@ -197,7 +197,7 @@
 
 import React from "react";
 import classes from "./Search.module.scss";
-import SectionHeader from "./SectionHeader";
+import SectionHeader from "./UI/SectionHeader";
 import { useDailyBlogContext } from "../store/daily-blog-context";
 import Input from "./UI/Input";
 

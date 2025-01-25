@@ -20,7 +20,10 @@ const Aside = () => {
       {location.pathname === "/" && (
         <Search className={classes.aside__search} />
       )}
-      <Tags tags={tags} />
+      <Tags
+        tags={tags}
+        header="Tags"
+      />
       <MostPopular blogs={blogs} />
       <Category />
     </div>

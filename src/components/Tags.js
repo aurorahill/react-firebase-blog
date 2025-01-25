@@ -1,12 +1,12 @@
 import React from "react";
 import classes from "./Tags.module.scss";
-import SectionHeader from "./SectionHeader";
+import SectionHeader from "./UI/SectionHeader";
 import { Link } from "react-router-dom";
 
-const Tags = ({ tags }) => {
+const Tags = ({ tags, header }) => {
   return (
     <section>
-      <SectionHeader>Tags</SectionHeader>
+      {header && <SectionHeader>{header}</SectionHeader>}
       {
         <div className={classes.tags}>
           {tags?.map((tag, index) => (

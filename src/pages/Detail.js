@@ -1,11 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { db } from "../firebase";
-import { doc, getDoc, collection, getDocs } from "firebase/firestore";
+import {
+  doc,
+  getDoc,
+  collection,
+  getDocs,
+  query,
+  where,
+  limit,
+} from "firebase/firestore";
 import photoImg from "../assets/photo.jpg";
 import classes from "./Detail.module.scss";
 import Spinner from "../components/UI/Spinner";
 import Aside from "../components/Aside";
+import RelatedBlog from "../components/RelatedBlog";
+import Tags from "../components/Tags";
 
 const Detail = () => {
   const { id } = useParams();
@@ -13,11 +23,23 @@ const Detail = () => {
   // const [blogs, setBlogs] = useState([]);
   // const [tags, setTags] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [relatedBlogs, setRelatedBlogs] = useState([]);
 
   const getBlogDetail = async () => {
+    const blogRef = collection(db, "blogs");
     const docRef = doc(db, "blogs", id);
     const blogDetail = await getDoc(docRef);
     setBlog(blogDetail.data());
+    const relatedBlogsQuery = query(
+      blogRef,
+      where("tags", "array-contains-any", blogDetail.data().tags, limit(3))
+    );
+    const relatedBlogsSnapshot = await getDocs(relatedBlogsQuery);
+    const relatedBlogs = [];
+    relatedBlogsSnapshot.forEach((doc) => {
+      relatedBlogs.push({ id: doc.id, ...doc.data() });
+    });
+    setRelatedBlogs(relatedBlogs);
     setLoading(false);
     // const blogRef = collection(db, "blogs");
     // const blogs = await getDocs(blogRef);
@@ -27,6 +49,7 @@ const Detail = () => {
     // let uniqueTags = [...new Set(tags)];
     // setTags(uniqueTags);
   };
+  // console.log(relatedBlogs);
 
   useEffect(() => {
     id && getBlogDetail();
@@ -64,9 +87,16 @@ const Detail = () => {
           </p>
 
           <p className={classes.detail__description}>{blog?.description}</p>
+          <div>
+            <Tags tags={blog?.tags} />
+          </div>
         </div>
         <Aside />
       </div>
+      <RelatedBlog
+        id={id}
+        blogs={relatedBlogs}
+      />
     </div>
   );
 };

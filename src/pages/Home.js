@@ -9,7 +9,7 @@
 import React from "react";
 import BlogItem from "../components/blog/BlogItem";
 import classes from "./Home.module.scss";
-import SectionHeader from "../components/SectionHeader";
+import SectionHeader from "../components/UI/SectionHeader";
 import { useDailyBlogContext } from "../store/daily-blog-context";
 import Button from "../components/UI/Button";
 import Spinner from "../components/UI/Spinner";

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../firebase";
-import SectionHeader from "../components/SectionHeader";
+import SectionHeader from "../components/UI/SectionHeader";
 import BlogItem from "../components/blog/BlogItem";
 import Spinner from "../components/UI/Spinner";
 import classes from "./CategoryBlog.module.scss";
@@ -27,6 +27,7 @@ const CategoryBlog = () => {
 
   useEffect(() => {
     getCategoryBlogs();
+    window.scrollTo(0, 0);
   }, [category]);
 
   return (

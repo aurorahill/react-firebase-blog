@@ -508,35 +508,35 @@ $yellow: #f5bc04;
 // }
 
 // Scroll
-.scroll-to-top {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 999;
-  @include transition(0.5s);
-  cursor: pointer;
-  z-index: 1;
-  span {
-    width: 50px;
-    height: 50px;
-    display: table;
-    background: rgba(0, 0, 0, 0.5);
-    color: white;
-    text-align: center;
-    @include border-radius(4px);
-  }
-  i {
-    height: 20px;
-    display: table-cell;
-    vertical-align: middle;
-  }
-}
+// .scroll-to-top {
+//   position: fixed;
+//   bottom: 20px;
+//   right: 20px;
+//   z-index: 999;
+//   @include transition(0.5s);
+//   cursor: pointer;
+//   z-index: 1;
+//   span {
+//     width: 50px;
+//     height: 50px;
+//     display: table;
+//     background: rgba(0, 0, 0, 0.5);
+//     color: white;
+//     text-align: center;
+//     @include border-radius(4px);
+//   }
+//   i {
+//     height: 20px;
+//     display: table-cell;
+//     vertical-align: middle;
+//   }
+// }
 
 //   Card
-.related-content {
-  border-radius: 20px;
-  cursor: pointer;
-}
+// .related-content {
+//   border-radius: 20px;
+//   cursor: pointer;
+// }
 
 // Comment
 
