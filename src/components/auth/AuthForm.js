@@ -127,7 +127,7 @@ const AuthForm = ({ signUp }) => {
           onChange={handleChange}
         />
       )}
-      <div className="">
+      <div>
         <Button
           className={`${
             !signUp ? classes["btn-sign-in"] : classes["btn-sign-up"]

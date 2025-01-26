@@ -6,9 +6,9 @@ export const authLoader = async () => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       unsubscribe(); // Odsubskrybowanie po otrzymaniu odpowiedzi
       if (!user) {
-        resolve(redirect("/auth")); // Jeśli użytkownik nie jest zalogowany, przekieruj na "/"
+        resolve(redirect("/auth"));
       } else {
-        resolve(user); // Jeśli zalogowany, zwróć dane użytkownika
+        resolve(user);
       }
     });
   });

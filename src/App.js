@@ -2,12 +2,7 @@ import "./App.css";
 import "./style.scss";
 import "./media-query.css";
 import Home from "./pages/Home";
-import {
-  Routes,
-  Route,
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Detail from "./pages/Detail";
@@ -24,6 +19,7 @@ import TagBlog from "./pages/TagBlog";
 import BlogRoot from "./pages/BlogRoot";
 import CategoryBlog from "./pages/CategoryBlog";
 import ScrollToTop from "./components/UI/ScrollToTop";
+import { DetailProvider } from "./store/datail-context";
 
 const router = createBrowserRouter([
   {
@@ -47,7 +43,6 @@ const router = createBrowserRouter([
         loader: authLoader,
       },
       { path: "/update/:id", element: <AddEditBlog /> },
-      // { path: "/tag/:tag", element: <TagBlog /> },
       { path: "/about", element: <About /> },
       { path: "/auth", element: <Auth /> },
     ],
@@ -59,38 +54,13 @@ function App() {
     <UserContextProvider>
       <BlogProvider>
         <DailyBlogProvider>
-          <div className="App">
-            <ScrollToTop />
-            <ToastContainer position="top-center" />
-            {/* <Routes>
-            <Route
-              path="/"
-              element={<Home />}
-            />
-            <Route
-              path="/detail/:id"
-              element={<Detail />}
-            />
-            <Route
-              path="/create"
-              element={<AddEditBlog />}
-            />
-            <Route
-              path="/update/:id"
-              element={<AddEditBlog />}
-            />
-            <Route
-              path="/about"
-              element={<About />}
-            />
-            <Route
-              path="*"
-              element={<NotFound />}
-            />
-          </Routes> */}
-
-            <RouterProvider router={router}></RouterProvider>
-          </div>
+          <DetailProvider>
+            <div className="App">
+              <ScrollToTop />
+              <ToastContainer position="top-center" />
+              <RouterProvider router={router}></RouterProvider>
+            </div>
+          </DetailProvider>
         </DailyBlogProvider>
       </BlogProvider>
     </UserContextProvider>

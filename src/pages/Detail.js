@@ -1,61 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { db } from "../firebase";
-import {
-  doc,
-  getDoc,
-  collection,
-  getDocs,
-  query,
-  where,
-  limit,
-} from "firebase/firestore";
 import photoImg from "../assets/photo.jpg";
 import classes from "./Detail.module.scss";
 import Spinner from "../components/UI/Spinner";
 import Aside from "../components/Aside";
 import RelatedBlog from "../components/RelatedBlog";
 import Tags from "../components/Tags";
+import Comments from "../components/comments/Comments";
+import CommentBox from "../components/comments/CommentBox";
+import { useDetailContext } from "../store/datail-context";
 
 const Detail = () => {
+  const { getBlogDetail, loading, blog } = useDetailContext();
   const { id } = useParams();
-  const [blog, setBlog] = useState(null);
-  // const [blogs, setBlogs] = useState([]);
-  // const [tags, setTags] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [relatedBlogs, setRelatedBlogs] = useState([]);
-
-  const getBlogDetail = async () => {
-    const blogRef = collection(db, "blogs");
-    const docRef = doc(db, "blogs", id);
-    const blogDetail = await getDoc(docRef);
-    setBlog(blogDetail.data());
-    const relatedBlogsQuery = query(
-      blogRef,
-      where("tags", "array-contains-any", blogDetail.data().tags, limit(3))
-    );
-    const relatedBlogsSnapshot = await getDocs(relatedBlogsQuery);
-    const relatedBlogs = [];
-    relatedBlogsSnapshot.forEach((doc) => {
-      relatedBlogs.push({ id: doc.id, ...doc.data() });
-    });
-    setRelatedBlogs(relatedBlogs);
-    setLoading(false);
-    // const blogRef = collection(db, "blogs");
-    // const blogs = await getDocs(blogRef);
-    // setBlogs(blogs.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
-    // let tags = [];
-    // blogs.docs.map((doc) => tags.push(...doc.get("tags")));
-    // let uniqueTags = [...new Set(tags)];
-    // setTags(uniqueTags);
-  };
-  // console.log(relatedBlogs);
 
   useEffect(() => {
-    id && getBlogDetail();
-  }, [id]);
-
-  useEffect(() => {
+    id && getBlogDetail(id);
     window.scrollTo(0, 0);
   }, [id]);
 
@@ -64,10 +24,10 @@ const Detail = () => {
   }
   return (
     <div className={classes.detail}>
-      <div
+      <section
         className={classes.detail__hero}
         style={
-          blog.imgURL
+          blog?.imgURL
             ? { backgroundImage: `url(${blog.imgURL})` }
             : { backgroundImage: `url(${photoImg})` }
         }
@@ -77,26 +37,27 @@ const Detail = () => {
           <span>{blog?.timestamp.toDate().toDateString()}</span>
           <h2>{blog?.title}</h2>
         </div>
-      </div>
+      </section>
       <div className={classes.detail__wrapper}>
         <div className={classes.detail__content}>
-          <p className={classes.detail__data}>
-            By <span className={classes.detail__author}>{blog?.author}</span>
-            &nbsp;|&nbsp;
-            <span>{blog?.timestamp.toDate().toDateString()}</span>
-          </p>
+          <section>
+            <p className={classes.detail__data}>
+              By <span className={classes.detail__author}>{blog?.author}</span>
+              &nbsp;|&nbsp;
+              <span>{blog?.timestamp.toDate().toDateString()}</span>
+            </p>
 
-          <p className={classes.detail__description}>{blog?.description}</p>
-          <div>
+            <p className={classes.detail__description}>{blog?.description}</p>
+
             <Tags tags={blog?.tags} />
-          </div>
+
+            <CommentBox id={id} />
+          </section>
+          <Comments id={id} />
         </div>
         <Aside />
       </div>
-      <RelatedBlog
-        id={id}
-        blogs={relatedBlogs}
-      />
+      <RelatedBlog id={id} />
     </div>
   );
 };

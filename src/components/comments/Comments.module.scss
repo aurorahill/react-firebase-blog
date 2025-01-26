@@ -1,0 +1,22 @@
+.comments {
+  margin: 10rem 0 2rem;
+  max-width: 600px;
+  position: relative;
+  padding: 3rem 2rem;
+  border: 1px solid #cacaca;
+  border-radius: 6px;
+
+  &__title {
+    padding: 1rem 2rem;
+    position: absolute;
+    top: -1.8rem;
+    text-align: center;
+    font-size: 1.6rem;
+    font-weight: 600;
+    left: 5%;
+    line-height: 1;
+    border-radius: 3px;
+    color: #ffffff;
+    background-color: #74a044;
+  }
+}
