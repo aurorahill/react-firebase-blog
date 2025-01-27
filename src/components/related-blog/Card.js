@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import classes from "./Card.module.scss";
-import { shortText } from "../utility/shortText";
+import { shortText } from "../../utility/shortText";
 
 const Card = ({ title, id, description, imgURL }) => {
   return (

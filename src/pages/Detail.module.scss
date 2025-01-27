@@ -63,12 +63,16 @@
     }
   }
   &__data {
-    padding: 1rem 0;
+    padding-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 3rem;
     font-size: 1.4rem;
     border-bottom: 1px solid rgb(187, 187, 187);
     margin-bottom: 1rem;
     @media (min-width: 768px) {
-      padding-bottom: 1.6rem;
+      padding-bottom: 1.3rem;
       font-size: 1.6rem;
     }
   }

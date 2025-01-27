@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useUserContext } from "../store/auth-context";
 import classes from "./Header.module.scss";
+import { FiMenu, FiX } from "react-icons/fi";
 
 const Header = () => {
   const { user, logout } = useUserContext();
@@ -31,13 +32,7 @@ const Header = () => {
         onClick={toggleMenuHandler}
         aria-label="Toggle navigation"
       >
-        <span>
-          {menuIsOpen ? (
-            <i className="fa-solid fa-x"></i>
-          ) : (
-            <i className="fa-solid fa-bars"></i>
-          )}
-        </span>
+        {menuIsOpen ? <FiX /> : <FiMenu />}
       </button>
 
       <nav className={`${classes.mainNav} ${menuIsOpen ? classes.open : ""}`}>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import classes from "./ScrollToTop.module.scss";
-import FontAwesome from "react-fontawesome";
+import { FaArrowUp } from "react-icons/fa";
 
 const ScrollToTop = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -31,10 +31,7 @@ const ScrollToTop = () => {
     <div className={classes["scroll-to-top"]}>
       {isVisible && (
         <span onClick={scrollToTop}>
-          <FontAwesome
-            name="arrow-up"
-            size="2x"
-          />
+          <FaArrowUp />
         </span>
       )}
     </div>

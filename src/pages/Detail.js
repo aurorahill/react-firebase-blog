@@ -4,11 +4,12 @@ import photoImg from "../assets/photo.jpg";
 import classes from "./Detail.module.scss";
 import Spinner from "../components/UI/Spinner";
 import Aside from "../components/Aside";
-import RelatedBlog from "../components/RelatedBlog";
+import RelatedBlog from "../components/related-blog/RelatedBlog";
 import Tags from "../components/Tags";
 import Comments from "../components/comments/Comments";
 import CommentBox from "../components/comments/CommentBox";
 import { useDetailContext } from "../store/datail-context";
+import Like from "../components/like/Like";
 
 const Detail = () => {
   const { getBlogDetail, loading, blog } = useDetailContext();
@@ -41,11 +42,15 @@ const Detail = () => {
       <div className={classes.detail__wrapper}>
         <div className={classes.detail__content}>
           <section>
-            <p className={classes.detail__data}>
-              By <span className={classes.detail__author}>{blog?.author}</span>
-              &nbsp;|&nbsp;
-              <span>{blog?.timestamp.toDate().toDateString()}</span>
-            </p>
+            <div className={classes.detail__data}>
+              <p>
+                By&nbsp;
+                <span className={classes.detail__author}>{blog?.author}</span>
+                &nbsp;|&nbsp;
+                <span>{blog?.timestamp.toDate().toDateString()}</span>
+              </p>
+              <Like id={id} />
+            </div>
 
             <p className={classes.detail__description}>{blog?.description}</p>
 

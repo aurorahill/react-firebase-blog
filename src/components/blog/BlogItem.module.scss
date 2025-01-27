@@ -84,4 +84,21 @@
       background-color: rgb(58, 58, 58);
     }
   }
+  &__icon {
+    font-size: 2rem;
+    cursor: pointer;
+    margin: 0 1rem;
+    color: rgb(255, 64, 64);
+    transition: color 0.2s ease-in-out;
+    &:hover {
+      color: rgb(252, 37, 37);
+    }
+  }
+  &__edit {
+    color: rgb(253, 109, 93);
+    transition: color 0.2s ease-in-out;
+    &:hover {
+      color: rgb(255, 86, 67);
+    }
+  }
 }

@@ -52,13 +52,14 @@ const UserComments = ({ name, body, createdAt, msg, userId, id }) => {
               {name} <span>{createdAt.toDate().toDateString()}</span>
             </h3>
             <p className={classes["comment-item__body"]}>{body}</p>
-            {user.uid && userId === user.uid && (
+            {user?.uid && userId === user?.uid && (
               <div className={classes["comment-item__delete"]}>
                 <Button
                   className={classes["comment-item__btn"]}
                   textOnly
                   onClick={() => handleCommentDelete(createdAt)}
                   disabled={sendingComment}
+                  title="Delete"
                 >
                   {sendingComment ? "Deleting..." : "Delete"}
                 </Button>

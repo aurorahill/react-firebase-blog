@@ -1,8 +1,8 @@
 import React from "react";
-import SectionHeader from "./UI/SectionHeader";
+import SectionHeader from "../UI/SectionHeader";
 import Card from "./Card";
 import classes from "./RelatedBlog.module.scss";
-import { useDetailContext } from "../store/datail-context";
+import { useDetailContext } from "../../store/datail-context";
 
 const RelatedBlog = ({ id }) => {
   const { relatedBlogs: blogs } = useDetailContext();

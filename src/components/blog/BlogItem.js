@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import { shortText } from "../../utility/shortText";
 import Button from "../UI/Button";
-import FontAwesome from "react-fontawesome";
 import photoImg from "../../assets/photo.jpg";
 import classes from "./BlogItem.module.scss";
 import { Link } from "react-router-dom";
@@ -10,6 +9,8 @@ import { useBlogContext } from "../../store/blog-context";
 import { deleteDoc, doc } from "firebase/firestore";
 import { db } from "../../firebase";
 import { toast } from "react-toastify";
+import { FaTrash } from "react-icons/fa";
+import { FaPen } from "react-icons/fa";
 
 const BlogItem = ({ item }) => {
   const { user } = useContext(UserContext);
@@ -64,18 +65,16 @@ const BlogItem = ({ item }) => {
             <Button className={classes.item__btn}>Read more</Button>
           </Link>
           {userId && item.userId === userId && (
-            <div className={classes.item_items}>
-              <FontAwesome
-                name="trash"
-                size="2x"
-                style={{ cursor: "pointer" }}
+            <div className={classes.item__icons}>
+              <FaTrash
+                title="Delete"
                 onClick={() => handleDelete(item.id)}
+                className={classes.item__icon}
               />
               <Link to={`/update/${item.id}`}>
-                <FontAwesome
-                  name="edit"
-                  size="2x"
-                  style={{ cursor: "pointer", marginLeft: "1.5rem" }}
+                <FaPen
+                  title="Edit"
+                  className={`${classes.item__icon} ${classes.item__edit}`}
                 />
               </Link>
             </div>

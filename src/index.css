@@ -60,12 +60,6 @@ ul {
 .react-tag-input:focus {
   border: 1px black !important;
 }
-.fa-trash {
-  color: #f35c48 !important;
-}
-.fa-edit {
-  color: rgb(255, 141, 96) !important;
-}
 
 .swiper-button-next,
 .swiper-button-prev {
