@@ -10,6 +10,7 @@ import Comments from "../components/comments/Comments";
 import CommentBox from "../components/comments/CommentBox";
 import { useDetailContext } from "../store/datail-context";
 import Like from "../components/like/Like";
+import { dataFormatter } from "../utility/dataFormatter";
 
 const Detail = () => {
   const { getBlogDetail, loading, blog } = useDetailContext();
@@ -35,7 +36,7 @@ const Detail = () => {
       >
         <div className={classes.detail__overlay}></div>
         <div className={classes.detail__title}>
-          <span>{blog?.timestamp.toDate().toDateString()}</span>
+          <span>{dataFormatter(blog?.timestamp)}</span>
           <h2>{blog?.title}</h2>
         </div>
       </section>
@@ -47,7 +48,7 @@ const Detail = () => {
                 By&nbsp;
                 <span className={classes.detail__author}>{blog?.author}</span>
                 &nbsp;|&nbsp;
-                <span>{blog?.timestamp.toDate().toDateString()}</span>
+                <span>{dataFormatter(blog?.timestamp)}</span>
               </p>
               <Like id={id} />
             </div>
@@ -55,10 +56,9 @@ const Detail = () => {
             <p className={classes.detail__description}>{blog?.description}</p>
 
             <Tags tags={blog?.tags} />
-
-            <CommentBox id={id} />
           </section>
           <Comments id={id} />
+          <CommentBox id={id} />
         </div>
         <Aside />
       </div>

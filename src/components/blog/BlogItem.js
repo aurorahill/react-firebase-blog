@@ -11,6 +11,7 @@ import { db } from "../../firebase";
 import { toast } from "react-toastify";
 import { FaTrash } from "react-icons/fa";
 import { FaPen } from "react-icons/fa";
+import { dataFormatter } from "../../utility/dataFormatter";
 
 const BlogItem = ({ item }) => {
   const { user } = useContext(UserContext);
@@ -36,9 +37,6 @@ const BlogItem = ({ item }) => {
     }
   };
 
-  if (!item || !item.timestamp) {
-    return <p>Loading...</p>;
-  }
   return (
     <div className={classes.item}>
       <div className={classes.item__image}>
@@ -52,9 +50,7 @@ const BlogItem = ({ item }) => {
         <h3 className={classes.item__title}>{item.title}</h3>
         <div className={classes.item__content}>
           <p className={classes.item__author}>{item.author}</p>
-          <p className={classes.item__date}>
-            {item.timestamp.toDate().toDateString()}
-          </p>
+          <p className={classes.item__date}>{dataFormatter(item?.timestamp)}</p>
         </div>
 
         <div className={classes.item__description}>
@@ -62,18 +58,18 @@ const BlogItem = ({ item }) => {
         </div>
         <div className={classes.item__actions}>
           <Link to={`/detail/${item.id}`}>
-            <Button className={classes.item__btn}>Read more</Button>
+            <Button className={classes.item__btn}>Czytaj więcej</Button>
           </Link>
           {userId && item.userId === userId && (
             <div className={classes.item__icons}>
               <FaTrash
-                title="Delete"
+                title="Usuń"
                 onClick={() => handleDelete(item.id)}
                 className={classes.item__icon}
               />
               <Link to={`/update/${item.id}`}>
                 <FaPen
-                  title="Edit"
+                  title="Eytuj"
                   className={`${classes.item__icon} ${classes.item__edit}`}
                 />
               </Link>

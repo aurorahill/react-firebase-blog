@@ -13,7 +13,7 @@ import { toast } from "react-toastify";
 const DailyBlogContext = createContext();
 
 export const DailyBlogProvider = ({ children }) => {
-  const [blogs, setBlogs] = useState([]);
+  const [blogs, setBlogs] = useState([]); //pierwsze 4 na daily blogs
   const [allBlogs, setAllBlogs] = useState([]);
   const [filteredBlogs, setFilteredBlogs] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -44,16 +44,23 @@ export const DailyBlogProvider = ({ children }) => {
 
   // Pobranie 4 pierwszych blogów
   const getBlogs = async () => {
-    const blogRef = collection(db, "blogs");
-    const firstFour = query(blogRef, orderBy("title"), limit(4));
-    const docSnapshot = await getDocs(firstFour);
-    const newBlogs = docSnapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
-    setBlogs(newBlogs);
-    setFilteredBlogs(newBlogs); // Na początku widoczne są te same blogi
-    setLastVisible(docSnapshot.docs[docSnapshot.docs.length - 1]);
+    setLoading(true);
+    try {
+      const blogRef = collection(db, "blogs");
+      const firstFour = query(blogRef, orderBy("title"), limit(4));
+      const docSnapshot = await getDocs(firstFour);
+      const newBlogs = docSnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setBlogs(newBlogs);
+      setFilteredBlogs(newBlogs); // Na początku widoczne są te same blogi
+      setLastVisible(docSnapshot.docs[docSnapshot.docs.length - 1]);
+    } catch (err) {
+      console.log("Error fetching blogs:", err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   // Filtrowanie blogów

@@ -6,6 +6,7 @@ import Button from "../UI/Button";
 import { useDetailContext } from "../../store/datail-context";
 import { db } from "../../firebase";
 import { doc, updateDoc, serverTimestamp } from "firebase/firestore";
+import { dataFormatter } from "../../utility/dataFormatter";
 
 const UserComments = ({ name, body, createdAt, msg, userId, id }) => {
   const { user } = useUserContext();
@@ -13,7 +14,7 @@ const UserComments = ({ name, body, createdAt, msg, userId, id }) => {
     useDetailContext();
 
   const handleCommentDelete = async (createdAt) => {
-    if (window.confirm("Are you sure you want to delete this comment?")) {
+    if (window.confirm("Czy na pewno chcesz usunąć ten komentarz?")) {
       try {
         setSendingComment(true);
         const updatedComments = comments.filter(
@@ -25,10 +26,12 @@ const UserComments = ({ name, body, createdAt, msg, userId, id }) => {
         });
 
         setComments(updatedComments);
-        toast.success("Comment deleted successfully!");
+        toast.success("Komentarz usunięty!");
       } catch (err) {
         console.error("Error deleting comment:", err);
-        toast.error("Failed to delete the comment.");
+        toast.error(
+          "Nie udało się usunąć komentarza. Spróbuj ponownie póżniej."
+        );
       } finally {
         setSendingComment(false);
       }
@@ -49,7 +52,7 @@ const UserComments = ({ name, body, createdAt, msg, userId, id }) => {
           </div>
           <div className={classes["comment-item__content"]}>
             <h3 className={classes["comment-item__title"]}>
-              {name} <span>{createdAt.toDate().toDateString()}</span>
+              {name} <span>{dataFormatter(createdAt)}</span>
             </h3>
             <p className={classes["comment-item__body"]}>{body}</p>
             {user?.uid && userId === user?.uid && (
@@ -61,7 +64,7 @@ const UserComments = ({ name, body, createdAt, msg, userId, id }) => {
                   disabled={sendingComment}
                   title="Delete"
                 >
-                  {sendingComment ? "Deleting..." : "Delete"}
+                  {sendingComment ? "Usuwanie..." : "Usuń"}
                 </Button>
               </div>
             )}

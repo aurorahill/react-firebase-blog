@@ -616,42 +616,34 @@ $yellow: #f5bc04;
 // }
 
 // Pagination
-.btn_mange_pagging {
-  background: #dadada;
-  padding: 12px 20px;
-  color: #222 !important;
-  font-weight: 800;
-  margin: 0 10px;
-  border-radius: 10px;
-  @include transition(0.5s);
-}
+// .btn_mange_pagging {
+//   background: #dadada;
+//   padding: 12px 20px;
+//   color: #222 !important;
+//   font-weight: 800;
+//   margin: 0 10px;
+//   border-radius: 10px;
+//   @include transition(0.5s);
+// }
 
-.btn_mange_pagging:hover,
-.btn_mange_pagging:focus {
-  background: #222;
-  color: #fff !important;
-  font-weight: 800;
-}
+// .btn_mange_pagging:hover,
+// .btn_mange_pagging:focus {
+//   background: #222;
+//   color: #fff !important;
+//   font-weight: 800;
+// }
 
-.btn_pagging {
-  background: #dadada !important;
-  color: #222;
-  padding: 12px 20px !important;
-  font-weight: 800;
-  margin: 0 10px;
-  @include transition(0.5s);
-}
+// .btn_pagging {
+//   background: #dadada !important;
+//   color: #222;
+//   padding: 12px 20px !important;
+//   font-weight: 800;
+//   margin: 0 10px;
+//   @include transition(0.5s);
+// }
 
-.btn_pagging:hover,
-.btn_pagging:focus {
-  background: #222 !important;
-  color: #fff;
-}
-
-.scroll {
-  width: auto;
-  height: 230px;
-  overflow-x: hidden;
-  overflow-y: auto;
-  text-align: justify;
-}
+// .btn_pagging:hover,
+// .btn_pagging:focus {
+//   background: #222 !important;
+//   color: #fff;
+// }

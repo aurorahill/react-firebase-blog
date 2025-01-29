@@ -27,6 +27,9 @@ code {
   --color-primary-800: #fab833;
   --color-primary-900: #f6ad1b;
   --color-primary-1000: #f1a100;
+
+  --blue-100: #2f7fe7;
+  --blue-200: #1571e9;
 }
 #root {
   max-width: 1280px;

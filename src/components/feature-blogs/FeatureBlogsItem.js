@@ -1,14 +1,12 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import photoImg from "../../assets/photo.jpg";
-import classes from "./MostPopularItem.module.scss";
+import classes from "./FeatureBlogsItem.module.scss";
+import { dataFormatter } from "../../utility/dataFormatter";
 
-const MostPopularItem = ({ item }) => {
+const FeatureBlogsItem = ({ item }) => {
   const navigate = useNavigate();
 
-  if (!item || !item.timestamp) {
-    return <p>Loading...</p>;
-  }
   return (
     <div
       className={classes.popular}
@@ -23,11 +21,11 @@ const MostPopularItem = ({ item }) => {
       <div className={classes.popular__content}>
         <p className={classes.popular__title}>{item.title}</p>
         <p className={classes.popular__date}>
-          {item.timestamp.toDate().toDateString()}
+          {dataFormatter(item?.timestamp)}
         </p>
       </div>
     </div>
   );
 };
 
-export default MostPopularItem;
+export default FeatureBlogsItem;

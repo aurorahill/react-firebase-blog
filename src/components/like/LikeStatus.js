@@ -9,19 +9,19 @@ const LikeStatus = ({ userId }) => {
     return likes.find((id) => id === userId) ? (
       <>
         <FaRegThumbsUp />
-        &nbsp;{likes.length} {likes.length === 1 ? "Like" : "Likes"}
+        &nbsp;{likes.length} Lubię to!
       </>
     ) : (
       <>
         <FaThumbsUp />
-        &nbsp;{likes.length} {likes.length === 1 ? "Like" : "Likes"}
+        &nbsp;{likes.length} Lubię to!
       </>
     );
   }
   return (
     <>
       <FaRegThumbsUp />
-      &nbsp;Like
+      &nbsp;Lubię to!
     </>
   );
 };

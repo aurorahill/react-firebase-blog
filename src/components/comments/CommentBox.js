@@ -65,13 +65,13 @@ const CommentBox = ({ id }) => {
         {!userId ? (
           <>
             <p className={classes["comment-form__msg"]}>
-              Pleasse login or create an account to post comment.
+              By skomentować zaloguj się lub utwórz konto.
             </p>
             <Button
               type="button"
               onClick={() => navigate("/auth")}
             >
-              Login
+              Zaloguj
             </Button>
           </>
         ) : (
@@ -80,7 +80,7 @@ const CommentBox = ({ id }) => {
               onClick={handleComment}
               disabled={sendingComment}
             >
-              {sendingComment ? "Sending comment..." : "Post Comment"}
+              {sendingComment ? "Wysyłanie..." : "Skomentuj"}
             </Button>
           </>
         )}

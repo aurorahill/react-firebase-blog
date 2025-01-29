@@ -8,7 +8,7 @@ const Category = () => {
   const { categoryCount: catgBlogCount } = useBlogContext();
   return (
     <section className={classes.category}>
-      <SectionHeader>Category</SectionHeader>
+      <SectionHeader>Kategorie</SectionHeader>
       <div className={classes.category__wrapper}>
         <ul>
           {catgBlogCount?.map((item, index) => (

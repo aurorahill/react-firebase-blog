@@ -1,5 +1,4 @@
 import React from "react";
-import SectionHeader from "../UI/SectionHeader";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation } from "swiper/modules";
 import "swiper/css";
@@ -39,7 +38,6 @@ const Trending = () => {
   };
   return (
     <section className={classes.trending}>
-      <SectionHeader>Trending</SectionHeader>
       <Swiper {...swiperConfig}>
         {trendBlogs?.map((item) => (
           <SwiperSlide key={item.id}>

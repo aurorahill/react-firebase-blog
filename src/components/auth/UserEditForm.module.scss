@@ -1,0 +1,25 @@
+.user-edit-form {
+  &__box {
+    margin: 1rem auto;
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+    & label {
+      font-size: 1.4rem;
+      color: rgb(141, 141, 141);
+      text-align: left;
+    }
+    &:last-child {
+      margin: 3rem auto;
+      display: flex;
+      flex-direction: row;
+      justify-content: end;
+    }
+  }
+  &__input {
+    padding-top: 0rem;
+  }
+  &__btn {
+    padding: 1rem 2rem;
+  }
+}

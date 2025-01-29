@@ -20,6 +20,7 @@ export const DetailProvider = ({ children }) => {
   const [relatedBlogs, setRelatedBlogs] = useState([]);
   const [comments, setComments] = useState([]);
   const [likes, setLikes] = useState([]);
+  const [likeCount, setLikeCount] = useState(0);
   const [userComment, setUserComment] = useState("");
 
   const getBlogDetail = async (id) => {
@@ -32,7 +33,9 @@ export const DetailProvider = ({ children }) => {
       where("tags", "array-contains-any", blogDetail.data().tags, limit(3))
     );
     setComments(blogDetail.data().comments ? blogDetail.data().comments : []);
-    setLikes(blogDetail.data().likes ? blogDetail.data().likes : []);
+    const blogLikes = blogDetail.data().likes || [];
+    setLikes(blogLikes);
+    setLikeCount(blogLikes.length);
     const relatedBlogsSnapshot = await getDocs(relatedBlogsQuery);
     const relatedBlogs = [];
     relatedBlogsSnapshot.forEach((doc) => {
@@ -54,6 +57,8 @@ export const DetailProvider = ({ children }) => {
     setSendingComment,
     setComments,
     likes,
+    likeCount,
+    setLikeCount,
     setLikes,
   };
 

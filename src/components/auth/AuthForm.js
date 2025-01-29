@@ -88,14 +88,14 @@ const AuthForm = ({ signUp }) => {
         <>
           <Input
             type="text"
-            placeholder="First Name"
+            placeholder="Imię"
             name="firstName"
             value={firstName}
             onChange={handleChange}
           />
           <Input
             type="text"
-            placeholder="Last Name"
+            placeholder="Nazwisko"
             name="lastName"
             value={lastName}
             onChange={handleChange}
@@ -112,7 +112,7 @@ const AuthForm = ({ signUp }) => {
       />
       <Input
         type="password"
-        placeholder="Password"
+        placeholder="Hasło"
         name="password"
         value={password}
         onChange={handleChange}
@@ -121,7 +121,7 @@ const AuthForm = ({ signUp }) => {
       {signUp && (
         <Input
           type="password"
-          placeholder="Confirm password"
+          placeholder="Potwierdź hasło"
           name="confirmPassword"
           value={confirmPassword}
           onChange={handleChange}
@@ -135,7 +135,7 @@ const AuthForm = ({ signUp }) => {
           type="submit"
           disabled={isLoading}
         >
-          {isLoading ? "Processing..." : !signUp ? "Sign-in" : "Sign-Up"}
+          {isLoading ? "Czekaj..." : !signUp ? "Zaloguj się" : "Zarejstruj się"}
         </Button>
       </div>
     </form>

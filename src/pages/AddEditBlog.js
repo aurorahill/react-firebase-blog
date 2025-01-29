@@ -27,16 +27,21 @@ const initialState = {
   imgURL: "",
   comments: [],
   likes: [],
+  countLikes: 0,
 };
 
 const categoryOption = [
-  "Fashion",
-  "Technology",
-  "Food",
-  "Politics",
-  "Sports",
-  "Business",
-  "Art",
+  "Technologia",
+  "Kultura",
+  "Sport",
+  "Polityka",
+  "Jedzenie",
+  "Moda",
+  "Nauka",
+  "Sztuka",
+  "Zdrowie i uroda",
+  "Motoryzacja",
+  "Biznes",
 ];
 
 const AddEditBlog = () => {
@@ -93,7 +98,7 @@ const AddEditBlog = () => {
             author: user.displayName,
             userId: user.uid,
           });
-          toast.success("Blog created successfully!");
+          toast.success("Blog utworzony pomyślnie!");
         } catch (err) {
           console.log(err);
         } finally {
@@ -108,7 +113,7 @@ const AddEditBlog = () => {
             author: user.displayName,
             userId: user.uid,
           });
-          toast.success("Your blog was updated!");
+          toast.success("Blog został zaktualizowany!");
         } catch (err) {
           console.log(err);
         } finally {
@@ -117,13 +122,13 @@ const AddEditBlog = () => {
         }
       }
     } else {
-      return toast.error("All fields are mandatory to fill");
+      return toast.error("Uzupełnij wszystkie pola!");
     }
   };
 
   return (
     <>
-      <Heading title={id ? "Update blog" : "Create Blog"} />
+      <Heading title={id ? "Zaktualizuj blog" : "Stwórz blog"} />
       <div className={classes.wrapper}>
         <form
           className={classes["blog-form"]}
@@ -131,7 +136,7 @@ const AddEditBlog = () => {
         >
           <Input
             type="text"
-            placeholder="Title"
+            placeholder="Tytuł"
             name="title"
             value={title}
             onChange={handleChange}
@@ -141,13 +146,15 @@ const AddEditBlog = () => {
           <div>
             <ReactTagInput
               tags={tags}
-              placeholder="Add tag and press enter"
+              placeholder="Dodaj tag i kliknij enter"
               onChange={handleTags}
               className={classes["blog-form__form-control"]}
             />
           </div>
           <div className={classes.trending}>
-            <p className={classes.trending__para}>Is it trending blog?</p>
+            <p className={classes.trending__para}>
+              Czy chcesz wyświetlać blog karuzeli na stronie głównej?
+            </p>
             <input
               id="radioOptionYes"
               type="radio"
@@ -160,7 +167,7 @@ const AddEditBlog = () => {
               htmlFor="radioOptionYes"
               className={classes["trending__radio-label"]}
             >
-              &nbsp;Yes&nbsp;
+              &nbsp;Tak&nbsp;
             </label>
             <input
               id="radioOptionNo"
@@ -174,7 +181,7 @@ const AddEditBlog = () => {
               htmlFor="radioOptionNo"
               className={classes["trending__radio-label"]}
             >
-              &nbsp;No
+              &nbsp;Nie
             </label>
           </div>
           <div>
@@ -183,7 +190,7 @@ const AddEditBlog = () => {
               onChange={onCategoryChange}
               className={classes["blog-form__form-control"]}
             >
-              <option>Please select category</option>
+              <option>Wybierz kategorię</option>
               {categoryOption.map((option, index) => (
                 <option
                   value={option || ""}
@@ -197,7 +204,7 @@ const AddEditBlog = () => {
           <div>
             <textarea
               name="description"
-              placeholder="Description"
+              placeholder="Opis"
               value={description}
               onChange={handleChange}
               className={`${classes["blog-form__form-control"]} ${classes.description}`}
@@ -205,7 +212,7 @@ const AddEditBlog = () => {
           </div>
           <Input
             type="text"
-            placeholder="Paste image url"
+            placeholder="Wklej URL obrazu"
             name="imgURL"
             value={imgURL}
             onChange={handleChange}
@@ -216,11 +223,11 @@ const AddEditBlog = () => {
             <Button disabled={isLoading}>
               {id
                 ? isLoading
-                  ? "Uploading..."
-                  : "Upload"
+                  ? "Aktualizowanie..."
+                  : "Zaktualizuj"
                 : isLoading
-                ? "Submitting..."
-                : "Submit"}
+                ? "Tworzenie..."
+                : "Stwórz blog"}
             </Button>
           </div>
         </form>

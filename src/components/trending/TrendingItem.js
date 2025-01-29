@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import photoImg from "../../assets/photo.jpg";
 import classes from "./TrendingItem.module.scss";
+import { dataFormatter } from "../../utility/dataFormatter";
 
 const TrendingItem = ({ item }) => {
   return (
@@ -19,7 +20,7 @@ const TrendingItem = ({ item }) => {
             <p className={classes.trending__title}>{item.title}</p>
             <p className={classes.trending__text}>
               <span>{item.author}</span>&nbsp;|&nbsp;
-              <span>{item.timestamp.toDate().toDateString()}</span>
+              <span>{dataFormatter(item?.timestamp)}</span>
             </p>
           </div>
         </div>

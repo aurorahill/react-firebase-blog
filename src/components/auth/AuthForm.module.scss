@@ -4,10 +4,10 @@
 
 .btn-sign-up {
   margin-top: 3rem;
-  background: #4287f5;
+  background: var(--blue-100);
   color: #fff;
   transition: color 0.2s ease-in-out;
   &:hover {
-    background: #1769ce;
+    background: var(--blue-200);
   }
 }

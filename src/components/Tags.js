@@ -1,9 +1,17 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import classes from "./Tags.module.scss";
 import SectionHeader from "./UI/SectionHeader";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
-const Tags = ({ tags, header }) => {
+const Tags = ({ header, tags }) => {
+  const location = useLocation();
+  const [activeTag, setActiveTag] = useState(null);
+
+  useEffect(() => {
+    const currentTag = location.pathname.split("/")[2]; 
+    setActiveTag(currentTag); // Ustawiamy stan na tag z URL
+  }, [location.pathname]);
+
   return (
     <section>
       {header && <SectionHeader>{header}</SectionHeader>}
@@ -14,7 +22,15 @@ const Tags = ({ tags, header }) => {
               to={`/tag/${tag}`}
               key={index}
             >
-              <div className={classes.tags__tag}>{tag}</div>
+              <div
+                className={
+                  activeTag === tag
+                    ? `${classes.tags__tag} ${classes.active}`
+                    : classes.tags__tag
+                }
+              >
+                {tag}
+              </div>
             </Link>
           ))}
         </div>

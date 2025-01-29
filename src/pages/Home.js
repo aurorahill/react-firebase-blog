@@ -1,11 +1,3 @@
-// import BlogSection from "../components/blog/BlogSection";
-
-// const Home = () => {
-//   return <BlogSection />;
-// };
-
-// export default Home;
-
 import React from "react";
 import BlogItem from "../components/blog/BlogItem";
 import classes from "./Home.module.scss";
@@ -23,7 +15,7 @@ const Home = () => {
     <section>
       <Search className={classes.search} />
       <div className={classes.blog}>
-        <SectionHeader>Daily Blogs</SectionHeader>
+        <SectionHeader>Blogi</SectionHeader>
         <div className={classes.blog__content}>
           {filteredBlogs.length === 0 && (
             <p className={classes.blog__message}>
@@ -32,7 +24,7 @@ const Home = () => {
           )}
           {filteredBlogs?.map((item) => (
             <BlogItem
-              key={item.id}
+              key={`home-${item.id}`}
               item={item}
             />
           ))}

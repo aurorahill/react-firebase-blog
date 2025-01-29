@@ -1,6 +1,17 @@
 .header {
-  padding: 1rem 0;
-  font-size: 2rem;
-  font-weight: normal;
+  display: flex;
+  justify-content: space-between;
   border-bottom: 1px solid black;
+  &__title {
+    padding: 1rem 0;
+    font-size: 1.8rem;
+    font-weight: normal;
+    @media (min-width: 768px) {
+      font-size: 2.2rem;
+    }
+  }
+  &__button {
+    padding: 1rem 0;
+    color: var(--blue-200);
+  }
 }

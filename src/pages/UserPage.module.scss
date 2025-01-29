@@ -1,0 +1,45 @@
+.user-page {
+  padding: 2rem 0;
+  @media (min-width: 768px) {
+    padding: 4rem 0;
+  }
+  &__wrapper {
+    margin: 2rem auto 0;
+    padding: 2rem;
+    max-width: 60rem;
+    text-align: center;
+    box-shadow: 0 0 6px 3px rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
+  }
+  &__info {
+    padding: 1rem 0;
+    font-size: 1.6rem;
+    font-weight: 500;
+    @media (min-width: 768px) {
+      font-size: 2rem;
+    }
+  }
+  &__button {
+    margin-top: 2rem;
+    padding: 1rem 2rem;
+  }
+  &__image {
+    margin-top: 1rem;
+    img {
+      width: 40px;
+      height: 40px;
+    }
+  }
+}
+.user-blog {
+  @media (min-width: 768px) {
+    display: flex;
+    justify-content: space-between;
+    gap: 4rem;
+  }
+  &__outlet {
+    @media (min-width: 768px) {
+      width: 70%;
+    }
+  }
+}

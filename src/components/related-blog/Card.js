@@ -2,8 +2,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 import classes from "./Card.module.scss";
 import { shortText } from "../../utility/shortText";
+import { FaRegThumbsUp } from "react-icons/fa";
+import { FaRegComment } from "react-icons/fa";
 
-const Card = ({ title, id, description, imgURL }) => {
+const Card = ({ title, id, description, imgURL, likes, comments }) => {
   return (
     <div className={classes.card}>
       <img
@@ -15,9 +17,16 @@ const Card = ({ title, id, description, imgURL }) => {
       <p className={classes.card__text}>{shortText(description, 25)}</p>
       <div className={classes.card__footer}>
         <Link to={`/detail/${id}`}>
-          <span>Read more</span>
+          <span>Czytaj więcej</span>
         </Link>
-        <div>{/* {show like} */}like</div>
+        <div className={classes.card__popular}>
+          <span className={classes.card__icon}>
+            <FaRegThumbsUp /> {likes.length}
+          </span>
+          <span className={classes.card__icon}>
+            <FaRegComment /> {comments.length}
+          </span>
+        </div>
       </div>
     </div>
   );

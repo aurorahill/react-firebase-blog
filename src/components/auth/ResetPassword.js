@@ -37,7 +37,7 @@ const ResetPassword = ({ onClose, open }) => {
       onClose={onClose}
     >
       <div className={classes.reset}>
-        <Heading title="Reset password" />
+        <Heading title="Zresetuj hasło" />
         <form onSubmit={handleResetPassword}>
           <Input
             type="email"
@@ -53,13 +53,13 @@ const ResetPassword = ({ onClose, open }) => {
               className={classes.button}
               type="button"
             >
-              Close
+              Zamknij
             </Button>
             <Button
               className={classes.button}
               disabled={isPending}
             >
-              {isPending ? "Sending..." : "Send email"}
+              {isPending ? "Wysyłanie..." : "Wyślij"}
             </Button>
           </div>
         </form>

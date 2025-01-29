@@ -11,7 +11,7 @@
     transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
     &:hover,
     &:focus,
-    &:active {
+    &.active {
       background-color: var(--color-primary-900);
       color: #fff;
       text-decoration: none;

@@ -10,36 +10,36 @@ const Auth = () => {
 
   return (
     <div className={classes.auth}>
-      <Heading title={!signUp ? "Sign-In" : "Sign-Up"} />
+      <Heading title={!signUp ? "Zaloguj się" : "Zarejestruj się"} />
       <AuthForm signUp={signUp} />
 
       <div className={classes.auth__actions}>
         {!signUp ? (
           <>
             <p>
-              Don't have an account?&nbsp;
+              Nie masz jeszcze konta?&nbsp;
               <span
                 className={classes["sign-up"]}
                 onClick={() => setSignUp(true)}
               >
-                Sign Up
+                Zarejestruj się
               </span>
             </p>
             <p
               className={classes["reset-password"]}
               onClick={() => setShowModal(true)}
             >
-              Forgot your password?&nbsp;
+              Zapomniałeś hasła?&nbsp;
             </p>
           </>
         ) : (
           <p>
-            Already have an account?&nbsp;
+            Masz już konto?&nbsp;
             <span
               className={classes["sign-in"]}
               onClick={() => setSignUp(false)}
             >
-              Sign In
+              Zaloguj się
             </span>
           </p>
         )}

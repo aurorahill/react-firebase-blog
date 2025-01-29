@@ -8,9 +8,9 @@ const RelatedBlog = ({ id }) => {
   const { relatedBlogs: blogs } = useDetailContext();
   return (
     <section className={classes.related}>
-      <SectionHeader>Related Blogs</SectionHeader>
+      <SectionHeader>Powiązane blogi</SectionHeader>
       <div className={classes.related__wrapper}>
-        {blogs?.length === 1 && <p>No blogs related with current blog</p>}
+        {blogs?.length === 1 && <p>Ten blog nie ma powiązanych blogów</p>}
         {blogs
           ?.filter((blogs) => blogs.id !== id)
           .map((item) => (

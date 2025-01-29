@@ -20,6 +20,7 @@ import BlogRoot from "./pages/BlogRoot";
 import CategoryBlog from "./pages/CategoryBlog";
 import ScrollToTop from "./components/UI/ScrollToTop";
 import { DetailProvider } from "./store/datail-context";
+import UserPage from "./pages/UserPage";
 
 const router = createBrowserRouter([
   {
@@ -40,6 +41,11 @@ const router = createBrowserRouter([
       {
         path: "/create",
         element: <AddEditBlog />,
+        loader: authLoader,
+      },
+      {
+        path: "/:userName/:userId",
+        element: <UserPage />,
         loader: authLoader,
       },
       { path: "/update/:id", element: <AddEditBlog /> },

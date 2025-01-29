@@ -5,7 +5,7 @@
   max-width: 1280px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   z-index: 9;
-  background-color: rgba(250, 250, 250, 0.9);
+  background-color: rgb(236, 236, 236);
 }
 
 .menuToggle {
@@ -16,40 +16,43 @@
   color: black;
   cursor: pointer;
   display: block;
-  @media (min-width: 768px) {
+  @media (min-width: 900px) {
     display: none;
   }
 }
 
 .mainNav {
-  gap: 3rem;
+  gap: 5rem;
   position: fixed;
-  top: 8rem;
-  left: 0;
-  width: 30rem;
+  top: 10rem;
+  left: 50%;
+  width: 70%;
   display: flex;
-  flex-direction: column;
+  align-items: center;
   text-align: center;
-  background-color: rgba(250, 250, 250, 0.9);
-  border: 1px rgba(240, 240, 240, 1) solid;
+  flex-direction: column;
+  background-color: rgb(236, 236, 236);
   padding: 5rem 3rem;
-  transform: translateX(-200%);
-  transition: transform 0.3s ease-out;
+  transform: translateX(-50%) translateY(-170%);
+  transition: transform 0.5s ease-out;
   z-index: 10;
-  border-bottom-right-radius: 20px;
-  border-top-right-radius: 20px;
+  border-radius: 20px;
+
   &.open {
-    transform: translateX(0);
+    transform: translateX(-50%) translateY(0);
   }
-  @media (min-width: 768px) {
+  @media (min-width: 900px) {
     width: 100%;
+    max-width: 100%;
     top: 0;
+    left: 0;
     flex-direction: row;
+    text-align: center;
     align-items: center;
     justify-content: space-between;
     position: relative;
     background-color: transparent;
-    transform: translateY(0);
+    transform: translateX(-0) translateY(0);
     border: none;
     padding: 2rem 0;
   }
@@ -61,7 +64,7 @@
     list-style: none;
     margin: 0;
     padding: 0;
-    @media (min-width: 768px) {
+    @media (min-width: 900px) {
       flex-direction: row;
     }
   }
@@ -69,48 +72,66 @@
     padding: 0.5rem 1rem;
     text-decoration: none;
     color: black;
-    font-size: 1.8rem;
+    font-size: 2.2rem;
     border-radius: 10px;
     transition: background-color 0.2s ease-in-out;
+    @media (min-width: 900px) {
+      font-size: 1.8rem;
+    }
   }
   a:hover,
   a.active {
-    color: black;
     background-color: var(--color-primary-800);
     border-radius: 10px;
   }
 
   .user {
     margin-top: 3rem;
-    @media (min-width: 768px) {
+    @media (min-width: 900px) {
       margin-top: 0;
     }
+
     &__logo {
       width: 40px;
       height: 40px;
     }
     &__name {
-      font-size: 1.6rem;
       font-weight: bold;
+      & a {
+        font-size: 1.6rem;
+      }
+      & a:hover {
+        background-color: transparent;
+        border-radius: 10px;
+      }
     }
     &__logout {
       font-size: 1.6rem;
       cursor: pointer;
-      border-bottom: 1px transparent solid;
-      transition: transform 0.3s ease-out;
-      @media (min-width: 768px) {
+      @media (min-width: 900px) {
         font-size: 1.8rem;
       }
       &:hover {
-        border-bottom: 1px black solid;
+        text-decoration: underline;
       }
     }
   }
   .user-list {
-    gap: 1rem;
+    padding-left: 5px;
     align-items: center;
-    @media (min-width: 768px) {
+    gap: 1rem;
+    @media (min-width: 900px) {
+      padding-left: 0px;
       gap: 3rem;
+    }
+    &__wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      @media (min-width: 900px) {
+        flex-direction: row;
+        gap: 1rem;
+      }
     }
   }
 }

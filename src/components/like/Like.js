@@ -8,27 +8,30 @@ import { doc, serverTimestamp, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 
 const Like = ({ id }) => {
-  const { blog, likes, setLikes } = useDetailContext();
+  const { blog, likes, setLikes, setLikeCount } = useDetailContext();
   const { user } = useUserContext();
   const userId = user?.uid;
 
   const [showTooltip, setShowTooltip] = useState(false);
 
   const handleLike = async () => {
+    let newLikes = [...likes];
     if (userId) {
       if (blog?.likes) {
         const index = likes.findIndex((id) => id === userId);
         if (index === -1) {
-          likes.push(userId);
+          newLikes.push(userId);
           setLikes([...new Set(likes)]);
         } else {
-          const newLikesArr = likes.filter((id) => id !== userId);
-          setLikes(newLikesArr);
+          newLikes = newLikes.filter((id) => id !== userId);
         }
+        setLikes(newLikes);
+        setLikeCount(newLikes.length);
       }
       await updateDoc(doc(db, "blogs", id), {
         ...blog,
-        likes,
+        likes: newLikes,
+        countLikes: newLikes.length,
         timestamp: serverTimestamp(),
       });
     } else {
@@ -49,13 +52,13 @@ const Like = ({ id }) => {
         <Button
           className={classes.like__button}
           type="button"
-          title={!userId ? "Please login to like a post" : "Like"}
+          title={!userId ? "Zaloguj się by polubić" : "Like"}
         >
           <LikeStatus userId />
         </Button>
       </span>
       {showTooltip && (
-        <div className={classes.tooltip}>Please login to like a post</div>
+        <div className={classes.tooltip}>Zaloguj się by polubić</div>
       )}
     </div>
   );

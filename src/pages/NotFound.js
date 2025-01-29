@@ -10,10 +10,10 @@ const NotFound = () => {
       <div className={classes.error}>
         <h1 className={classes.error__header}>NotFound</h1>
         <p className={classes.error__text}>
-          Sorry, we don't have this page in our resources.
+          Przepraszamy, taka strona nie istnieje.
         </p>
         <p>
-          Visit our <Link>home page</Link>
+          Odwiedź naszą <Link>stronę główną</Link>
         </p>
       </div>
       <p>footer</p>

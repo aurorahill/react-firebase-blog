@@ -212,11 +212,11 @@ const Search = ({ className }) => {
     <section
       className={className ? `${className} ${classes.search}` : classes.search}
     >
-      <SectionHeader>Search</SectionHeader>
+      <SectionHeader>Szukaj</SectionHeader>
       <Input
         type="text"
         value={searchTerm}
-        placeholder="Search"
+        placeholder="Szukaj"
         onChange={handleChange}
       />
     </section>

@@ -1,13 +1,13 @@
 import React from "react";
 import SectionHeader from "../UI/SectionHeader";
-import MostPopularItem from "./MostPopularItem";
+import FeatureBlogsItem from "./FeatureBlogsItem";
 
-const MostPopular = ({ blogs }) => {
+const FeatureBlogs = ({ title, blogs }) => {
   return (
     <section>
-      <SectionHeader>Most Popular</SectionHeader>
+      <SectionHeader>{title}</SectionHeader>
       {blogs?.map((item) => (
-        <MostPopularItem
+        <FeatureBlogsItem
           item={item}
           key={item.id}
         />
@@ -16,4 +16,4 @@ const MostPopular = ({ blogs }) => {
   );
 };
 
-export default MostPopular;
+export default FeatureBlogs;
