@@ -1,6 +1,4 @@
-import "./App.css";
 import "./style.scss";
-import "./media-query.css";
 import Home from "./pages/Home";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
@@ -21,6 +19,7 @@ import CategoryBlog from "./pages/CategoryBlog";
 import ScrollToTop from "./components/UI/ScrollToTop";
 import { DetailProvider } from "./store/datail-context";
 import UserPage from "./pages/UserPage";
+import classes from "./App.module.scss";
 
 const router = createBrowserRouter([
   {

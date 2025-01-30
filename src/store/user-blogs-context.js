@@ -22,6 +22,7 @@ export const UserBlogsProvider = ({ children, userId }) => {
   const [pageCount, setPageCount] = useState(null);
   const [numOfPages, setNumOfPages] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const [error, setError] = useState(null);
 
   // Pobranie wszystkich blogów
   const getAllBlogs = async () => {
@@ -31,6 +32,9 @@ export const UserBlogsProvider = ({ children, userId }) => {
       const blogRef = collection(db, "blogs");
       const userBlogsQuery = query(blogRef, where("userId", "==", userId));
       const docSnapshot = await getDocs(userBlogsQuery);
+      if (docSnapshot.empty) {
+        throw new Error("Brak wyników w bazie danych");
+      }
       const blogsData = docSnapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
@@ -40,6 +44,9 @@ export const UserBlogsProvider = ({ children, userId }) => {
       setNumOfPages(totalPage);
     } catch (err) {
       console.error("Error fetching user blogs:", err);
+      setError(
+        err.message || "Błąd podczas pobierania blogów. Spróbuj ponownie."
+      );
     } finally {
       setLoading(false);
     }
@@ -57,6 +64,9 @@ export const UserBlogsProvider = ({ children, userId }) => {
         limit(6)
       );
       const docSnapshot = await getDocs(userBlogsQuery);
+      if (docSnapshot.empty) {
+        throw new Error("Brak wyników w bazie danych");
+      }
       const newBlogs = docSnapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
@@ -66,6 +76,10 @@ export const UserBlogsProvider = ({ children, userId }) => {
       setLastPaginationVisible(docSnapshot.docs[docSnapshot.docs.length - 1]);
     } catch (err) {
       console.error("Error fetching paginated user blogs:", err);
+      setError(
+        err.message ||
+          "Błąd podczas pobierania blogów. Spróbuj ponownie później."
+      );
     } finally {
       setLoading(false);
     }
@@ -83,48 +97,66 @@ export const UserBlogsProvider = ({ children, userId }) => {
 
   const fetchPrev = async () => {
     setLoading(true);
-    const blogRef = collection(db, "blogs");
-    const end =
-      numOfPages !== currentPage
-        ? endAt(lastPaginationVisible)
-        : endBefore(lastPaginationVisible);
-    const limitData =
-      numOfPages !== currentPage
-        ? limit(6)
-        : pageCount <= 6 && numOfPages % 2 === 0
-        ? limit(6)
-        : limitToLast(6);
-    const prevFour = query(
-      blogRef,
-      where("userId", "==", userId),
-      end,
-      limitData
-    );
-    const docSnapshot = await getDocs(prevFour);
-    setPaginationBlogs(
-      docSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
-    );
-    setPageCount(docSnapshot.size);
-    setLastPaginationVisible(docSnapshot.docs[docSnapshot.docs.length - 1]);
-    setLoading(false);
+    try {
+      const blogRef = collection(db, "blogs");
+      const end =
+        numOfPages !== currentPage
+          ? endAt(lastPaginationVisible)
+          : endBefore(lastPaginationVisible);
+      const limitData =
+        numOfPages !== currentPage
+          ? limit(6)
+          : pageCount <= 6 && numOfPages % 2 === 0
+          ? limit(6)
+          : limitToLast(6);
+      const prevFour = query(
+        blogRef,
+        where("userId", "==", userId),
+        end,
+        limitData
+      );
+      const docSnapshot = await getDocs(prevFour);
+      setPaginationBlogs(
+        docSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
+      );
+      setPageCount(docSnapshot.size);
+      setLastPaginationVisible(docSnapshot.docs[docSnapshot.docs.length - 1]);
+    } catch (err) {
+      console.error("Error fetching paginated user blogs:", err);
+      setError(
+        err.message ||
+          "Błąd podczas pobierania blogów. Spróbuj ponownie później."
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   const fetchNext = async () => {
     setLoading(true);
-    const blogRef = collection(db, "blogs");
-    const nextFour = query(
-      blogRef,
-      where("userId", "==", userId),
-      limit(6),
-      startAfter(lastPaginationVisible)
-    );
-    const docSnapshot = await getDocs(nextFour);
-    setPaginationBlogs(
-      docSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
-    );
-    setPageCount(docSnapshot.size);
-    setLastPaginationVisible(docSnapshot.docs[docSnapshot.docs.length - 1]);
-    setLoading(false);
+    try {
+      const blogRef = collection(db, "blogs");
+      const nextFour = query(
+        blogRef,
+        where("userId", "==", userId),
+        limit(6),
+        startAfter(lastPaginationVisible)
+      );
+      const docSnapshot = await getDocs(nextFour);
+      setPaginationBlogs(
+        docSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
+      );
+      setPageCount(docSnapshot.size);
+      setLastPaginationVisible(docSnapshot.docs[docSnapshot.docs.length - 1]);
+    } catch (err) {
+      console.error("Error fetching paginated user blogs:", err);
+      setError(
+        err.message ||
+          "Błąd podczas pobierania blogów. Spróbuj ponownie później."
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -139,6 +171,8 @@ export const UserBlogsProvider = ({ children, userId }) => {
     paginationBlogs,
     handlePageChange,
     currentPage,
+    error,
+    setError,
   };
 
   return (

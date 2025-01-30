@@ -1,27 +1,24 @@
-import { useDetailContext } from "../../store/datail-context";
 import { FaRegThumbsUp } from "react-icons/fa";
 import { FaThumbsUp } from "react-icons/fa";
 
-const LikeStatus = ({ userId }) => {
-  const { likes } = useDetailContext();
-
+const LikeStatus = ({ userId, likes }) => {
   if (likes?.length > 0) {
     return likes.find((id) => id === userId) ? (
       <>
-        <FaRegThumbsUp />
-        &nbsp;{likes.length} Lubię to!
+        <FaThumbsUp />
+        &nbsp;{likes.length}
       </>
     ) : (
       <>
-        <FaThumbsUp />
-        &nbsp;{likes.length} Lubię to!
+        <FaRegThumbsUp />
+        &nbsp;{likes.length}
       </>
     );
   }
   return (
     <>
       <FaRegThumbsUp />
-      &nbsp;Lubię to!
+      &nbsp;<span>Lubię to!</span>
     </>
   );
 };

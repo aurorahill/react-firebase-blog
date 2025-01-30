@@ -69,7 +69,7 @@ const BlogItem = ({ item }) => {
               />
               <Link to={`/update/${item.id}`}>
                 <FaPen
-                  title="Eytuj"
+                  title="Edytuj"
                   className={`${classes.item__icon} ${classes.item__edit}`}
                 />
               </Link>

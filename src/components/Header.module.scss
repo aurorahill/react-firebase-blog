@@ -7,6 +7,16 @@
   z-index: 9;
   background-color: rgb(236, 236, 236);
 }
+.overlay {
+  position: fixed;
+  top: 71;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+  cursor: pointer;
+}
 
 .menuToggle {
   background: none;

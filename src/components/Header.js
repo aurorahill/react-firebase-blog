@@ -53,6 +53,12 @@ const Header = () => {
         {menuIsOpen ? <FiX /> : <FiMenu />}
       </button>
 
+      {menuIsOpen && (
+        <div
+          className={classes.overlay}
+          onClick={closeMenuHandler}
+        />
+      )}
       <nav
         ref={navRef}
         className={`${classes.mainNav} ${menuIsOpen ? classes.open : ""}`}

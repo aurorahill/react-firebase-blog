@@ -21,4 +21,14 @@
       color: black;
     }
   }
+  .scroll {
+    max-height: 200px;
+    padding-left: 0;
+    &::-webkit-scrollbar-thumb {
+      background: var(--color-primary-700);
+    }
+    &::-webkit-scrollbar-thumb:hover {
+      background: var(--color-primary-900);
+    }
+  }
 }

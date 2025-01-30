@@ -11,6 +11,24 @@
   height: 400px;
   max-width: 40rem;
   animation: fade-slide-up 0.3s ease-out forwards;
+  &__button {
+    text-align: end;
+    & button {
+      font-size: 2.5rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+  }
+  &__title {
+    margin: 4rem;
+    text-align: center;
+    font-size: 2rem;
+  }
+  &__message {
+    text-align: center;
+    font-size: 1.6rem;
+  }
 }
 
 .modal::backdrop {

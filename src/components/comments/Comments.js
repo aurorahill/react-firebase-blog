@@ -3,6 +3,7 @@ import React from "react";
 import UserComments from "./UserComments";
 import classes from "./Comments.module.scss";
 import { useDetailContext } from "../../store/datail-context";
+import ScrollWrapper from "../UI/ScrollWrapper";
 
 const Comments = ({ id }) => {
   const { comments } = useDetailContext();
@@ -18,7 +19,7 @@ const Comments = ({ id }) => {
   }
   return (
     <section className={classes.comments}>
-      <div className={classes.comments__scroll}>
+      <ScrollWrapper>
         <h4 className={classes.comments__title}>
           {comments?.length} {content}
         </h4>
@@ -35,7 +36,7 @@ const Comments = ({ id }) => {
             ))}
           </>
         )}
-      </div>
+      </ScrollWrapper>
     </section>
   );
 };

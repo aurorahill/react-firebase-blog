@@ -42,6 +42,7 @@ const categoryOption = [
   "Zdrowie i uroda",
   "Motoryzacja",
   "Biznes",
+  "Podróże",
 ];
 
 const AddEditBlog = () => {
@@ -82,6 +83,10 @@ const AddEditBlog = () => {
     }
   };
 
+  const handleBack = () => {
+    navigate(-1);
+  };
+
   useEffect(() => {
     id && getBlogDetail();
   }, [id]);
@@ -92,18 +97,18 @@ const AddEditBlog = () => {
       setIsLoading(true);
       if (!id) {
         try {
-          await addDoc(collection(db, "blogs"), {
+          const docRef = await addDoc(collection(db, "blogs"), {
             ...form,
             timestamp: serverTimestamp(),
             author: user.displayName,
             userId: user.uid,
           });
           toast.success("Blog utworzony pomyślnie!");
+          navigate(`/detail/${docRef.id}`);
         } catch (err) {
           console.log(err);
         } finally {
           setIsLoading(false);
-          navigate("/");
         }
       } else {
         try {
@@ -220,14 +225,21 @@ const AddEditBlog = () => {
           />
 
           <div className={classes["blog-form__actives"]}>
+            <Button
+              type="button"
+              textOnly
+              onClick={handleBack}
+            >
+              Wróć
+            </Button>
             <Button disabled={isLoading}>
               {id
                 ? isLoading
                   ? "Aktualizowanie..."
                   : "Zaktualizuj"
                 : isLoading
-                ? "Tworzenie..."
-                : "Stwórz blog"}
+                ? "Zapisywanie..."
+                : "Zapisz"}
             </Button>
           </div>
         </form>

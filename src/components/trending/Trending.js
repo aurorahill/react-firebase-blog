@@ -4,8 +4,9 @@ import { Autoplay, Navigation } from "swiper/modules";
 import "swiper/css";
 import TrendingItem from "./TrendingItem";
 import classes from "./Trending.module.scss";
-import FontAwesome from "react-fontawesome";
 import { useBlogContext } from "../../store/blog-context";
+import { FaAngleLeft } from "react-icons/fa";
+import { FaAngleRight } from "react-icons/fa";
 
 const Trending = () => {
   const { trendBlogs } = useBlogContext();
@@ -46,10 +47,10 @@ const Trending = () => {
         ))}
         <div className={classes.trending__actions}>
           <span className="swiper-button-prev">
-            <FontAwesome name="chevron-left" />
+            <FaAngleLeft />
           </span>
           <span className="swiper-button-next">
-            <FontAwesome name="chevron-right" />
+            <FaAngleRight />
           </span>
         </div>
       </Swiper>

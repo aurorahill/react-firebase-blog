@@ -1,0 +1,26 @@
+.scroll {
+  padding: 0 1rem;
+  width: auto;
+  max-height: 400px;
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #74a044;
+    border-radius: 3px;
+    cursor: grab;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: #50742b;
+  }
+}

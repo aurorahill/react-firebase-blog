@@ -11,9 +11,10 @@ import CommentBox from "../components/comments/CommentBox";
 import { useDetailContext } from "../store/datail-context";
 import Like from "../components/like/Like";
 import { dataFormatter } from "../utility/dataFormatter";
+import Modal from "../components/UI/Modal";
 
 const Detail = () => {
-  const { getBlogDetail, loading, blog } = useDetailContext();
+  const { getBlogDetail, loading, blog, error, setError } = useDetailContext();
   const { id } = useParams();
 
   useEffect(() => {
@@ -63,6 +64,16 @@ const Detail = () => {
         <Aside />
       </div>
       <RelatedBlog id={id} />
+      {error && (
+        <Modal
+          open={!!error}
+          onClose={() => {
+            setError(null);
+          }}
+          error="Błąd podczas pobierania danych"
+          message={error}
+        />
+      )}
     </div>
   );
 };

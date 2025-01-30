@@ -5,6 +5,7 @@ import SectionHeader from "../UI/SectionHeader";
 import Spinner from "../UI/Spinner";
 import BlogItem from "./BlogItem";
 import Pagination from "../Pagination";
+import Modal from "../UI/Modal";
 
 const Blogs = () => {
   const {
@@ -13,6 +14,8 @@ const Blogs = () => {
     currentPage,
     handlePageChange,
     numOfPages,
+    error,
+    setError,
   } = useUserBlogsContext();
 
   useEffect(() => {
@@ -38,6 +41,16 @@ const Blogs = () => {
         handlePageChange={handlePageChange}
         numOfPages={numOfPages}
       />
+      {error && (
+        <Modal
+          open={!!error}
+          onClose={() => {
+            setError(null);
+          }}
+          error="Błąd podczas pobierania danych"
+          message={error}
+        />
+      )}
     </section>
   );
 };

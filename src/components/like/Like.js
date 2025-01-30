@@ -6,6 +6,7 @@ import classes from "./Like.module.scss";
 import Button from "../UI/Button";
 import { doc, serverTimestamp, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase";
+import Modal from "../UI/Modal";
 
 const Like = ({ id }) => {
   const { blog, likes, setLikes, setLikeCount } = useDetailContext();
@@ -13,6 +14,7 @@ const Like = ({ id }) => {
   const userId = user?.uid;
 
   const [showTooltip, setShowTooltip] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleLike = async () => {
     let newLikes = [...likes];
@@ -21,19 +23,29 @@ const Like = ({ id }) => {
         const index = likes.findIndex((id) => id === userId);
         if (index === -1) {
           newLikes.push(userId);
-          setLikes([...new Set(likes)]);
         } else {
           newLikes = newLikes.filter((id) => id !== userId);
         }
         setLikes(newLikes);
         setLikeCount(newLikes.length);
       }
-      await updateDoc(doc(db, "blogs", id), {
-        ...blog,
-        likes: newLikes,
-        countLikes: newLikes.length,
-        timestamp: serverTimestamp(),
-      });
+      try {
+        await updateDoc(doc(db, "blogs", id), {
+          ...blog,
+          likes: newLikes,
+          countLikes: newLikes.length,
+          timestamp: serverTimestamp(),
+        });
+      } catch (err) {
+        console.log("Error saving likes:", err);
+        setError(
+          err.message ||
+            "Błąd podczas zapisywanie like. Odśwież stronę i spróbuj ponownie później."
+        );
+
+        setLikes(likes);
+        setLikeCount(likes.length);
+      }
     } else {
       setShowTooltip(true);
     }
@@ -47,20 +59,35 @@ const Like = ({ id }) => {
   }, [showTooltip]);
 
   return (
-    <div className={classes.like}>
-      <span onClick={handleLike}>
-        <Button
-          className={classes.like__button}
-          type="button"
-          title={!userId ? "Zaloguj się by polubić" : "Like"}
-        >
-          <LikeStatus userId />
-        </Button>
-      </span>
-      {showTooltip && (
-        <div className={classes.tooltip}>Zaloguj się by polubić</div>
+    <>
+      <div className={classes.like}>
+        <span onClick={handleLike}>
+          <Button
+            className={classes.like__button}
+            type="button"
+            title={!userId ? "Zaloguj się by polubić" : "Like"}
+          >
+            <LikeStatus
+              userId={userId}
+              likes={likes}
+            />
+          </Button>
+        </span>
+        {showTooltip && (
+          <div className={classes.tooltip}>Zaloguj się by polubić</div>
+        )}
+      </div>
+      {error && (
+        <Modal
+          open={!!error}
+          onClose={() => {
+            setError(null);
+          }}
+          error="Błąd podczas wysyłania danych"
+          message={error}
+        />
       )}
-    </div>
+    </>
   );
 };
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUserContext } from "../../store/auth-context";
 import Button from "../UI/Button";
@@ -7,6 +7,7 @@ import { useDetailContext } from "../../store/datail-context";
 import { db } from "../../firebase";
 import { doc, Timestamp, updateDoc, serverTimestamp } from "firebase/firestore";
 import { toast } from "react-toastify";
+import Modal from "../UI/Modal";
 
 const CommentBox = ({ id }) => {
   const {
@@ -18,6 +19,7 @@ const CommentBox = ({ id }) => {
     setSendingComment,
     blog,
   } = useDetailContext();
+  const [error, setError] = useState(null);
   const { user } = useUserContext();
   const userId = user?.uid;
   const navigate = useNavigate();
@@ -26,12 +28,6 @@ const CommentBox = ({ id }) => {
     e.preventDefault();
     if (userComment.length >= 15 && userComment.length <= 300) {
       setSendingComment(true);
-      comments.push({
-        createdAt: Timestamp.fromDate(new Date()),
-        userId: user?.uid,
-        name: user?.displayName,
-        body: userComment,
-      });
 
       try {
         await updateDoc(doc(db, "blogs", id), {
@@ -39,15 +35,26 @@ const CommentBox = ({ id }) => {
           comments,
           timestamp: serverTimestamp(),
         });
+        comments.push({
+          createdAt: Timestamp.fromDate(new Date()),
+          userId: user?.uid,
+          name: user?.displayName,
+          body: userComment,
+        });
+        toast.success("Skomentowałeś post!");
+        setComments(comments);
+        setUserComment("");
       } catch (err) {
         console.log(err);
+        setError(
+          err.message ||
+            "Błąd podczas zapisywanie komentarza. Spróbuj ponownie później."
+        );
+      } finally {
+        setSendingComment(false);
       }
-      toast.success("Comment posted successfully");
-      setComments(comments);
-      setUserComment("");
-      setSendingComment(false);
     } else {
-      toast.error("Comment has contain 15-300 characters");
+      toast.error("Komentarz musi zawierać 15-300 znaków.");
     }
   };
   return (
@@ -85,6 +92,16 @@ const CommentBox = ({ id }) => {
           </>
         )}
       </div>
+      {error && (
+        <Modal
+          open={!!error}
+          onClose={() => {
+            setError(null);
+          }}
+          error="Błąd podczas wysyłania danych"
+          message={error}
+        />
+      )}
     </form>
   );
 };
