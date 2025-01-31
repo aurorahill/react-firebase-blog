@@ -1,42 +1,14 @@
 import React from "react";
 import classes from "./UserComments.module.scss";
 import { useUserContext } from "../../store/auth-context";
-import { toast } from "react-toastify";
 import Button from "../UI/Button";
 import { useDetailContext } from "../../store/datail-context";
-import { db } from "../../firebase";
-import { doc, updateDoc, serverTimestamp } from "firebase/firestore";
+
 import { dataFormatter } from "../../utility/dataFormatter";
 
 const UserComments = ({ name, body, createdAt, msg, userId, id }) => {
   const { user } = useUserContext();
-  const { setSendingComment, comments, setComments, sendingComment } =
-    useDetailContext();
-
-  const handleCommentDelete = async (createdAt) => {
-    if (window.confirm("Czy na pewno chcesz usunąć ten komentarz?")) {
-      try {
-        setSendingComment(true);
-        const updatedComments = comments.filter(
-          (comment) => comment.createdAt.seconds !== createdAt.seconds
-        );
-        await updateDoc(doc(db, "blogs", id), {
-          comments: updatedComments,
-          timestamp: serverTimestamp(),
-        });
-
-        setComments(updatedComments);
-        toast.success("Komentarz usunięty!");
-      } catch (err) {
-        console.error("Error deleting comment:", err);
-        toast.error(
-          "Nie udało się usunąć komentarza. Spróbuj ponownie póżniej."
-        );
-      } finally {
-        setSendingComment(false);
-      }
-    }
-  };
+  const { sendingComment, handleCommentDelete } = useDetailContext();
 
   return (
     <div className={classes["user-comments"]}>
@@ -60,7 +32,7 @@ const UserComments = ({ name, body, createdAt, msg, userId, id }) => {
                 <Button
                   className={classes["comment-item__btn"]}
                   textOnly
-                  onClick={() => handleCommentDelete(createdAt)}
+                  onClick={() => handleCommentDelete(createdAt, id)}
                   disabled={sendingComment}
                   title="Delete"
                 >

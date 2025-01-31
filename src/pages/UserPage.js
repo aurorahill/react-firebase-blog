@@ -47,11 +47,11 @@ const UserPage = () => {
       </section>
 
       <div className={classes["user-blog"]}>
-        <div className={classes["user-blog__outlet"]}>
+        <main className={classes["user-blog__outlet"]}>
           <UserBlogsProvider userId={userId}>
             <Blogs />
           </UserBlogsProvider>
-        </div>
+        </main>
         <Aside />
       </div>
     </>

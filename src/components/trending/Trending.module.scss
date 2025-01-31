@@ -1,13 +1,8 @@
 .trending {
   padding-top: 2rem;
+  position: relative;
   @media (min-width: 768px) {
     padding-top: 4rem;
     margin-bottom: 4rem;
-  }
-  &__actions {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6rem;
   }
 }

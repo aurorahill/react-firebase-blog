@@ -16,11 +16,18 @@ const Blogs = () => {
     numOfPages,
     error,
     setError,
+    getBlogs,
+    getAllUserBlogs,
   } = useUserBlogsContext();
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [currentPage]);
+
+  useEffect(() => {
+    getBlogs();
+    getAllUserBlogs();
+  }, [getBlogs, getAllUserBlogs]);
 
   return (
     <section>

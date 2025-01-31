@@ -66,20 +66,15 @@ ul {
 
 .swiper-button-next,
 .swiper-button-prev {
-  color: rgb(133, 133, 133);
-  font-size: 3.5rem;
-  transition: color 0.2s ease-in-out;
-  cursor: pointer;
+  top: 55% !important;
+  color: rgb(255, 255, 255) !important;
+  transition: transform 0.2s ease-in-out;
+  z-index: 2 !important;
 }
 
 .swiper-button-next:hover,
 .swiper-button-prev:hover {
-  color: rgb(75, 75, 75);
-}
-
-.swiper-button-next::after,
-.swiper-button-prev::after {
-  font-size: 16px;
+  transform: scale(1.1);
 }
 
 /* PullToRefresh - dodatkowy scroll */

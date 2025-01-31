@@ -12,6 +12,9 @@
   &__actives {
     margin-top: 4rem;
     text-align: end;
+    & button {
+      padding: 1rem 3rem;
+    }
   }
   .description {
     margin-top: 1rem;

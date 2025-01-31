@@ -12,7 +12,6 @@ import Auth from "./pages/Auth";
 import UserContextProvider from "./store/auth-context";
 import { authLoader } from "./utility/authLoader";
 import { BlogProvider } from "./store/blog-context";
-import { DailyBlogProvider } from "./store/daily-blog-context";
 import TagBlog from "./pages/TagBlog";
 import BlogRoot from "./pages/BlogRoot";
 import CategoryBlog from "./pages/CategoryBlog";
@@ -58,15 +57,13 @@ function App() {
   return (
     <UserContextProvider>
       <BlogProvider>
-        <DailyBlogProvider>
-          <DetailProvider>
-            <div className="App">
-              <ScrollToTop />
-              <ToastContainer position="top-center" />
-              <RouterProvider router={router}></RouterProvider>
-            </div>
-          </DetailProvider>
-        </DailyBlogProvider>
+        <DetailProvider>
+          <div className="App">
+            <ScrollToTop />
+            <ToastContainer position="top-center" />
+            <RouterProvider router={router}></RouterProvider>
+          </div>
+        </DetailProvider>
       </BlogProvider>
     </UserContextProvider>
   );

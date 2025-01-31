@@ -6,36 +6,15 @@ import classes from "./BlogItem.module.scss";
 import { Link } from "react-router-dom";
 import { UserContext } from "../../store/auth-context";
 import { useBlogContext } from "../../store/blog-context";
-import { deleteDoc, doc } from "firebase/firestore";
-import { db } from "../../firebase";
-import { toast } from "react-toastify";
 import { FaTrash } from "react-icons/fa";
 import { FaPen } from "react-icons/fa";
 import { dataFormatter } from "../../utility/dataFormatter";
 
 const BlogItem = ({ item }) => {
   const { user } = useContext(UserContext);
-  const { setLoading, setTrendBlogs } = useBlogContext();
+  const { handleDelete } = useBlogContext();
 
   const userId = user?.uid;
-
-  const handleDelete = async (id) => {
-    if (window.confirm("Are you sure?")) {
-      try {
-        setLoading(true);
-        await deleteDoc(doc(db, "blogs", id));
-        toast.success("Blog deleted successfully!");
-        //sprawdz czy dziala!!!!!
-        setTrendBlogs((prevBlogs) =>
-          prevBlogs.filter((blog) => blog.id !== id)
-        );
-      } catch (err) {
-        console.log(err);
-      } finally {
-        setLoading(false);
-      }
-    }
-  };
 
   return (
     <div className={classes.item}>

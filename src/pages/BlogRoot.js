@@ -16,9 +16,9 @@ const BlogRoot = () => {
     <div className={classes.root}>
       <Trending />
       <div className={classes.root__wrapper}>
-        <div className={classes.root__blog}>
+        <main className={classes.root__blog}>
           <Outlet />
-        </div>
+        </main>
         <Aside />
       </div>
     </div>

@@ -18,9 +18,9 @@ const RootLayout = () => {
       >
         <div className={classes.layout}>
           <Header />
-          <main className={classes.main}>
+          <div className={classes["main-wrapper"]}>
             <Outlet />
-          </main>
+          </div>
           <Footer />
         </div>
       </PullToRefresh>

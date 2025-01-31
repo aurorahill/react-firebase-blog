@@ -20,7 +20,7 @@ const Detail = () => {
   useEffect(() => {
     id && getBlogDetail(id);
     window.scrollTo(0, 0);
-  }, [id]);
+  }, [id, getBlogDetail]);
 
   if (loading) {
     return <Spinner />;
@@ -42,7 +42,7 @@ const Detail = () => {
         </div>
       </section>
       <div className={classes.detail__wrapper}>
-        <div className={classes.detail__content}>
+        <main className={classes.detail__content}>
           <section>
             <div className={classes.detail__data}>
               <p>
@@ -60,7 +60,7 @@ const Detail = () => {
           </section>
           <Comments id={id} />
           <CommentBox id={id} />
-        </div>
+        </main>
         <Aside />
       </div>
       <RelatedBlog id={id} />

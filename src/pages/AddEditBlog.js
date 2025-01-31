@@ -112,18 +112,18 @@ const AddEditBlog = () => {
         }
       } else {
         try {
-          await updateDoc(doc(db, "blogs", id), {
+          const docRef = await updateDoc(doc(db, "blogs", id), {
             ...form,
             timestamp: serverTimestamp(),
             author: user.displayName,
             userId: user.uid,
           });
           toast.success("Blog został zaktualizowany!");
+          navigate(`/detail/${docRef.id}`);
         } catch (err) {
           console.log(err);
         } finally {
           setIsLoading(false);
-          navigate("/");
         }
       }
     } else {
