@@ -34,7 +34,9 @@ export const DetailProvider = ({ children }) => {
       setRelatedBlogs(relatedBlogsData);
     } catch (err) {
       console.error("Error fetching blog detail:", err);
-      setError(err.message || "Błąd podczas pobierania bloga.");
+      setError(
+        err.message || "Błąd podczas pobierania bloga. Spróbuj ponownie później"
+      );
     } finally {
       setLoading(false);
     }
@@ -52,7 +54,9 @@ export const DetailProvider = ({ children }) => {
         toast.success("Komentarz usunięty!");
       } catch (err) {
         console.error("Error deleting comment:", err);
-        toast.error("Nie udało się usunąć komentarza.");
+        toast.error(
+          "Nie udało się usunąć komentarza. Spróbuj ponownie później"
+        );
       } finally {
         setSendingComment(false);
       }
@@ -77,7 +81,10 @@ export const DetailProvider = ({ children }) => {
         toast.success("Komentarz dodany!");
       } catch (err) {
         console.log(err);
-        setError(err.message || "Błąd podczas zapisywania komentarza.");
+        setError(
+          err.message ||
+            "Błąd podczas zapisywania komentarza. Spróbuj ponownie później"
+        );
       } finally {
         setSendingComment(false);
       }
@@ -102,7 +109,10 @@ export const DetailProvider = ({ children }) => {
         await updateBlogLikes(blogId, newLikes);
       } catch (err) {
         console.log("Error saving likes:", err);
-        setError(err.message || "Błąd podczas zapisywania like.");
+        setError(
+          err.message ||
+            "Błąd podczas zapisywania like. Spróbuj ponownie później"
+        );
         setLikes(likes);
         setLikeCount(likes.length);
       }

@@ -5,7 +5,7 @@ import SectionHeader from "../components/UI/SectionHeader";
 import classes from "./UserPage.module.scss";
 import Button from "../components/UI/Button";
 import Blogs from "../components/blog/Blogs";
-import { UserBlogsProvider } from "../store/user-blogs-context";
+
 import Spinner from "../components/UI/Spinner";
 import Aside from "../components/Aside";
 import { useBlogContext } from "../store/blog-context";
@@ -13,7 +13,6 @@ import { useBlogContext } from "../store/blog-context";
 const UserPage = () => {
   const { editMode, user, handleEditClick } = useUserContext();
   const { loading } = useBlogContext();
-  const userId = user?.uid;
 
   if (loading) {
     return <Spinner />;
@@ -48,9 +47,7 @@ const UserPage = () => {
 
       <div className={classes["user-blog"]}>
         <main className={classes["user-blog__outlet"]}>
-          <UserBlogsProvider userId={userId}>
-            <Blogs />
-          </UserBlogsProvider>
+          <Blogs />
         </main>
         <Aside />
       </div>

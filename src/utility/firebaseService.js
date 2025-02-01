@@ -34,6 +34,9 @@ export const fetchBlogDetail = async (id) => {
 
 export const fetchRelatedBlogs = async (tags) => {
   try {
+    if (!tags || tags.length === 0) {
+      return [];
+    }
     const blogRef = collection(db, "blogs");
     const relatedBlogsQuery = query(
       blogRef,
@@ -57,9 +60,14 @@ export const fetchRelatedBlogs = async (tags) => {
 export const updateBlogComments = async (id, comments) => {
   try {
     const blogRef = doc(db, "blogs", id);
+    const blogDoc = await getDoc(blogRef);
+    if (!blogDoc.exists()) {
+      throw new Error("Blog nie istnieje.");
+    }
+    const existingData = blogDoc.data();
     await updateDoc(blogRef, {
       comments,
-      timestamp: serverTimestamp(),
+      timestamp: existingData.timestamp || serverTimestamp(),
     });
   } catch (error) {
     console.error("Error updating comments:", error);
@@ -70,10 +78,16 @@ export const updateBlogComments = async (id, comments) => {
 export const updateBlogLikes = async (id, likes) => {
   try {
     const blogRef = doc(db, "blogs", id);
+    const blogDoc = await getDoc(blogRef);
+    if (!blogDoc.exists()) {
+      throw new Error("Blog nie istnieje.");
+    }
+
+    const existingData = blogDoc.data();
     await updateDoc(blogRef, {
       likes,
       countLikes: likes.length,
-      timestamp: serverTimestamp(),
+      timestamp: existingData.timestamp || serverTimestamp(),
     });
   } catch (error) {
     console.error("Error updating blog:", error);
@@ -270,5 +284,42 @@ export const fetch4MoreBlogs = async (lastVisible) => {
     throw new Error(
       "Nie udało się pobrać kolejnych blogów. Spróbuj ponownie później."
     );
+  }
+};
+
+//Filtrowanie tagami
+export const fetchBlogsByTag = async (tag) => {
+  try {
+    const blogRef = collection(db, "blogs");
+    const tagBlogQuery = query(blogRef, where("tags", "array-contains", tag));
+    const querySnapshot = await getDocs(tagBlogQuery);
+
+    const tagBlogs = [];
+    querySnapshot.forEach((doc) => {
+      tagBlogs.push({ id: doc.id, ...doc.data() });
+    });
+
+    return tagBlogs;
+  } catch (error) {
+    console.error("Error fetching blogs by tag:", error);
+    throw new Error("Nie udało się pobrać blogów dla tego tagu.");
+  }
+};
+//Filtrowanie kategorią
+export const fetchBlogsByCategory = async (category) => {
+  try {
+    const blogRef = collection(db, "blogs");
+    const categoryBlogQuery = query(blogRef, where("category", "==", category));
+    const querySnapshot = await getDocs(categoryBlogQuery);
+
+    const tagBlogs = [];
+    querySnapshot.forEach((doc) => {
+      tagBlogs.push({ id: doc.id, ...doc.data() });
+    });
+
+    return tagBlogs;
+  } catch (error) {
+    console.error("Error fetching blogs by category:", error);
+    throw new Error("Nie udało się pobrać blogów dla tej kategorii.");
   }
 };

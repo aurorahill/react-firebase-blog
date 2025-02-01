@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import photoImg from "../assets/photo.jpg";
 import classes from "./Detail.module.scss";
 import Spinner from "../components/UI/Spinner";
@@ -12,9 +12,11 @@ import { useDetailContext } from "../store/datail-context";
 import Like from "../components/like/Like";
 import { dataFormatter } from "../utility/dataFormatter";
 import Modal from "../components/UI/Modal";
+import ActionsIcons from "../components/ActionsIcons";
 
 const Detail = () => {
   const { getBlogDetail, loading, blog, error, setError } = useDetailContext();
+
   const { id } = useParams();
 
   useEffect(() => {
@@ -57,6 +59,10 @@ const Detail = () => {
             <p className={classes.detail__description}>{blog?.description}</p>
 
             <Tags tags={blog?.tags} />
+            <ActionsIcons
+              item={blog}
+              id={id}
+            />
           </section>
           <Comments id={id} />
           <CommentBox id={id} />

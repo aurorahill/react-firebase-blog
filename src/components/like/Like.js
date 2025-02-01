@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useUserContext } from "../../store/auth-context";
 import { useDetailContext } from "../../store/datail-context";
 import LikeStatus from "./LikeStatus";
@@ -7,11 +7,10 @@ import Button from "../UI/Button";
 import Modal from "../UI/Modal";
 
 const Like = ({ id: blogId }) => {
-  const { likes, showTooltip, setShowTooltip, handleLike } = useDetailContext();
+  const { likes, showTooltip, setShowTooltip, handleLike, error, setError } =
+    useDetailContext();
   const { user } = useUserContext();
   const userId = user?.uid;
-
-  const [error, setError] = useState(null);
 
   useEffect(() => {
     if (showTooltip) {

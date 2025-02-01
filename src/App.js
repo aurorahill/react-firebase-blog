@@ -19,6 +19,7 @@ import ScrollToTop from "./components/UI/ScrollToTop";
 import { DetailProvider } from "./store/datail-context";
 import UserPage from "./pages/UserPage";
 import classes from "./App.module.scss";
+import { UserBlogsProvider } from "./store/user-blogs-context";
 
 const router = createBrowserRouter([
   {
@@ -57,13 +58,16 @@ function App() {
   return (
     <UserContextProvider>
       <BlogProvider>
-        <DetailProvider>
-          <div className="App">
-            <ScrollToTop />
-            <ToastContainer position="top-center" />
-            <RouterProvider router={router}></RouterProvider>
-          </div>
-        </DetailProvider>
+        {/* UserBlogsProvider musi być w UserContext, bo korzysta z user!!! */}
+        <UserBlogsProvider>
+          <DetailProvider>
+            <div className="App">
+              <ScrollToTop />
+              <ToastContainer position="top-center" />
+              <RouterProvider router={router}></RouterProvider>
+            </div>
+          </DetailProvider>
+        </UserBlogsProvider>
       </BlogProvider>
     </UserContextProvider>
   );

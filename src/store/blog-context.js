@@ -9,19 +9,22 @@ import { toast } from "react-toastify";
 import {
   fetchBlogs,
   fetchTags,
-  deleteBlog,
   fetch4Blogs,
   fetch4MoreBlogs,
+  fetchBlogsByTag,
+  fetchBlogsByCategory,
 } from "../utility/firebaseService";
 
 const BlogContext = createContext();
 
 export const BlogProvider = ({ children }) => {
-  // const [blogs, setBlogs] = useState([]);
   const [trendBlogs, setTrendBlogs] = useState([]);
   const [recentBlogs, setRecentBlogs] = useState([]);
   const [mostLikedBlogs, setMostLikesBlogs] = useState([]);
   const [tags, setTags] = useState([]);
+  const [tagPage, setTagPage] = useState([]);
+  const [categoryPage, setCategoryPage] = useState([]);
+  const [loadingPage, setLoadingPage] = useState(false);
   const [error, setError] = useState(null);
   const [first4Blogs, setFirst4Blogs] = useState([]); //pierwsze 4 na daily blogs
   const [allBlogs, setAllBlogs] = useState([]);
@@ -32,6 +35,42 @@ export const BlogProvider = ({ children }) => {
   const [isEmpty, setIsEmpty] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState(""); // Opóźnione wyszukiwanie
+
+  const getTagPage = useCallback(
+    async (tag) => {
+      setLoadingPage(true);
+      try {
+        const blogs = await fetchBlogsByTag(tag);
+        setTagPage(blogs);
+      } catch (err) {
+        console.error("Error fetching blogs by tag:", error);
+        setError(
+          err.message || "Błąd podczas pobierania blogów. Spróbuj ponownie."
+        );
+      } finally {
+        setLoadingPage(false);
+      }
+    },
+    [error]
+  );
+
+  const getCategoryPage = useCallback(
+    async (category) => {
+      setLoadingPage(true);
+      try {
+        const blogs = await fetchBlogsByCategory(category);
+        setCategoryPage(blogs);
+      } catch (err) {
+        console.error("Error fetching blogs by category:", error);
+        setError(
+          err.message || "Błąd podczas pobierania blogów. Spróbuj ponownie."
+        );
+      } finally {
+        setLoadingPage(false);
+      }
+    },
+    [error]
+  );
 
   const getTrendingBlogs = useCallback(async () => {
     try {
@@ -71,40 +110,21 @@ export const BlogProvider = ({ children }) => {
     }
   }, []);
 
-  const handleDelete = async (id) => {
-    if (window.confirm("Czy na pewno chcesz usunąć ten blog?")) {
-      try {
-        await deleteBlog(id);
-        toast.success("Blog usunięty!");
-        setTrendBlogs((prevBlogs) =>
-          prevBlogs.filter((blog) => blog.id !== id)
-        );
-        setRecentBlogs((prevBlogs) =>
-          prevBlogs.filter((blog) => blog.id !== id)
-        );
-        setMostLikesBlogs((prevBlogs) =>
-          prevBlogs.filter((blog) => blog.id !== id)
-        );
-      } catch (err) {
-        console.log(err);
-        toast.error("Nie udało się usunąć bloga.");
-      }
-    }
+  // Aktualizacja globalnych stanów po usunięciu bloga
+  const updateBlogFromGlobalState = (id) => {
+    setAllBlogs((prev) => prev.filter((blog) => blog.id !== id));
+    setTrendBlogs((prev) => prev.filter((blog) => blog.id !== id));
+    setRecentBlogs((prev) => prev.filter((blog) => blog.id !== id));
+    setFilteredBlogs((prev) => prev.filter((blog) => blog.id !== id));
+    setTagPage((prev) => prev.filter((blog) => blog.id !== id));
+    setCategoryPage((prev) => prev.filter((blog) => blog.id !== id));
+    fetchData();
   };
-
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedSearchTerm(searchTerm);
-    }, 500);
-
-    return () => clearTimeout(handler);
-  }, [searchTerm]);
 
   // Pobranie 4 pierwszych blogów
   const get4Blogs = useCallback(async () => {
     try {
       const docSnapshot = await fetch4Blogs();
-
       if (docSnapshot.length > 0) {
         setFirst4Blogs(docSnapshot);
         setFilteredBlogs(docSnapshot);
@@ -117,6 +137,14 @@ export const BlogProvider = ({ children }) => {
       );
     }
   }, []);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearchTerm(searchTerm);
+    }, 500);
+
+    return () => clearTimeout(handler);
+  }, [searchTerm]);
 
   // Filtrowanie blogów
   useEffect(() => {
@@ -161,21 +189,22 @@ export const BlogProvider = ({ children }) => {
     }
   };
 
-  useEffect(() => {
+  const fetchData = async () => {
     setLoading(true);
-    const fetchData = async () => {
-      try {
-        const blogTags = await fetchTags();
-        setTags(blogTags);
-        const allBlogs = await fetchBlogs({});
-        setAllBlogs(allBlogs);
-      } catch (error) {
-        console.log(error);
-        setError("Błąd podczas pobierania blogów.");
-      } finally {
-        setLoading(false);
-      }
-    };
+    try {
+      const blogTags = await fetchTags();
+      setTags(blogTags);
+      const allBlogs = await fetchBlogs({});
+      setAllBlogs(allBlogs);
+    } catch (error) {
+      console.log(error);
+      setError("Błąd podczas pobierania blogów.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchData();
   }, []);
 
@@ -206,7 +235,6 @@ export const BlogProvider = ({ children }) => {
     categoryCount,
     recentBlogs,
     mostLikedBlogs,
-    handleDelete,
     getTrendingBlogs,
     getRecentBlogs,
     getMostLikedBlogs,
@@ -219,6 +247,13 @@ export const BlogProvider = ({ children }) => {
     setSearchTerm,
     get4Blogs,
     setError,
+    setTrendBlogs,
+    updateBlogFromGlobalState,
+    getTagPage,
+    tagPage,
+    loadingPage,
+    categoryPage,
+    getCategoryPage,
   };
 
   return (

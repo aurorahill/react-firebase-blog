@@ -1,0 +1,29 @@
+.items {
+  text-align: right;
+  &__icon {
+    height: 40px;
+    margin-left: 1rem;
+    padding: 1rem;
+    font-size: 1.4rem;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: rgb(255, 80, 80);
+    color: white;
+    transition: background-color 0.2s ease-in-out;
+    &:hover {
+      text-decoration: none;
+      background-color: rgb(253, 13, 13);
+    }
+    &:disabled {
+      background-color: rgb(218, 218, 218);
+    }
+  }
+  &__edit {
+    text-decoration: none;
+    background-color: var(--color-primary-800);
+    color: black;
+    &:hover {
+      background-color: var(--color-primary-900);
+    }
+  }
+}
