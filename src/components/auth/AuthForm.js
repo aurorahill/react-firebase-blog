@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import { toast } from "react-toastify";
 import {
   createUserWithEmailAndPassword,
@@ -7,83 +7,51 @@ import {
 } from "firebase/auth";
 import { auth } from "../../firebase";
 import Input from "../UI/Input";
-import { useNavigate } from "react-router-dom";
+import { redirect, useNavigate } from "react-router-dom";
 import Button from "../UI/Button";
 import classes from "./AuthForm.module.scss";
 import { useUserContext } from "../../store/auth-context";
 
-const initialState = {
-  firstName: "",
-  lastName: "",
-  email: "",
-  password: "",
-  confirmPassword: "",
-};
-const AuthForm = ({ signUp }) => {
-  const [state, setState] = useState(initialState);
-  const [isLoading, setIsLoading] = useState(false);
-  const { setUser } = useUserContext();
-
-  const { email, password, firstName, lastName, confirmPassword } = state;
+const AuthForm = () => {
+  const {
+    user,
+    handleBlur,
+    handleChange,
+    email,
+    password,
+    firstName,
+    lastName,
+    confirmPassword,
+    errors,
+    signUp,
+    handleAuth,
+    isLoading,
+  } = useUserContext();
   const navigate = useNavigate();
 
-  const handleChange = (e) => {
-    setState({ ...state, [e.target.name]: e.target.value });
-  };
-
-  const handleAuth = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
-
     try {
-      if (!signUp) {
-        if (email.trim() && password.trim()) {
-          const { user } = await signInWithEmailAndPassword(
-            auth,
-            email,
-            password
-          );
-          setUser(user);
-          navigate("/");
-        } else {
-          return toast.error("All fields are mandatory to fill");
-        }
-      } else {
-        if (password !== confirmPassword) {
-          return toast.error("Password don't match");
-        }
-        if (password.length < 6) {
-          return toast.error("Password requires at least 6 characters.");
-        }
-        if (
-          firstName.trim() &&
-          lastName.trim() &&
-          email.trim() &&
-          password.trim()
-        ) {
-          const { user } = await createUserWithEmailAndPassword(
-            auth,
-            email,
-            password
-          );
-          await updateProfile(user, {
-            displayName: `${firstName} ${lastName}`,
-          });
-        } else {
-          return toast.error("All fields are mandatory to fill");
-        }
-      }
-      navigate("/");
-    } catch (err) {
-      toast.error(
-        err.message || "Something went wrong. Please, try again later."
+      const success = await handleAuth(
+        email,
+        password,
+        firstName,
+        lastName,
+        signUp
       );
-    } finally {
-      setIsLoading(false);
+      if (success) {
+        navigate("/");
+      }
+    } catch (err) {
+      console.log(err);
     }
   };
+
   return (
-    <form onSubmit={handleAuth}>
+    <form
+      onSubmit={handleSubmit}
+      className={classes["auth-form"]}
+    >
       {signUp && (
         <>
           <Input
@@ -92,14 +60,22 @@ const AuthForm = ({ signUp }) => {
             name="firstName"
             value={firstName}
             onChange={handleChange}
+            onBlur={handleBlur}
           />
+          {errors.firstName && (
+            <p className={classes.error}>{errors.firstName}</p>
+          )}
           <Input
             type="text"
             placeholder="Nazwisko"
             name="lastName"
             value={lastName}
             onChange={handleChange}
+            onBlur={handleBlur}
           />
+          {errors.lastName && (
+            <p className={classes.error}>{errors.lastName}</p>
+          )}
         </>
       )}
 
@@ -109,7 +85,9 @@ const AuthForm = ({ signUp }) => {
         name="email"
         value={email}
         onChange={handleChange}
+        onBlur={handleBlur}
       />
+      {errors.email && <p className={classes.error}>{errors.email}</p>}
       <Input
         type="password"
         placeholder="Hasło"
@@ -117,15 +95,23 @@ const AuthForm = ({ signUp }) => {
         value={password}
         onChange={handleChange}
         minLength={6}
+        onBlur={handleBlur}
       />
+      {errors.password && <p className={classes.error}>{errors.password}</p>}
       {signUp && (
-        <Input
-          type="password"
-          placeholder="Potwierdź hasło"
-          name="confirmPassword"
-          value={confirmPassword}
-          onChange={handleChange}
-        />
+        <>
+          <Input
+            type="password"
+            placeholder="Potwierdź hasło"
+            name="confirmPassword"
+            value={confirmPassword}
+            onChange={handleChange}
+            onBlur={handleBlur}
+          />
+          {errors.confirmPassword && (
+            <p className={classes.error}>{errors.confirmPassword}</p>
+          )}
+        </>
       )}
       <div>
         <Button

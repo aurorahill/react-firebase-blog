@@ -1,13 +1,25 @@
-.btn-sign-in {
-  margin-top: 3rem;
-}
+.auth-form {
+  margin: 0 auto;
+  max-width: 40rem;
 
-.btn-sign-up {
-  margin-top: 3rem;
-  background: var(--blue-100);
-  color: #fff;
-  transition: color 0.2s ease-in-out;
-  &:hover {
-    background: var(--blue-200);
+  .btn-sign-in {
+    margin-top: 3rem;
+  }
+
+  .btn-sign-up {
+    margin-top: 3rem;
+    background: var(--blue-100);
+    color: #fff;
+    transition: color 0.2s ease-in-out;
+    &:hover {
+      background: var(--blue-200);
+    }
+  }
+
+  .error {
+    color: red;
+    font-size: 1.2rem;
+    margin-top: -5px;
+    text-align: left;
   }
 }

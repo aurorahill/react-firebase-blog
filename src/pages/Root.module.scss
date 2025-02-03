@@ -2,6 +2,7 @@
   position: relative;
   top: 70px;
   margin: 0 2rem;
+  min-height: calc(100vh - 146px);
   @media (min-width: 768px) {
     top: 85px;
   }

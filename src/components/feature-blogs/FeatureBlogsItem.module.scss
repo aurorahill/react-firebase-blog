@@ -13,7 +13,7 @@
   cursor: pointer;
   &__image {
     height: 100px;
-
+    flex-shrink: 0;
     width: 50%;
     @media (min-width: 768px) {
       width: 40%;
@@ -29,7 +29,7 @@
     }
   }
   &__content {
-    margin: 1rem 0;
+    margin: 1rem 1rem 1rem 0;
   }
   &__title {
     font-weight: 500;

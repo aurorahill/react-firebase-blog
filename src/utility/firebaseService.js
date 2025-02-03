@@ -15,7 +15,91 @@ import {
   endAt,
   endBefore,
   limitToLast,
+  addDoc,
 } from "firebase/firestore";
+import {
+  getAuth,
+  updateProfile,
+  updateEmail,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  sendPasswordResetEmail,
+  signOut,
+} from "firebase/auth";
+
+//Autoryzacja
+
+const auth = getAuth();
+export const resetPassword = async (email) => {
+  try {
+    await sendPasswordResetEmail(auth, email);
+  } catch (error) {
+    console.error("Error reseting password:", error);
+    throw new Error(
+      error.message || "Nie udało zresetować hasła. Spróbuj ponownie później."
+    );
+  }
+};
+
+export const signInUser = async (email, password) => {
+  try {
+    const { user } = await signInWithEmailAndPassword(auth, email, password);
+    return user;
+  } catch (error) {
+    console.error("Error during login:", error);
+    throw new Error(
+      "Nie udało się zalogować użytkownika. Spróbuj ponownie później!"
+    );
+  }
+};
+
+export const signUpUser = async (email, password, displayName) => {
+  try {
+    const { user } = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    await updateProfile(user, { displayName });
+    return user;
+  } catch (error) {
+    console.error("Error during creating account:", error);
+    throw new Error(
+      error.message || "Nie udało się stworzyć konta dla nowego użytkownika."
+    );
+  }
+};
+
+export const signOutUser = async () => {
+  try {
+    await signOut(auth);
+  } catch (error) {
+    console.error("Error flogout:", error);
+    throw new Error(
+      error.message ||
+        "Nie udało się wylogować użytkownika. Sróbuj ponownie później"
+    );
+  }
+};
+
+export const updateUserProfile = async (user, displayName, email) => {
+  try {
+    if (displayName !== user.displayName) {
+      await updateProfile(user, { displayName });
+    }
+    if (email !== user.email) {
+      await updateEmail(user, email);
+    }
+  } catch (error) {
+    console.error("Error updating userprofile:", error);
+    throw new Error(
+      error.message ||
+        "Nie udało się zaktualizować danych. Spróbuj ponownie później."
+    );
+  }
+};
+
+export const getAuthInstance = () => auth;
 
 // Pojedynczy blog
 export const fetchBlogDetail = async (id) => {
@@ -321,5 +405,55 @@ export const fetchBlogsByCategory = async (category) => {
   } catch (error) {
     console.error("Error fetching blogs by category:", error);
     throw new Error("Nie udało się pobrać blogów dla tej kategorii.");
+  }
+};
+
+//Dodawanie i aktualizacja bloga
+export const addUserBlog = async (blogData, user) => {
+  try {
+    const docRef = await addDoc(collection(db, "blogs"), {
+      ...blogData,
+      timestamp: serverTimestamp(),
+      author: user.displayName,
+      userId: user.uid,
+    });
+    const snapshot = await getDoc(docRef);
+    if (snapshot.exists()) {
+      const newBlog = { ...snapshot.data(), id: docRef.id };
+      return newBlog;
+    } else {
+      throw new Error("Nie udało się dodać bloga.");
+    }
+  } catch (error) {
+    console.error("Error during add new blog:", error);
+    throw new Error("Błąd podczas dodawania bloga.");
+  }
+};
+
+export const updateUserBlog = async (blogId, updatedData, user) => {
+  try {
+    const docRef = doc(db, "blogs", blogId);
+    const existingDoc = await getDoc(docRef);
+    if (!existingDoc.exists()) {
+      throw new Error("Nie znaleziono bloga do aktualizacji.");
+    }
+    const existingData = existingDoc.data();
+    const originalTimestamp = existingData.timestamp;
+
+    await updateDoc(docRef, {
+      ...updatedData,
+      timestamp: originalTimestamp,
+      author: existingData.author || user.displayName,
+      userId: existingData.userId || user.uid,
+    });
+
+    return {
+      ...updatedData,
+      id: blogId,
+      timestamp: originalTimestamp,
+    };
+  } catch (error) {
+    console.error("Error during update blog:", error);
+    throw new Error("Błąd podczas aktualizacji bloga.");
   }
 };

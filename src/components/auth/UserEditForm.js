@@ -9,12 +9,12 @@ const UserEditForm = () => {
     handleSaveClick,
     handleCancelClick,
     firstName,
-    setFirstName,
     lastName,
-    setLastName,
-    newEmail,
-    setNewEmail,
-    loading,
+    handleChange,
+    handleBlur,
+    email,
+    errors,
+    isLoading,
   } = useUserContext();
 
   return (
@@ -24,33 +24,44 @@ const UserEditForm = () => {
         <Input
           id="firstName"
           type="text"
+          name="firstName"
           value={firstName}
-          onChange={(e) => setFirstName(e.target.value)}
+          onChange={handleChange}
+          onBlur={handleBlur}
           classNameDiv={classes["user-edit-form__input"]}
           required
         />
+        {errors.firstName && (
+          <p className={classes.error}>{errors.firstName}</p>
+        )}
       </div>
       <div className={classes["user-edit-form__box"]}>
         <label htmlFor="lastName">Nazwisko</label>
         <Input
           id="lastName"
           type="text"
+          name="lastName"
           value={lastName}
-          onChange={(e) => setLastName(e.target.value)}
+          onChange={handleChange}
+          onBlur={handleBlur}
           classNameDiv={classes["user-edit-form__input"]}
           required
         />
+        {errors.lastName && <p className={classes.error}>{errors.lastName}</p>}
       </div>
       <div className={classes["user-edit-form__box"]}>
         <label htmlFor="email">Email</label>
         <Input
           id="email"
           type="email"
-          value={newEmail}
-          onChange={(e) => setNewEmail(e.target.value)}
+          name="email"
+          value={email}
+          onChange={handleChange}
+          onBlur={handleBlur}
           classNameDiv={classes["user-edit-form__input"]}
           required
         />
+        {errors.email && <p className={classes.error}>{errors.email}</p>}
       </div>
       <div className={classes["user-edit-form__box"]}>
         <Button
@@ -64,9 +75,9 @@ const UserEditForm = () => {
         <Button
           onClick={handleSaveClick}
           className={classes["user-edit-form__btn"]}
-          disabled={loading}
+          disabled={isLoading}
         >
-          {loading ? "Zapisywanie..." : "Zapisz"}
+          {isLoading ? "Zapisywanie..." : "Zapisz"}
         </Button>
       </div>
     </form>

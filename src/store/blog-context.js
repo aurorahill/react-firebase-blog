@@ -111,18 +111,36 @@ export const BlogProvider = ({ children }) => {
   }, []);
 
   // Aktualizacja globalnych stanów po usunięciu bloga
-  const updateBlogFromGlobalState = (id) => {
+  const deleteBlogFromGlobalState = (id) => {
     setAllBlogs((prev) => prev.filter((blog) => blog.id !== id));
     setTrendBlogs((prev) => prev.filter((blog) => blog.id !== id));
     setRecentBlogs((prev) => prev.filter((blog) => blog.id !== id));
     setFilteredBlogs((prev) => prev.filter((blog) => blog.id !== id));
     setTagPage((prev) => prev.filter((blog) => blog.id !== id));
     setCategoryPage((prev) => prev.filter((blog) => blog.id !== id));
+  };
+
+  const updateBlogFromGlobalState = (blogData) => {
+    const updateOrAdd = (list) =>
+      list.some((blog) => blog.id === blogData.id)
+        ? list.map((blog) => (blog.id === blogData.id ? blogData : blog))
+        : [...list, blogData];
+    setAllBlogs((prev) => updateOrAdd(prev));
+    if (blogData.trending === "yes") {
+      setTrendBlogs((prev) => updateOrAdd(prev));
+    } else {
+      setTrendBlogs((prev) => prev.filter((blog) => blog.id !== blogData.id));
+    }
+    setRecentBlogs((prev) => updateOrAdd(prev));
+    setFilteredBlogs((prev) => updateOrAdd(prev));
+    setTagPage((prev) => updateOrAdd(prev));
+    setCategoryPage((prev) => updateOrAdd(prev));
     fetchData();
   };
 
   // Pobranie 4 pierwszych blogów
   const get4Blogs = useCallback(async () => {
+    setLoading4More(true);
     try {
       const docSnapshot = await fetch4Blogs();
       if (docSnapshot.length > 0) {
@@ -135,6 +153,8 @@ export const BlogProvider = ({ children }) => {
       setError(
         err.message || "Błąd podczas pobierania blogów. Spróbuj ponownie."
       );
+    } finally {
+      setLoading4More(false);
     }
   }, []);
 
@@ -249,6 +269,7 @@ export const BlogProvider = ({ children }) => {
     setError,
     setTrendBlogs,
     updateBlogFromGlobalState,
+    deleteBlogFromGlobalState,
     getTagPage,
     tagPage,
     loadingPage,

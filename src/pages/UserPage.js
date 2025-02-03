@@ -32,8 +32,8 @@ const UserPage = () => {
             <UserEditForm />
           ) : (
             <div className={classes["user-page__info"]}>
-              <p>{user.displayName}</p>
-              <p>{user.email}</p>
+              <p>{user?.displayName}</p>
+              <p>{user?.email}</p>
               <Button
                 onClick={handleEditClick}
                 className={classes["user-page__button"]}

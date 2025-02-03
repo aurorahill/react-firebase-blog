@@ -3,6 +3,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { useUserContext } from "../store/auth-context";
 import classes from "./Header.module.scss";
 import { FiMenu, FiX } from "react-icons/fi";
+import { toast } from "react-toastify";
 
 const Header = () => {
   const { user, logout } = useUserContext();
@@ -13,10 +14,15 @@ const Header = () => {
   const userId = user?.uid;
   const userName = user?.displayName;
 
-  const handleLogout = () => {
-    logout();
-    setMenuIsOpen(false);
-    navigate("/auth");
+  const handleLogout = async () => {
+    try {
+      await logout(); // musi byc await, zeby nawigacja czekala do ustawienia sie usera
+      setMenuIsOpen(false);
+      navigate("/auth");
+    } catch (error) {
+      console.error("Błąd wylogowywania:", error);
+      toast.error("Nie udało się wylogować. Spróbuj ponownie.");
+    }
   };
 
   const toggleMenuHandler = () => {
@@ -147,7 +153,7 @@ const Header = () => {
                 }
                 onClick={closeMenuHandler}
               >
-                Zaloguj
+                Logowanie
               </NavLink>
             </li>
           )}

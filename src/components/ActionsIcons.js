@@ -10,13 +10,13 @@ import Button from "./UI/Button";
 const ActionsIcons = ({ item, id }) => {
   const { user } = useUserContext();
   const userId = user?.uid;
-  const { updateBlogFromGlobalState } = useBlogContext();
-  const { deleteUserBlog, loading } = useUserBlogsContext();
+  const { deleteBlogFromGlobalState } = useBlogContext();
+  const { deleteUserBlog, deleting } = useUserBlogsContext();
   const navigate = useNavigate();
   const location = useLocation();
 
   const handleDelete = (id) => {
-    deleteUserBlog(id, updateBlogFromGlobalState);
+    deleteUserBlog(id, deleteBlogFromGlobalState);
     if (location.pathname.startsWith("/detail")) {
       navigate("/");
     }
@@ -33,9 +33,9 @@ const ActionsIcons = ({ item, id }) => {
             textOnly
             className={classes.items__icon}
             onClick={() => handleDelete(id)}
-            disabled={loading}
+            disabled={deleting}
           >
-            <span>{loading ? "Usuwanie" : "Usuń"}</span>
+            <span>{deleting ? "Usuwanie" : "Usuń"}</span>
           </Button>
           <Link
             to={`/update/${id}`}

@@ -3,10 +3,11 @@ import ResetPassword from "../components/auth/ResetPassword";
 import classes from "./Auth.module.scss";
 import AuthForm from "../components/auth/AuthForm";
 import Heading from "../components/UI/Heading";
+import { useUserContext } from "../store/auth-context";
 
 const Auth = () => {
-  const [signUp, setSignUp] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const { signUp, toggleSignUp } = useUserContext();
 
   return (
     <div className={classes.auth}>
@@ -20,7 +21,7 @@ const Auth = () => {
               Nie masz jeszcze konta?&nbsp;
               <span
                 className={classes["sign-up"]}
-                onClick={() => setSignUp(true)}
+                onClick={toggleSignUp}
               >
                 Zarejestruj się
               </span>
@@ -37,7 +38,7 @@ const Auth = () => {
             Masz już konto?&nbsp;
             <span
               className={classes["sign-in"]}
-              onClick={() => setSignUp(false)}
+              onClick={toggleSignUp}
             >
               Zaloguj się
             </span>

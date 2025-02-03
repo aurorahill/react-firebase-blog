@@ -1,34 +1,20 @@
-import React, { useState, useEffect, useContext } from "react";
-import ReactTagInput from "@pathofdev/react-tag-input";
-import "@pathofdev/react-tag-input/build/index.css";
+import React, { useEffect, useState, useCallback } from "react";
 import Heading from "../components/UI/Heading";
 import Input from "../components/UI/Input";
 import Button from "../components/UI/Button";
 import classes from "./AddEditBlog.module.scss";
 import { useNavigate, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import { UserContext } from "../store/auth-context";
+import { useBlogContext } from "../store/blog-context";
+import { useUserBlogsContext } from "../store/user-blogs-context";
 import {
-  addDoc,
-  collection,
-  getDoc,
-  serverTimestamp,
-  updateDoc,
-} from "firebase/firestore";
-import { db } from "../firebase";
-import { doc } from "firebase/firestore";
-
-const initialState = {
-  title: "",
-  tags: [],
-  trending: "no",
-  category: "",
-  description: "",
-  imgURL: "",
-  comments: [],
-  likes: [],
-  countLikes: 0,
-};
+  validateCategory,
+  validateDescription,
+  validateImgURL,
+  validateTitle,
+} from "../utility/validate";
+import { toast } from "react-toastify";
+import { fetchBlogDetail } from "../utility/firebaseService";
+import TagsInput from "../components/UI/TagsInput";
 
 const categoryOption = [
   "Technologia",
@@ -45,41 +31,105 @@ const categoryOption = [
   "Podróże",
 ];
 
+const initialState = {
+  title: "",
+  tags: [],
+  trending: "no",
+  category: "",
+  description: "",
+  imgURL: "",
+  comments: [],
+  likes: [],
+  countLikes: 0,
+};
+
 const AddEditBlog = () => {
-  const [form, setForm] = useState(initialState);
-  const [isLoading, setIsLoading] = useState(false);
-  const { user } = useContext(UserContext);
   const navigate = useNavigate();
   const { id } = useParams();
+  const { updateBlogFromGlobalState } = useBlogContext();
+  const { loading, setLoading, handleAddBlog, handleUpdateBlog } =
+    useUserBlogsContext();
+  const [form, setForm] = useState(initialState);
 
   const { title, tags, category, trending, description, imgURL } = form;
+  const [errors, setErrors] = useState({
+    title: "",
+    description: "",
+    category: "",
+    imgURL: "",
+    trending: "",
+  });
+
+  const getFormBlogDetail = useCallback(async () => {
+    setLoading(true);
+    try {
+      const snapshot = await fetchBlogDetail(id);
+      setForm(snapshot);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
+  }, [setLoading, setForm, id]);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+    switch (e.target.name) {
+      case "title":
+        setErrors((prev) => ({
+          ...prev,
+          title: validateTitle(e.target.value),
+        }));
+        break;
+      case "description":
+        setErrors((prev) => ({
+          ...prev,
+          description: validateDescription(e.target.value),
+        }));
+        break;
+      case "imgURL":
+        setErrors((prev) => ({
+          ...prev,
+          imgURL: validateImgURL(e.target.value),
+        }));
+        break;
+
+      default:
+        break;
+    }
   };
 
-  const handleTags = (tags) => {
-    setForm({ ...form, tags });
-  };
   const handleTrending = (e) => {
     setForm({ ...form, trending: e.target.value });
   };
   const onCategoryChange = (e) => {
     setForm({ ...form, category: e.target.value });
+    setErrors((prev) => ({
+      ...prev,
+      category: validateCategory(e.target.value),
+    }));
   };
 
-  const getBlogDetail = async () => {
-    setIsLoading(true);
-    try {
-      const docRef = doc(db, "blogs", id);
-      const snapshot = await getDoc(docRef);
-      if (snapshot.exists()) {
-        setForm({ ...snapshot.data() });
-      }
-    } catch (err) {
-      console.log(err);
-    } finally {
-      setIsLoading(false);
+  const handleBlur = (e) => {
+    const { name, value } = e.target;
+    switch (name) {
+      case "title":
+        setErrors((prev) => ({ ...prev, title: validateTitle(value) }));
+        break;
+      case "description":
+        setErrors((prev) => ({
+          ...prev,
+          description: validateDescription(value),
+        }));
+        break;
+      case "category":
+        setErrors((prev) => ({ ...prev, category: validateCategory(value) }));
+        break;
+      case "imgURL":
+        setErrors((prev) => ({ ...prev, imgURL: validateImgURL(value) }));
+        break;
+      default:
+        break;
     }
   };
 
@@ -88,48 +138,37 @@ const AddEditBlog = () => {
   };
 
   useEffect(() => {
-    id && getBlogDetail();
-  }, [id]);
+    id && getFormBlogDetail(id);
+  }, [id, getFormBlogDetail]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (category && tags && title && description && trending && imgURL) {
-      setIsLoading(true);
-      if (!id) {
-        try {
-          const docRef = await addDoc(collection(db, "blogs"), {
-            ...form,
-            timestamp: serverTimestamp(),
-            author: user.displayName,
-            userId: user.uid,
-          });
-          toast.success("Blog utworzony pomyślnie!");
-          navigate(`/detail/${docRef.id}`);
-        } catch (err) {
-          console.log(err);
-        } finally {
-          setIsLoading(false);
-        }
-      } else {
-        try {
-          const currentDoc = await getDoc(doc(db, "blogs", id));
-          const existingData = currentDoc.data();
-          await updateDoc(doc(db, "blogs", id), {
-            ...form,
-            timestamp: existingData?.timestamp || serverTimestamp(),
-            author: user.displayName,
-            userId: user.uid,
-          });
-          toast.success("Blog został zaktualizowany!");
-          navigate(`/detail/${id}`);
-        } catch (err) {
-          console.log(err);
-        } finally {
-          setIsLoading(false);
-        }
-      }
+
+    const newErrors = {
+      title: validateTitle(title),
+      description: validateDescription(description),
+      category: validateCategory(category),
+      imgURL: validateImgURL(imgURL),
+    };
+
+    setErrors((prev) => ({ ...prev, ...newErrors }));
+
+    const hasErrors = Object.values(newErrors).some((error) => error !== "");
+
+    if (hasErrors) {
+      toast.error("Proszę poprawić błędy w formularzu.");
+      return;
+    }
+    if (!id) {
+      await handleAddBlog(form, (newBlog) => {
+        updateBlogFromGlobalState(newBlog);
+        navigate(`/detail/${newBlog.id}`);
+      });
     } else {
-      return toast.error("Uzupełnij wszystkie pola!");
+      await handleUpdateBlog(id, form, (updatedBlog) => {
+        updateBlogFromGlobalState(updatedBlog);
+        navigate(`/detail/${updatedBlog.id}`);
+      });
     }
   };
 
@@ -148,54 +187,58 @@ const AddEditBlog = () => {
             value={title}
             onChange={handleChange}
             className={classes["blog-form__form-control"]}
+            onBlur={handleBlur}
+            required
           />
+          {errors.title && <p className={classes.error}>{errors.title}</p>}
 
-          <div>
-            <ReactTagInput
-              tags={tags}
-              placeholder="Dodaj tag i kliknij enter"
-              onChange={handleTags}
-              className={classes["blog-form__form-control"]}
-            />
-          </div>
+          <TagsInput
+            onChange={(updatedTags) =>
+              setForm((prev) => ({ ...prev, tags: updatedTags }))
+            }
+            values={tags}
+          />
           <div className={classes.trending}>
             <p className={classes.trending__para}>
-              Czy chcesz wyświetlać blog karuzeli na stronie głównej?
+              Czy chcesz dodać blog do wyróżnionych?
             </p>
-            <input
-              id="radioOptionYes"
-              type="radio"
-              name="radioOption"
-              value="yes"
-              checked={trending === "yes"}
-              onChange={handleTrending}
-            />
-            <label
-              htmlFor="radioOptionYes"
-              className={classes["trending__radio-label"]}
-            >
-              &nbsp;Tak&nbsp;
-            </label>
-            <input
-              id="radioOptionNo"
-              type="radio"
-              name="radioOption"
-              value="no"
-              checked={trending === "no"}
-              onChange={handleTrending}
-            />
-            <label
-              htmlFor="radioOptionNo"
-              className={classes["trending__radio-label"]}
-            >
-              &nbsp;Nie
-            </label>
+            <p>
+              <input
+                id="radioOptionYes"
+                type="radio"
+                name="radioOption"
+                value="yes"
+                checked={trending === "yes"}
+                onChange={handleTrending}
+              />
+              <label
+                htmlFor="radioOptionYes"
+                className={classes["trending__radio-label"]}
+              >
+                &nbsp;Tak&nbsp;
+              </label>
+              <input
+                id="radioOptionNo"
+                type="radio"
+                name="radioOption"
+                value="no"
+                checked={trending === "no"}
+                onChange={handleTrending}
+              />
+              <label
+                htmlFor="radioOptionNo"
+                className={classes["trending__radio-label"]}
+              >
+                &nbsp;Nie
+              </label>
+            </p>
           </div>
           <div>
             <select
               value={category}
               onChange={onCategoryChange}
-              className={classes["blog-form__form-control"]}
+              className={`${classes["blog-form__form-control"]} ${classes["blog-form__category"]}`}
+              onBlur={handleBlur}
             >
               <option>Wybierz kategorię</option>
               {categoryOption.map((option, index) => (
@@ -207,6 +250,9 @@ const AddEditBlog = () => {
                 </option>
               ))}
             </select>
+            {errors.category && (
+              <p className={classes.error}>{errors.category}</p>
+            )}
           </div>
           <div>
             <textarea
@@ -215,7 +261,12 @@ const AddEditBlog = () => {
               value={description}
               onChange={handleChange}
               className={`${classes["blog-form__form-control"]} ${classes.description}`}
+              onBlur={handleBlur}
+              required
             ></textarea>
+            {errors.description && (
+              <p className={classes.error}>{errors.description}</p>
+            )}
           </div>
           <Input
             type="text"
@@ -224,8 +275,9 @@ const AddEditBlog = () => {
             value={imgURL}
             onChange={handleChange}
             className={classes["blog-form__form-control"]}
+            onBlur={handleBlur}
           />
-
+          {errors.imgURL && <p className={classes.error}>{errors.imgURL}</p>}
           <div className={classes["blog-form__actives"]}>
             <Button
               type="button"
@@ -234,12 +286,12 @@ const AddEditBlog = () => {
             >
               Wróć
             </Button>
-            <Button disabled={isLoading}>
+            <Button disabled={loading}>
               {id
-                ? isLoading
+                ? loading
                   ? "Aktualizowanie..."
                   : "Zaktualizuj"
-                : isLoading
+                : loading
                 ? "Zapisywanie..."
                 : "Zapisz"}
             </Button>

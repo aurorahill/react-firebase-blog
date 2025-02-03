@@ -43,11 +43,17 @@ const Blogs = () => {
           ))}
         </div>
       </div>
-      <Pagination
-        currentPage={currentPage}
-        handlePageChange={handlePageChange}
-        numOfPages={numOfPages}
-      />
+      {numOfPages > 0 ? (
+        <Pagination
+          currentPage={currentPage}
+          handlePageChange={handlePageChange}
+          numOfPages={numOfPages}
+        />
+      ) : (
+        <p className={classes.blog__pagination}>
+          Nie masz jeszcze blogów do wyświetlenia.
+        </p>
+      )}
       {error && (
         <Modal
           open={!!error}
