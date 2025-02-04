@@ -1,0 +1,21 @@
+.card {
+  margin: 2rem 0;
+  padding: 2rem;
+  border-radius: 6px;
+  box-shadow: 0 0 6px 3px rgba(0, 0, 0, 0.1);
+  &__title {
+    margin-bottom: 1rem;
+    font-size: 2rem;
+    @media (min-width: 768px) {
+      margin-bottom: 2rem;
+      font-size: 2.6rem;
+    }
+  }
+  &__text {
+    font-size: 1.6rem;
+    @media (min-width: 768px) {
+      font-size: 1.8rem;
+      line-height: 1.6;
+    }
+  }
+}

@@ -1,12 +1,4 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import { signOut } from "firebase/auth";
-import {
-  getAuth,
-  updateProfile,
-  updateEmail,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
 import { toast } from "react-toastify";
 import {
   validateEmail,
@@ -21,6 +13,8 @@ import {
   signUpUser,
   updateUserProfile,
   getAuthInstance,
+  deleteUser,
+  deleteUserBlogs,
 } from "../utility/firebaseService";
 
 export const UserContext = createContext({
@@ -47,78 +41,13 @@ export default function UserContextProvider({ children }) {
   const [editMode, setEditMode] = useState(false);
 
   const [errors, setErrors] = useState(initialErrorsState);
-  // const auth = getAuth();
   const [state, setState] = useState(initialState);
   const { email, password, firstName, lastName, confirmPassword } = state;
   const [signUp, setSignUp] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  // useEffect(() => {
-  //   const unsubscribe = auth.onAuthStateChanged((authUser) => {
-  //     if (authUser) {
-  //       setUser(authUser);
-  //       if (authUser.displayName) {
-  //         const [first, last] = authUser.displayName.split(" ");
-  //         setState((prevState) => ({
-  //           ...prevState,
-  //           firstName: first || "",
-  //           lastName: last || "",
-  //         }));
-  //       }
-  //       setState((prevState) => ({
-  //         ...prevState,
-  //         email: authUser.email || "",
-  //       }));
-  //     } else {
-  //       setUser(null);
-  //     }
-  //   });
+  const auth = getAuthInstance();
 
-  //   return () => unsubscribe();
-  // }, [auth]);
-
-  // const handleAuth = async () => {
-  //   setIsLoading(true);
-
-  //   if (
-  //     errors.email ||
-  //     errors.password ||
-  //     errors.confirmPassword ||
-  //     errors.firstName ||
-  //     errors.lastName
-  //   ) {
-  //     toast.error("Proszę poprawić błędy w formularzu.");
-  //     setIsLoading(false);
-  //     return;
-  //   }
-
-  //   try {
-  //     if (!signUp) {
-  //       const { user } = await signInWithEmailAndPassword(
-  //         auth,
-  //         email,
-  //         password
-  //       );
-  //       setUser(user);
-  //     } else {
-  //       const { user } = await createUserWithEmailAndPassword(
-  //         auth,
-  //         email,
-  //         password
-  //       );
-  //       await updateProfile(user, {
-  //         displayName: `${firstName} ${lastName}`,
-  //       });
-  //       setUser(user);
-  //     }
-  //   } catch (err) {
-  //     toast.error(
-  //       err.message || "Something went wrong. Please, try again later."
-  //     );
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
   const toggleSignUp = () => {
     setSignUp((prev) => (prev = !prev));
     setState(initialState);
@@ -203,53 +132,6 @@ export default function UserContextProvider({ children }) {
     setEditMode(false);
     setErrors(initialErrorsState);
   };
-
-  // const handleSaveClick = async () => {
-  //   if (!firstName.trim() || !lastName.trim() || !email.trim()) {
-  //     toast.error("All fields are required!");
-  //     return;
-  //   }
-  //   if (!email.includes("@")) {
-  //     toast.error("Enter correct email!");
-  //     return;
-  //   }
-  //   if (
-  //     (user && `${firstName} ${lastName}` !== user.displayName) ||
-  //     email !== user.email
-  //   ) {
-  //     const newDisplayName = `${firstName} ${lastName}`;
-  //     setLoading(true);
-  //     try {
-  //       if (newDisplayName !== user.displayName) {
-  //         await updateProfile(auth.currentUser, {
-  //           displayName: newDisplayName,
-  //         });
-  //       }
-  //       if (email !== user.email) {
-  //         await updateEmail(auth.currentUser, email);
-  //       }
-  //       toast.success("Profile updated successfully!");
-  //     } catch (error) {
-  //       toast.error("Error updating profile.");
-  //     } finally {
-  //       setLoading(false);
-  //       setEditMode(false);
-  //     }
-  //   }
-  // };
-
-  // const logout = async () => {
-  //   try {
-  //     await signOut(auth);
-  //     setUser(null);
-  //     setState(initialState);
-  //   } catch (error) {
-  //     console.error("Błąd wylogowywania:", error);
-  //     toast.error("Nie udało się wylogować. Spróbuj ponownie.");
-  //   }
-  // };
-
-  const auth = getAuthInstance();
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((authUser) => {
@@ -338,6 +220,27 @@ export default function UserContextProvider({ children }) {
     }
   };
 
+  const deleteUserAndBlogs = async (userId) => {
+    if (
+      window.confirm(
+        "Czy na pewno chcesz usunąć swoje konto i wszystkie swoje blogi?"
+      )
+    ) {
+      setIsLoading(true);
+      try {
+        await deleteUserBlogs(userId);
+        await deleteUser();
+        setState(initialState);
+        toast.success("Użytkownik i blogi zostały usunięte.");
+      } catch (error) {
+        console.error("Błąd podczas usuwania:", error);
+        toast.error("Nie udało się usunąć konta. Spróbuj ponownie później.");
+      } finally {
+        setIsLoading(false);
+      }
+    }
+  };
+
   const ctxValue = {
     user,
     logout,
@@ -363,6 +266,7 @@ export default function UserContextProvider({ children }) {
     isLoading,
     handleAuth,
     toggleSignUp,
+    deleteUserAndBlogs,
   };
 
   return (

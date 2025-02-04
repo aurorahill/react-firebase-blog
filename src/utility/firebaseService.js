@@ -30,6 +30,53 @@ import {
 //Autoryzacja
 
 const auth = getAuth();
+export const deleteUser = async () => {
+  const user = auth.currentUser;
+
+  if (user) {
+    try {
+      await user.delete();
+    } catch (error) {
+      console.error("Error deleting user:", error);
+      throw new Error(
+        error.message ||
+          "Nie udało się usunąć użytkownika. Spróbuj ponownie później."
+      );
+    }
+  } else {
+    console.error("Brak zalogowanego użytkownika.");
+  }
+};
+
+export const deleteUserBlogs = async (userId) => {
+  try {
+    const blogsRef = collection(db, "blogs");
+    const q = query(blogsRef, where("userId", "==", userId));
+
+    // Pobranie wszystkich blogów użytkownika
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.empty) {
+      console.log("Brak blogów do usunięcia.");
+      return;
+    }
+
+    // Iteracja przez dokumenty i ich usunięcie
+    const deletePromises = querySnapshot.docs.map((docSnapshot) =>
+      deleteDoc(doc(db, "blogs", docSnapshot.id))
+    );
+
+    // Czekamy aż wszystkie blogi zostaną usunięte
+    await Promise.all(deletePromises);
+    console.log("Wszystkie blogi użytkownika zostały usunięte.");
+  } catch (error) {
+    console.error("Error deleting user blogs:", error);
+    throw new Error(
+      error.message || "Nie udało się usunąć blogów użytkownika."
+    );
+  }
+};
+
 export const resetPassword = async (email) => {
   try {
     await sendPasswordResetEmail(auth, email);
@@ -47,9 +94,16 @@ export const signInUser = async (email, password) => {
     return user;
   } catch (error) {
     console.error("Error during login:", error);
-    throw new Error(
-      "Nie udało się zalogować użytkownika. Spróbuj ponownie później!"
-    );
+    if (
+      error.message ===
+      "FirebaseError: Firebase: Error (auth/invalid-credential)."
+    ) {
+      throw new Error("Wpisz poprawny email i hasło.");
+    } else {
+      throw new Error(
+        "Nie udało się zalogować użytkownika. Spróbuj ponownie później!"
+      );
+    }
   }
 };
 

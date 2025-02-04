@@ -1,20 +1,12 @@
-import React, { useEffect } from "react";
-import { toast } from "react-toastify";
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  updateProfile,
-} from "firebase/auth";
-import { auth } from "../../firebase";
+import React from "react";
 import Input from "../UI/Input";
-import { redirect, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Button from "../UI/Button";
 import classes from "./AuthForm.module.scss";
 import { useUserContext } from "../../store/auth-context";
 
 const AuthForm = () => {
   const {
-    user,
     handleBlur,
     handleChange,
     email,

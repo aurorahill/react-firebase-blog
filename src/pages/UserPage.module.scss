@@ -23,6 +23,15 @@
     margin-top: 2rem;
     padding: 1rem 2rem;
   }
+  &__delete-btn {
+    color: red;
+    &:hover {
+      text-decoration: underline;
+    }
+    &:disabled {
+      color: rgb(138, 138, 138);
+    }
+  }
   &__image {
     margin-top: 1rem;
     img {

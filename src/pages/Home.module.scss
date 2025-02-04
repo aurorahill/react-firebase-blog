@@ -1,18 +1,18 @@
 .blog {
-    &__content {
-      padding: 2rem 0;
-    }
-    &__message {
-      font-size: 1.6rem;
-    }
-    &__btn {
-      text-align: center;
-    }
+  &__content {
+    padding: 2rem 0;
   }
-  
-  .search {
-    @media (min-width: 768px) {
-      display: none;
-    }
+  &__message {
+    font-size: 1.6rem;
   }
-  
+  &__btn {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+}
+
+.search {
+  @media (min-width: 768px) {
+    display: none;
+  }
+}

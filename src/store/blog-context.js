@@ -14,6 +14,7 @@ import {
   fetchBlogsByTag,
   fetchBlogsByCategory,
 } from "../utility/firebaseService";
+import { useUserContext } from "./auth-context";
 
 const BlogContext = createContext();
 
@@ -35,6 +36,7 @@ export const BlogProvider = ({ children }) => {
   const [isEmpty, setIsEmpty] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState(""); // Opóźnione wyszukiwanie
+  const { user } = useUserContext();
 
   const getTagPage = useCallback(
     async (tag) => {
@@ -226,7 +228,7 @@ export const BlogProvider = ({ children }) => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [user]);
 
   //  category count
   const counts = allBlogs.reduce((prevValue, currentValue) => {

@@ -141,6 +141,7 @@ export const DetailProvider = ({ children }) => {
     handleCommentDelete,
     handleSendingComment,
     showTooltip,
+    setShowTooltip,
     handleLike,
   };
 

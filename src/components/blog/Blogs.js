@@ -6,6 +6,7 @@ import Spinner from "../UI/Spinner";
 import BlogItem from "./BlogItem";
 import Pagination from "../Pagination";
 import Modal from "../UI/Modal";
+import { Link } from "react-router-dom";
 
 const Blogs = () => {
   const {
@@ -51,7 +52,8 @@ const Blogs = () => {
         />
       ) : (
         <p className={classes.blog__pagination}>
-          Nie masz jeszcze blogów do wyświetlenia.
+          Nie masz jeszcze blogów do wyświetlenia. Napisz swojego pierwszego{" "}
+          <Link to="/create">bloga</Link>!
         </p>
       )}
       {error && (

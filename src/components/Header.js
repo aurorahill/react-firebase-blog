@@ -113,7 +113,7 @@ const Header = () => {
                   }
                   onClick={closeMenuHandler}
                 >
-                  Mój profil
+                  Moje konto
                 </NavLink>
               </li>
             </>

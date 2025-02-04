@@ -1,5 +1,6 @@
 import React from "react";
 import { useUserContext } from "../store/auth-context";
+import { useNavigate } from "react-router-dom";
 import UserEditForm from "../components/auth/UserEditForm";
 import SectionHeader from "../components/UI/SectionHeader";
 import classes from "./UserPage.module.scss";
@@ -11,8 +12,15 @@ import Aside from "../components/Aside";
 import { useBlogContext } from "../store/blog-context";
 
 const UserPage = () => {
-  const { editMode, user, handleEditClick } = useUserContext();
+  const { editMode, user, handleEditClick, deleteUserAndBlogs, isLoading } =
+    useUserContext();
   const { loading } = useBlogContext();
+  const navigate = useNavigate();
+
+  const handleDeleteUser = async () => {
+    await deleteUserAndBlogs(user.uid);
+    navigate("/auth");
+  };
 
   if (loading) {
     return <Spinner />;
@@ -39,6 +47,14 @@ const UserPage = () => {
                 className={classes["user-page__button"]}
               >
                 Edytuj
+              </Button>
+              <Button
+                onClick={handleDeleteUser}
+                className={`${classes["user-page__button"]} ${classes["user-page__delete-btn"]}`}
+                textOnly
+                disabled={isLoading}
+              >
+                {isLoading ? "Usuwanie..." : "Usuń konto"}
               </Button>
             </div>
           )}
