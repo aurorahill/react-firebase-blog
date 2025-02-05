@@ -21,6 +21,7 @@ import UserPage from "./pages/UserPage";
 import classes from "./App.module.scss";
 import { UserBlogsProvider } from "./store/user-blogs-context";
 import "./style.scss";
+import CookieBanner from "./components/UI/CookieBanner";
 
 const router = createBrowserRouter([
   {
@@ -65,6 +66,7 @@ function App() {
             <div className="App">
               <ScrollToTop />
               <ToastContainer position="top-center" />
+              <CookieBanner />
               <RouterProvider router={router}></RouterProvider>
             </div>
           </DetailContextProvider>
