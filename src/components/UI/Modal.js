@@ -1,4 +1,5 @@
-import { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
+import PropTypes from "prop-types";
 import { createPortal } from "react-dom";
 import classes from "./Modal.module.scss";
 import { FiX } from "react-icons/fi";
@@ -35,3 +36,12 @@ const Modal = ({ children, open, onClose, className = "", error, message }) => {
 };
 
 export default Modal;
+
+Modal.propTypes = {
+  children: PropTypes.node,
+  open: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  className: PropTypes.string,
+  error: PropTypes.string,
+  message: PropTypes.string,
+};

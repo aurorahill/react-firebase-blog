@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import classes from "./SectionHeader.module.scss";
 import Button from "./Button";
@@ -33,3 +34,9 @@ const SectionHeader = ({ children, className, backButton }) => {
 };
 
 export default SectionHeader;
+
+SectionHeader.propTypes = {
+  children: PropTypes.node,
+  className: PropTypes.string,
+  backButton: PropTypes.bool,
+};

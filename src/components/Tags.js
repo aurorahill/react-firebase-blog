@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import classes from "./Tags.module.scss";
 import SectionHeader from "./UI/SectionHeader";
 import { Link, useLocation } from "react-router-dom";
@@ -43,3 +44,8 @@ const Tags = ({ header, tags }) => {
 };
 
 export default Tags;
+
+Tags.propTypes = {
+  header: PropTypes.string,
+  tags: PropTypes.arrayOf(PropTypes.string),
+};

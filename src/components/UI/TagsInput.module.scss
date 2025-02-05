@@ -8,6 +8,7 @@
   border-radius: 3px;
   font-size: 1.4rem;
   color: black;
+  overflow: hidden;
   &:hover {
     border: 1px solid #5e5d5d;
   }
@@ -41,6 +42,7 @@
     font-size: 2.6rem;
   }
   &__tag-input {
+    padding-left: 0.5rem;
     line-height: 2.5rem;
     font-size: 1.7rem;
     font-family: "Poppins", sans-serif;

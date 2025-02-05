@@ -1,4 +1,6 @@
 import React from "react";
+import { Timestamp } from "firebase/firestore";
+import PropTypes from "prop-types";
 import { shortText } from "../../utility/shortText";
 import Button from "../UI/Button";
 import photoImg from "../../assets/photo.jpg";
@@ -14,6 +16,7 @@ const BlogItem = ({ item }) => {
         <img
           src={item.imgURL || photoImg}
           alt={item.title}
+          title={item.imgURL}
         />
       </div>
       <div className={classes.item__wrapper}>
@@ -42,3 +45,18 @@ const BlogItem = ({ item }) => {
 };
 
 export default BlogItem;
+
+BlogItem.propTypes = {
+  item: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    category: PropTypes.string.isRequired,
+    author: PropTypes.string.isRequired,
+    timestamp: PropTypes.oneOfType([
+      PropTypes.instanceOf(Timestamp),
+      PropTypes.number,
+    ]).isRequired,
+    description: PropTypes.string.isRequired,
+    imgURL: PropTypes.string,
+  }).isRequired,
+};

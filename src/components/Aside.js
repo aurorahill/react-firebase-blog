@@ -11,6 +11,7 @@ import Modal from "./UI/Modal";
 
 const Aside = () => {
   const {
+    loading,
     tags,
     recentBlogs,
     mostLikedBlogs,
@@ -20,13 +21,10 @@ const Aside = () => {
     setError,
   } = useBlogContext();
   const location = useLocation();
-  const [loading, setLoading] = useState();
 
   useEffect(() => {
-    setLoading(true);
     getRecentBlogs();
     getMostLikedBlogs();
-    setLoading(false);
   }, [getRecentBlogs, getMostLikedBlogs]);
 
   if (loading) {

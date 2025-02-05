@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import SectionHeader from "../UI/SectionHeader";
 import Card from "./Card";
 import classes from "./RelatedBlog.module.scss";
@@ -25,3 +26,7 @@ const RelatedBlog = ({ id }) => {
 };
 
 export default RelatedBlog;
+
+RelatedBlog.propTypes = {
+  id: PropTypes.string.isRequired,
+};

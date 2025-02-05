@@ -1,4 +1,6 @@
 import React from "react";
+import { Timestamp } from "firebase/firestore";
+import PropTypes from "prop-types";
 import classes from "./UserComments.module.scss";
 import { useUserContext } from "../../store/auth-context";
 import Button from "../UI/Button";
@@ -48,3 +50,15 @@ const UserComments = ({ name, body, createdAt, msg, userId, id }) => {
 };
 
 export default UserComments;
+
+UserComments.propTypes = {
+  name: PropTypes.string,
+  body: PropTypes.string,
+  createdAt: PropTypes.oneOfType([
+    PropTypes.instanceOf(Timestamp),
+    PropTypes.number,
+  ]),
+  msg: PropTypes.string,
+  userId: PropTypes.string,
+  id: PropTypes.string,
+};

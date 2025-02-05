@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import photoImg from "../assets/photo.jpg";
 import classes from "./Detail.module.scss";
 import Spinner from "../components/UI/Spinner";
@@ -31,6 +31,7 @@ const Detail = () => {
     <div className={classes.detail}>
       <section
         className={classes.detail__hero}
+        title={blog?.imgURL}
         style={
           blog?.imgURL
             ? { backgroundImage: `url(${blog.imgURL})` }
@@ -39,7 +40,9 @@ const Detail = () => {
       >
         <div className={classes.detail__overlay}></div>
         <div className={classes.detail__title}>
+          <p className={classes.detail__category}>{blog?.category}</p>
           <span>{dataFormatter(blog?.timestamp)}</span>
+
           <h2>{blog?.title}</h2>
         </div>
       </section>
@@ -55,7 +58,6 @@ const Detail = () => {
               </p>
               <Like id={id} />
             </div>
-
             <p className={classes.detail__description}>{blog?.description}</p>
 
             <Tags tags={blog?.tags} />

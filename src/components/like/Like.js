@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import PropTypes from "prop-types";
 import { useUserContext } from "../../store/auth-context";
 import { useDetailContext } from "../../store/datail-context";
 import LikeStatus from "./LikeStatus";
@@ -53,3 +54,7 @@ const Like = ({ id: blogId }) => {
 };
 
 export default Like;
+
+Like.propTypes = {
+  id: PropTypes.string.isRequired,
+};

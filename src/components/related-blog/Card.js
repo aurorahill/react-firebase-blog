@@ -1,4 +1,6 @@
 import React from "react";
+import PropTypes, { arrayOf } from "prop-types";
+import { Timestamp } from "firebase/firestore";
 import { Link } from "react-router-dom";
 import classes from "./Card.module.scss";
 import { shortText } from "../../utility/shortText";
@@ -33,3 +35,19 @@ const Card = ({ title, id, description, imgURL, likes, comments }) => {
 };
 
 export default Card;
+
+Card.propTypes = {
+  title: PropTypes.string,
+  id: PropTypes.string,
+  description: PropTypes.string,
+  imgURL: PropTypes.string,
+  likes: PropTypes.arrayOf(PropTypes.string),
+  comments: PropTypes.arrayOf(
+    PropTypes.shape({
+      body: PropTypes.string.isRequired,
+      createdAt: PropTypes.instanceOf(Timestamp).isRequired,
+      name: PropTypes.string.isRequired,
+      userId: PropTypes.string.isRequired,
+    })
+  ),
+};

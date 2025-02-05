@@ -1,3 +1,5 @@
+import React from "react";
+import PropTypes from "prop-types";
 import { FaRegThumbsUp } from "react-icons/fa";
 import { FaThumbsUp } from "react-icons/fa";
 
@@ -24,3 +26,8 @@ const LikeStatus = ({ userId, likes }) => {
 };
 
 export default LikeStatus;
+
+LikeStatus.propTypes = {
+  userId: PropTypes.string,
+  likes: PropTypes.arrayOf(PropTypes.string).isRequired,
+};

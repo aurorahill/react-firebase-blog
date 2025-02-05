@@ -26,9 +26,11 @@ const Blogs = () => {
   }, [currentPage]);
 
   useEffect(() => {
-    getBlogs();
-    getAllUserBlogs();
-  }, [getBlogs, getAllUserBlogs]);
+    if (blogs.length === 0) {
+      getBlogs();
+      getAllUserBlogs();
+    }
+  }, [getBlogs, getAllUserBlogs, blogs]);
 
   return (
     <section>

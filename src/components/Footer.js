@@ -1,3 +1,4 @@
+import React from "react";
 import classes from "./Footer.module.scss";
 import { useEffect } from "react";
 import { NavLink, useLocation } from "react-router-dom";
@@ -36,6 +37,9 @@ const Footer = () => {
           </div>
           <div className={classes["footer__nav-wrapper"]}>
             <div className={classes["footer__contact-link"]}>
+              <a href="tel:+48792829594">
+                <FaPhoneAlt />
+              </a>
               <a
                 target="_blank"
                 rel="noopener noreferrer"
@@ -50,10 +54,6 @@ const Footer = () => {
                 href="https://github.com/aurorahill"
               >
                 <FaGithub />
-              </a>
-
-              <a href="tel:+48792829594">
-                <FaPhoneAlt />
               </a>
             </div>
             <nav className={classes.footer__nav}>

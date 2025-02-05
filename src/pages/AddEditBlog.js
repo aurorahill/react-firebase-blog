@@ -193,6 +193,7 @@ const AddEditBlog = () => {
           {errors.title && <p className={classes.error}>{errors.title}</p>}
 
           <TagsInput
+            type="text"
             onChange={(updatedTags) =>
               setForm((prev) => ({ ...prev, tags: updatedTags }))
             }

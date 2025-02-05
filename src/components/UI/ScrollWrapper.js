@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import classes from "./ScrollWrapper.module.scss";
 
 const ScrollWrapper = ({ children, className }) => {
@@ -12,3 +13,8 @@ const ScrollWrapper = ({ children, className }) => {
 };
 
 export default ScrollWrapper;
+
+ScrollWrapper.propTypes = {
+  children: PropTypes.node,
+  className: PropTypes.string,
+};

@@ -26,7 +26,7 @@ const About = () => {
               <p>
                 Dzięki, że poświęciłeś swój czas i tu zajrzałeś! Niezależnie czy
                 masz już konto, czy jeszcze nie, zawsze możesz być na bieżąco z
-                naszymi newsami. Zapraszamy do <Link to="/blogs">lektury</Link>!
+                naszymi newsami. Zapraszamy do <Link to="/">lektury</Link>!
               </p>
             </InfoCard>
             <InfoCard title="Załóż konto ✅">
@@ -39,21 +39,21 @@ const About = () => {
             <InfoCard title="Dane osobowe ✏️">
               <p>
                 Imię i nazwisko służy tylko po to, by rozpoznać autora bloga -
-                możesz pisać pod pseudonimem ☺️ Email lepiej podać prawdziwy w
-                razie gdybyś zapomniał hasła. Obiecuję, że nie będzie żadnego
-                spamowania skrzynki odbiorczej. Dodatkowo w każdej chwili
-                możecie usunąć swoje konto i wszystkie blogi.
+                możesz pisać pod pseudonimem ☺️ Email służy do logowania i
+                resetowania hasła w razie potrzeby. Nie będzie żadnego
+                spamowania skrzynki odbiorczej. Oczywiście w każdej chwili
+                możesz usunąć swoje konto i wszystkie blogi.
               </p>
             </InfoCard>
             <InfoCard title="Informacja zwrotna 📧">
               <p>
-                Czytajcie, piszcie, komentujcie, lajkujcie, usuwajcie, psujcie i
-                koniecznie piszcie mi na{" "}
+                Czytaj, pisz, komentuj, lajkuj, usuwaj, psuj i koniecznie
+                odezwij się na{" "}
                 <a href="mailto:katarzyna.lubecka93@gmail.com">
                   katarzyna.lubecka93@gmail.com
                 </a>
-                , gdy coś nie działa lub zachowuje się inaczej niż byście
-                oczekiwali. Przyjmuję każdą KONSTRUKTYWNĄ krytykę!
+                , gdy coś nie działa lub zachowuje się inaczej niż byś
+                oczekiwał. Przyjmuję każdą KONSTRUKTYWNĄ krytykę!
               </p>
             </InfoCard>
           </main>

@@ -1,11 +1,23 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 import classes from "./TagsInput.module.scss";
 
 const TagsInput = ({ values = [], onChange }) => {
   const [tag, setTag] = useState("");
 
   const handleChange = (e) => {
-    setTag(e.target.value);
+    const value = e.target.value;
+
+    // Sprawdzanie ostatniego znaku
+    if (value.endsWith(",") || value.endsWith(" ")) {
+      const newTag = value.slice(0, -1).trim();
+      if (newTag.length && !values.includes(newTag)) {
+        onChange([...values, newTag]);
+      }
+      setTag("");
+    } else {
+      setTag(value);
+    }
   };
 
   const handleKeyDown = (e) => {
@@ -13,7 +25,7 @@ const TagsInput = ({ values = [], onChange }) => {
     const newTag = tag.trim();
 
     if (
-      (key === "," || key === "Enter" || key === "Tab") &&
+      (key === "Enter" || key === "Tab") &&
       newTag.length &&
       !values.includes(newTag)
     ) {
@@ -53,10 +65,15 @@ const TagsInput = ({ values = [], onChange }) => {
         onChange={handleChange}
         onKeyDown={handleKeyDown}
         className={classes["tags-input__tag-input"]}
-        placeholder="Dodaj tag i kliknij Enter lub przecinek"
+        placeholder="tag1, tag2"
       />
     </div>
   );
 };
 
 export default TagsInput;
+
+TagsInput.propTypes = {
+  values: PropTypes.arrayOf(PropTypes.string),
+  onChange: PropTypes.func,
+};

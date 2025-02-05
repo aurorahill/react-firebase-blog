@@ -1,5 +1,5 @@
-import { useState } from "react";
-
+import React, { useState } from "react";
+import PropTypes from "prop-types";
 import Modal from "../UI/Modal";
 import Input from "../UI/Input";
 import Button from "../UI/Button";
@@ -83,3 +83,8 @@ const ResetPassword = ({ onClose, open }) => {
 };
 
 export default ResetPassword;
+
+ResetPassword.propTypes = {
+  onClose: PropTypes.func.isRequired,
+  open: PropTypes.bool.isRequired,
+};

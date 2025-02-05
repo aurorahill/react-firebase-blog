@@ -1,4 +1,5 @@
 import React, { useState, createContext, useContext, useCallback } from "react";
+import PropTypes from "prop-types";
 import {
   fetchBlogDetail,
   fetchRelatedBlogs,
@@ -10,7 +11,7 @@ import { Timestamp } from "firebase/firestore";
 
 const DetailContext = createContext();
 
-export const DetailProvider = ({ children }) => {
+export const DetailContextProvider = ({ children }) => {
   const [blog, setBlog] = useState(null);
   const [loading, setLoading] = useState(false);
   const [sendingComment, setSendingComment] = useState(false);
@@ -150,6 +151,10 @@ export const DetailProvider = ({ children }) => {
       {children}
     </DetailContext.Provider>
   );
+};
+
+DetailContextProvider.propTypes = {
+  children: PropTypes.node.isRequired,
 };
 
 export const useDetailContext = () => useContext(DetailContext);

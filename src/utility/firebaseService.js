@@ -94,16 +94,17 @@ export const signInUser = async (email, password) => {
     return user;
   } catch (error) {
     console.error("Error during login:", error);
-    if (
-      error.message ===
-      "FirebaseError: Firebase: Error (auth/invalid-credential)."
-    ) {
-      throw new Error("Wpisz poprawny email i hasło.");
-    } else {
-      throw new Error(
-        "Nie udało się zalogować użytkownika. Spróbuj ponownie później!"
-      );
+    let errorMessage =
+      "Nie udało się zalogować użytkownika. Spróbuj ponownie później!";
+    switch (error.code) {
+      case "auth/invalid-credential":
+        errorMessage = "Dane podana do logowania są nieprawidłowe.";
+        break;
+      default:
+        errorMessage = error.message || "Wystąpił nieznany błąd.";
     }
+
+    throw new Error(errorMessage);
   }
 };
 
@@ -118,9 +119,22 @@ export const signUpUser = async (email, password, displayName) => {
     return user;
   } catch (error) {
     console.error("Error during creating account:", error);
-    throw new Error(
-      error.message || "Nie udało się stworzyć konta dla nowego użytkownika."
-    );
+    let errorMessage = "Nie udało się stworzyć konta.";
+    switch (error.code) {
+      case "auth/email-already-in-use":
+        errorMessage = "Ten adres e-mail jest już zarejestrowany.";
+        break;
+      case "auth/weak-password":
+        errorMessage = "Podane hasło jest zbyt słabe. Wybierz silniejsze.";
+        break;
+      case "auth/invalid-email":
+        errorMessage = "Nieprawidłowy format adresu e-mail.";
+        break;
+      default:
+        errorMessage = error.message || "Wystąpił nieznany błąd.";
+    }
+
+    throw new Error(errorMessage);
   }
 };
 
@@ -305,6 +319,7 @@ export const fetch6UserBlogs = async (userId, lastPaginationVisible = null) => {
     let userBlogsQuery = query(
       blogRef,
       where("userId", "==", userId),
+      orderBy("timestamp", "desc"),
       limit(6)
     );
 
@@ -343,6 +358,7 @@ export const fetchPrevUserBlogs = async (
     const prevBlogsQuery = query(
       blogRef,
       where("userId", "==", userId),
+      orderBy("timestamp", "desc"),
       end,
       limitData
     );
@@ -362,6 +378,7 @@ export const fetchNextUserBlogs = async (userId, lastPaginationVisible) => {
     const nextBlogsQuery = query(
       blogRef,
       where("userId", "==", userId),
+      orderBy("timestamp", "desc"),
       limit(6),
       startAfter(lastPaginationVisible)
     );

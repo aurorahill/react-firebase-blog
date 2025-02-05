@@ -21,8 +21,10 @@ const Home = () => {
   } = useBlogContext();
 
   useEffect(() => {
-    get4Blogs();
-  }, [get4Blogs]);
+    if (filteredBlogs.length === 0) {
+      get4Blogs();
+    }
+  }, [get4Blogs, filteredBlogs]);
 
   return (
     <section>

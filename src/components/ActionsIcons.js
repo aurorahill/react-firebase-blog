@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useUserContext } from "../store/auth-context";
 import { Link } from "react-router-dom";
@@ -50,3 +51,11 @@ const ActionsIcons = ({ item, id }) => {
 };
 
 export default ActionsIcons;
+
+ActionsIcons.propTypes = {
+  id: PropTypes.string.isRequired,
+  item: PropTypes.shape({
+    id: PropTypes.string,
+    userId: PropTypes.string,
+  }),
+};

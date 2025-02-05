@@ -1,4 +1,6 @@
 import React from "react";
+import PropTypes from "prop-types";
+import { Timestamp } from "firebase/firestore";
 import { Link } from "react-router-dom";
 import photoImg from "../../assets/photo.jpg";
 import classes from "./TrendingItem.module.scss";
@@ -30,3 +32,13 @@ const TrendingItem = ({ item }) => {
 };
 
 export default TrendingItem;
+
+TrendingItem.propTypes = {
+  item: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    timestamp: PropTypes.instanceOf(Timestamp).isRequired,
+    title: PropTypes.string.isRequired,
+    author: PropTypes.string.isRequired,
+    imgURL: PropTypes.string.isRequired,
+  }),
+};

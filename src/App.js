@@ -1,4 +1,4 @@
-import "./style.scss";
+import React from "react";
 import Home from "./pages/Home";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
@@ -11,15 +11,16 @@ import RootLayout from "./pages/Root";
 import Auth from "./pages/Auth";
 import UserContextProvider from "./store/auth-context";
 import { authLoader } from "./utility/authLoader";
-import { BlogProvider } from "./store/blog-context";
+import { BlogContextProvider } from "./store/blog-context";
 import TagBlog from "./pages/TagBlog";
 import BlogRoot from "./pages/BlogRoot";
 import CategoryBlog from "./pages/CategoryBlog";
 import ScrollToTop from "./components/UI/ScrollToTop";
-import { DetailProvider } from "./store/datail-context";
+import { DetailContextProvider } from "./store/datail-context";
 import UserPage from "./pages/UserPage";
 import classes from "./App.module.scss";
 import { UserBlogsProvider } from "./store/user-blogs-context";
+import "./style.scss";
 
 const router = createBrowserRouter([
   {
@@ -57,18 +58,18 @@ const router = createBrowserRouter([
 function App() {
   return (
     <UserContextProvider>
-      <BlogProvider>
+      <BlogContextProvider>
         {/* UserBlogsProvider musi być w UserContext, bo korzysta z user!!! */}
         <UserBlogsProvider>
-          <DetailProvider>
+          <DetailContextProvider>
             <div className="App">
               <ScrollToTop />
               <ToastContainer position="top-center" />
               <RouterProvider router={router}></RouterProvider>
             </div>
-          </DetailProvider>
+          </DetailContextProvider>
         </UserBlogsProvider>
-      </BlogProvider>
+      </BlogContextProvider>
     </UserContextProvider>
   );
 }

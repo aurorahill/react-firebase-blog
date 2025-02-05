@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useCallback } from "react";
+import PropTypes from "prop-types";
 import {
   fetch6UserBlogs,
   fetchPrevUserBlogs,
@@ -213,6 +214,10 @@ export const UserBlogsProvider = ({ children }) => {
       {children}
     </UserBlogsContext.Provider>
   );
+};
+
+UserBlogsProvider.propTypes = {
+  children: PropTypes.node.isRequired,
 };
 
 export const useUserBlogsContext = () => useContext(UserBlogsContext);

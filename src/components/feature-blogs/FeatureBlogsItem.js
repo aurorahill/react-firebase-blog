@@ -1,4 +1,6 @@
 import React from "react";
+import { Timestamp } from "firebase/firestore";
+import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import photoImg from "../../assets/photo.jpg";
 import classes from "./FeatureBlogsItem.module.scss";
@@ -29,3 +31,15 @@ const FeatureBlogsItem = ({ item }) => {
 };
 
 export default FeatureBlogsItem;
+
+FeatureBlogsItem.propTypes = {
+  item: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    timestamp: PropTypes.oneOfType([
+      PropTypes.instanceOf(Timestamp),
+      PropTypes.number,
+    ]).isRequired,
+    imgURL: PropTypes.string,
+  }).isRequired,
+};

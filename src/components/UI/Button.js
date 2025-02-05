@@ -1,3 +1,5 @@
+import React from "react";
+import PropTypes from "prop-types";
 import classes from "./Button.module.scss";
 
 const Button = ({ children, textOnly, className = "", ...props }) => {
@@ -16,3 +18,9 @@ const Button = ({ children, textOnly, className = "", ...props }) => {
 };
 
 export default Button;
+
+Button.propTypes = {
+  textOnly: PropTypes.bool,
+  className: PropTypes.string,
+  children: PropTypes.node.isRequired,
+};

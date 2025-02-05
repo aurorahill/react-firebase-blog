@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation } from "swiper/modules";
 import "swiper/css";
-import "swiper/css/navigation"; // Dodaj style, jeśli używasz nawigacji
+import "swiper/css/navigation";
 import TrendingItem from "./TrendingItem";
 import classes from "./Trending.module.scss";
 import { useBlogContext } from "../../store/blog-context";

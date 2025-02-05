@@ -1,3 +1,5 @@
+import React from "react";
+import PropTypes from "prop-types";
 import classes from "./Input.module.scss";
 
 const Input = ({ classNameInput, classNameDiv, ...props }) => {
@@ -15,3 +17,8 @@ const Input = ({ classNameInput, classNameDiv, ...props }) => {
 };
 
 export default Input;
+
+Input.propTypes = {
+  classNameDiv: PropTypes.string,
+  classNameInput: PropTypes.string,
+};

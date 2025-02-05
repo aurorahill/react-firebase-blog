@@ -1,4 +1,5 @@
 import { isEmpty } from "lodash";
+import PropTypes from "prop-types";
 import React from "react";
 import UserComments from "./UserComments";
 import classes from "./Comments.module.scss";
@@ -42,3 +43,7 @@ const Comments = ({ id }) => {
 };
 
 export default Comments;
+
+Comments.propTypes = {
+  id: PropTypes.string.isRequired,
+};

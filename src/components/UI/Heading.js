@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import classes from "./Heading.module.scss";
 
 const Heading = ({ title }) => {
@@ -6,3 +7,7 @@ const Heading = ({ title }) => {
 };
 
 export default Heading;
+
+Heading.propTypes = {
+  title: PropTypes.string,
+};

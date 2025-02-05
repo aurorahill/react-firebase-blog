@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import classes from "./Search.module.scss";
 import SectionHeader from "./UI/SectionHeader";
 import { useBlogContext } from "../store/blog-context";
@@ -29,3 +30,7 @@ const Search = ({ className }) => {
 };
 
 export default Search;
+
+Search.propTypes = {
+  className: PropTypes.string,
+};

@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import { useUserContext } from "../../store/auth-context";
 import Button from "../UI/Button";
@@ -71,3 +72,7 @@ const CommentBox = ({ id }) => {
 };
 
 export default CommentBox;
+
+CommentBox.propTypes = {
+  id: PropTypes.string.isRequired,
+};

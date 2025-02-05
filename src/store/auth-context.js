@@ -1,4 +1,5 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import { toast } from "react-toastify";
 import {
   validateEmail,
@@ -273,5 +274,9 @@ export default function UserContextProvider({ children }) {
     <UserContext.Provider value={ctxValue}>{children}</UserContext.Provider>
   );
 }
+
+UserContextProvider.propTypes = {
+  children: PropTypes.node.isRequired,
+};
 
 export const useUserContext = () => useContext(UserContext);

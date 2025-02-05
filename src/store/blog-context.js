@@ -5,6 +5,7 @@ import React, {
   useEffect,
   useState,
 } from "react";
+import PropTypes from "prop-types";
 import { toast } from "react-toastify";
 import {
   fetchBlogs,
@@ -18,7 +19,7 @@ import { useUserContext } from "./auth-context";
 
 const BlogContext = createContext();
 
-export const BlogProvider = ({ children }) => {
+export const BlogContextProvider = ({ children }) => {
   const [trendBlogs, setTrendBlogs] = useState([]);
   const [recentBlogs, setRecentBlogs] = useState([]);
   const [mostLikedBlogs, setMostLikesBlogs] = useState([]);
@@ -120,6 +121,7 @@ export const BlogProvider = ({ children }) => {
     setFilteredBlogs((prev) => prev.filter((blog) => blog.id !== id));
     setTagPage((prev) => prev.filter((blog) => blog.id !== id));
     setCategoryPage((prev) => prev.filter((blog) => blog.id !== id));
+    fetchData();
   };
 
   const updateBlogFromGlobalState = (blogData) => {
@@ -282,6 +284,10 @@ export const BlogProvider = ({ children }) => {
   return (
     <BlogContext.Provider value={blogCtx}>{children}</BlogContext.Provider>
   );
+};
+
+BlogContextProvider.propTypes = {
+  children: PropTypes.node.isRequired,
 };
 
 export const useBlogContext = () => useContext(BlogContext);
