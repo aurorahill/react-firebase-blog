@@ -285,6 +285,7 @@ export const fetchTags = async () => {
       tags.push(...doc.get("tags"));
     });
     const uniqueTags = [...new Set(tags)];
+    uniqueTags.sort();
     return uniqueTags;
   } catch (error) {
     console.error("Error fetching tags:", error);
