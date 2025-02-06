@@ -1,5 +1,6 @@
 import React from "react";
 import Header from "../components/Header";
+import Footer from "../components/Footer";
 import classes from "./NotFound.module.scss";
 import { Link } from "react-router-dom";
 
@@ -16,7 +17,7 @@ const NotFound = () => {
           Odwiedź naszą <Link>stronę główną</Link>
         </p>
       </div>
-      <p>footer</p>
+      <Footer />
     </>
   );
 };

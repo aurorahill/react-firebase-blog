@@ -2,8 +2,8 @@ export const validateTitle = (value) => {
   if (!value.trim()) {
     return "Tytuł jest wymagany.";
   }
-  if (value.trim().length < 3) {
-    return "Tytuł musi mieć co najmniej 3 znaki.";
+  if (value.trim().length < 3 && value.trim().length > 40) {
+    return "Tytuł musi mieć od 3 do 40 znaków.";
   }
   return "";
 };

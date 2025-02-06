@@ -22,7 +22,7 @@ const Tags = ({ header, tags }) => {
           <ScrollWrapper className={classes.scroll}>
             {tags?.map((tag, index) => (
               <Link
-                to={`/tag/${tag}`}
+                to={`/tag/${encodeURIComponent(tag)}`}
                 key={index}
               >
                 <div
