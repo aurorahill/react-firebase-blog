@@ -18,9 +18,7 @@ import CategoryBlog from "./pages/CategoryBlog";
 import ScrollToTop from "./components/UI/ScrollToTop";
 import { DetailContextProvider } from "./store/datail-context";
 import UserPage from "./pages/UserPage";
-import classes from "./App.module.scss";
 import { UserBlogsProvider } from "./store/user-blogs-context";
-import "./style.scss";
 import CookieBanner from "./components/UI/CookieBanner";
 
 const router = createBrowserRouter([

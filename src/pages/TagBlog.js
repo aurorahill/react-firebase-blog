@@ -15,8 +15,9 @@ const TagBlog = () => {
   const tagBlogsRef = useRef(null);
 
   useEffect(() => {
-    getTagPage(tag);
-    scrollToSection(tagBlogsRef.current);
+    getTagPage(tag).then(() => {
+      setTimeout(() => scrollToSection(tagBlogsRef.current), 0);
+    });
   }, [tag, getTagPage]);
 
   return (

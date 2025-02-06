@@ -18,8 +18,9 @@ const CategoryBlog = () => {
   } = useBlogContext();
 
   useEffect(() => {
-    getCategoryPage(category);
-    scrollToSection(categoryBlogsRef.current);
+    getCategoryPage(category).then(() => {
+      setTimeout(() => scrollToSection(categoryBlogsRef.current), 0);
+    });
   }, [category, getCategoryPage]);
 
   return (

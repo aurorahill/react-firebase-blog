@@ -42,10 +42,21 @@ const Trending = () => {
   };
 
   useEffect(() => {
-    setLoading(true);
-    getTrendingBlogs();
-    setLoading(false);
-  }, [getTrendingBlogs]);
+    const fetchBlogs = async () => {
+      setLoading(true);
+      try {
+        await getTrendingBlogs();
+      } catch (err) {
+        console.error("Błąd podczas pobierania blogów:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (!trendBlogs?.length) {
+      fetchBlogs();
+    }
+  }, [getTrendingBlogs, trendBlogs]);
 
   if (loading) return <Spinner />;
   return (
