@@ -212,7 +212,9 @@ export default function UserContextProvider({ children }) {
         `${state.firstName} ${state.lastName}`,
         state.email
       );
-      setEditMode(false);
+      toast.success(
+        "Twoje dane zostały zmienione. Poczekaj na aktualizację Twoich wpisów w bazie danych."
+      );
     } catch (err) {
       console.error(err);
       toast.error(err.message);
@@ -222,23 +224,19 @@ export default function UserContextProvider({ children }) {
   };
 
   const deleteUserAndBlogs = async (userId) => {
-    if (
-      window.confirm(
-        "Czy na pewno chcesz usunąć swoje konto i wszystkie swoje blogi?"
-      )
-    ) {
-      setIsLoading(true);
-      try {
-        await deleteUserBlogs(userId);
-        await deleteUser();
-        setState(initialState);
-        toast.success("Użytkownik i blogi zostały usunięte.");
-      } catch (error) {
-        console.error("Błąd podczas usuwania:", error);
-        toast.error("Nie udało się usunąć konta. Spróbuj ponownie później.");
-      } finally {
-        setIsLoading(false);
-      }
+    setIsLoading(true);
+    try {
+      await deleteUserBlogs(userId);
+      await deleteUser();
+      setState(initialState);
+      toast.success("Użytkownik i blogi zostały usunięte.");
+      return true;
+    } catch (error) {
+      console.error("Błąd podczas usuwania:", error);
+      toast.error("Nie udało się usunąć konta. Spróbuj ponownie później.");
+      return false;
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -268,6 +266,7 @@ export default function UserContextProvider({ children }) {
     handleAuth,
     toggleSignUp,
     deleteUserAndBlogs,
+    setEditMode,
   };
 
   return (

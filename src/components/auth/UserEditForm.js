@@ -1,7 +1,9 @@
 import React from "react";
 import { useUserContext } from "../../store/auth-context";
+import { useDetailContext } from "../../store/datail-context";
 import Input from "../UI/Input";
 import Button from "../UI/Button";
+import { toast } from "react-toastify";
 import classes from "./UserEditForm.module.scss";
 
 const UserEditForm = () => {
@@ -15,7 +17,23 @@ const UserEditForm = () => {
     email,
     errors,
     isLoading,
+    user,
+    setEditMode,
   } = useUserContext();
+  const { updateCommentsUserName, sendingComment, updateBlogAuthor } =
+    useDetailContext();
+
+  const handleSave = async () => {
+    try {
+      await handleSaveClick();
+      await updateCommentsUserName(user.uid, firstName, lastName);
+      await updateBlogAuthor(user, firstName, lastName);
+      setEditMode(false);
+    } catch (err) {
+      console.log(err);
+      toast.error("Coś poszło nie tak. Spróbuj ponownie później");
+    }
+  };
 
   return (
     <form className={classes["user-edit-form"]}>
@@ -73,11 +91,11 @@ const UserEditForm = () => {
           Zamknij
         </Button>
         <Button
-          onClick={handleSaveClick}
+          onClick={handleSave}
           className={classes["user-edit-form__btn"]}
-          disabled={isLoading}
+          disabled={isLoading || sendingComment}
         >
-          {isLoading ? "Zapisywanie..." : "Zapisz"}
+          {isLoading || sendingComment ? "Zapisywanie..." : "Zapisz"}
         </Button>
       </div>
     </form>

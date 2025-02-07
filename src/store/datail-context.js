@@ -5,6 +5,8 @@ import {
   fetchRelatedBlogs,
   updateBlogComments,
   updateBlogLikes,
+  fetchBlogs,
+  updateUserBlog,
 } from "../utility/firebaseService";
 import { toast } from "react-toastify";
 import { Timestamp } from "firebase/firestore";
@@ -64,6 +66,58 @@ export const DetailContextProvider = ({ children }) => {
     }
   };
 
+  // aktualizacja komentarzy po zmianie nazwy uzytkownika
+  const updateCommentsUserName = async (userId, newFirstName, newLastName) => {
+    setSendingComment(true);
+    try {
+      const blogs = await fetchBlogs();
+      for (const blog of blogs) {
+        const updatedComments = blog.comments.map((comment) => {
+          if (comment.userId === userId) {
+            return {
+              ...comment,
+              name: `${newFirstName} ${newLastName}`,
+            };
+          }
+          return comment;
+        });
+
+        await updateBlogComments(blog.id, updatedComments);
+      }
+    } catch (err) {
+      console.error("Błąd podczas aktualizacji komentarzy:", err);
+      toast.error("Nie udało się zaktualizować nazwiska w komentarzach.");
+    } finally {
+      setSendingComment(false);
+    }
+  };
+
+  //Usuwanie komentarzy użytkownika po usunięciu konta
+  const deleteCommentsByUser = async (userId) => {
+    setSendingComment(true);
+    try {
+      const blogs = await fetchBlogs();
+      const blogUpdatePromises = blogs.map(async (blog) => {
+        const updatedComments = blog.comments.filter(
+          (comment) => comment.userId !== userId
+        );
+        await updateBlogComments(blog.id, updatedComments);
+      });
+
+      await Promise.all(blogUpdatePromises);
+      toast.success("Usunięto wszystkie komentarze.");
+      return true;
+    } catch (err) {
+      console.error("Error deleting comments:", err);
+      setError(
+        err.message || "Błąd usuwania wszystkich komentarzy Użytkownika."
+      );
+      return false;
+    } finally {
+      setSendingComment(false);
+    }
+  };
+
   const handleSendingComment = async (e, id, user) => {
     e.preventDefault();
     if (userComment.length >= 15 && userComment.length <= 300) {
@@ -91,6 +145,36 @@ export const DetailContextProvider = ({ children }) => {
       }
     } else {
       toast.error("Komentarz musi zawierać 15-300 znaków.");
+    }
+  };
+
+  const updateBlogAuthor = async (user, firstName, lastName) => {
+    setSendingComment(true);
+    try {
+      const blogs = await fetchBlogs(); // Pobierz wszystkie blogi
+      for (const blog of blogs) {
+        if (blog.userId === user.uid) {
+          // Sprawdź, czy to blog tego użytkownika
+          const updatedData = {
+            author: `${firstName} ${lastName}`, // Zaktualizuj autora
+          };
+          // Zaktualizuj bloga
+          await updateUserBlog(blog.id, updatedData, user);
+        }
+      }
+      toast.success(
+        "Dane zostały zaktualizowane. Odśwież stronę, by zobaczyć zmiany!"
+      );
+    } catch (error) {
+      console.error(
+        "Error updating blog author after changing user name:",
+        error
+      );
+      throw new Error(
+        "Nie udało się zaktualizować autora bloga po zmianie nazwy użytkownika."
+      );
+    } finally {
+      setSendingComment(false);
     }
   };
 
@@ -122,6 +206,29 @@ export const DetailContextProvider = ({ children }) => {
     }
   };
 
+  //usuwanie lajków po usunięciu konta użytkownika
+  const deleteLikesByUser = async (userId) => {
+    setSendingComment(true);
+    try {
+      const blogs = await fetchBlogs();
+      for (const blog of blogs) {
+        const updatedLikes = blog.likes.filter((id) => id !== userId);
+        await updateBlogLikes(blog.id, updatedLikes);
+      }
+      toast.success("Usunięto wszystkie lajki.");
+      return true;
+    } catch (err) {
+      console.error("Error deleting likes before deleting user account:", err);
+      setError(
+        err.message ||
+          "Błąd podczas usuwania lajków użytkownika przed usunięciem konta."
+      );
+      return false;
+    } finally {
+      setSendingComment(false);
+    }
+  };
+
   const detailCtx = {
     getBlogDetail,
     relatedBlogs,
@@ -144,6 +251,10 @@ export const DetailContextProvider = ({ children }) => {
     showTooltip,
     setShowTooltip,
     handleLike,
+    deleteCommentsByUser,
+    updateCommentsUserName,
+    deleteLikesByUser,
+    updateBlogAuthor,
   };
 
   return (

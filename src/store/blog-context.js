@@ -118,6 +118,7 @@ export const BlogContextProvider = ({ children }) => {
     setAllBlogs((prev) => prev.filter((blog) => blog.id !== id));
     setTrendBlogs((prev) => prev.filter((blog) => blog.id !== id));
     setRecentBlogs((prev) => prev.filter((blog) => blog.id !== id));
+    setFirst4Blogs((prev) => prev.filter((blog) => blog.id !== id));
     setFilteredBlogs((prev) => prev.filter((blog) => blog.id !== id));
     setTagPage((prev) => prev.filter((blog) => blog.id !== id));
     setCategoryPage((prev) => prev.filter((blog) => blog.id !== id));

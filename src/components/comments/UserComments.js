@@ -38,7 +38,7 @@ const UserComments = ({ name, body, createdAt, msg, userId, id }) => {
                   disabled={sendingComment}
                   title="Delete"
                 >
-                  {sendingComment ? "Usuwanie..." : "Usuń"}
+                  Usuń
                 </Button>
               </div>
             )}

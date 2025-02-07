@@ -19,7 +19,7 @@ export const validateDescription = (value) => {
 };
 
 export const validateCategory = (value) => {
-  if (value === "Wybierz kategorię") {
+  if (!value) {
     return "Kategoria jest wymagana.";
   }
   return "";
@@ -28,6 +28,12 @@ export const validateCategory = (value) => {
 export const validateImgURL = (value) => {
   if (!value.trim()) {
     return "URL obrazu jest wymagany.";
+  }
+  const isValidURL =
+    value.startsWith("https://") || value.startsWith("/static/media/");
+
+  if (!isValidURL) {
+    return "Podaj poprawny adres URL obrazu lub wybierz miniaturę";
   }
   return "";
 };

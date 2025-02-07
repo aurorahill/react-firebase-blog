@@ -515,7 +515,7 @@ export const updateUserBlog = async (blogId, updatedData, user) => {
     await updateDoc(docRef, {
       ...updatedData,
       timestamp: originalTimestamp,
-      author: existingData.author || user.displayName,
+      author: updatedData.author || user.displayName,
       userId: existingData.userId || user.uid,
     });
 

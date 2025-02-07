@@ -7,6 +7,7 @@ import BlogItem from "./BlogItem";
 import Pagination from "../Pagination";
 import Modal from "../UI/Modal";
 import { Link } from "react-router-dom";
+import { useUserContext } from "../../store/auth-context";
 
 const Blogs = () => {
   const {
@@ -21,16 +22,17 @@ const Blogs = () => {
     getAllUserBlogs,
   } = useUserBlogsContext();
 
+  const user = useUserContext();
+  const userId = user?.uid;
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [currentPage]);
 
   useEffect(() => {
-    if (blogs.length === 0) {
-      getBlogs();
-      getAllUserBlogs();
-    }
-  }, [getBlogs, getAllUserBlogs, blogs]);
+    getBlogs();
+    getAllUserBlogs();
+  }, [getBlogs, getAllUserBlogs, userId]);
 
   return (
     <section>

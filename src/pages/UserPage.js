@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useUserContext } from "../store/auth-context";
 import { useNavigate } from "react-router-dom";
 import UserEditForm from "../components/auth/UserEditForm";
@@ -10,16 +10,38 @@ import Blogs from "../components/blog/Blogs";
 import Spinner from "../components/UI/Spinner";
 import Aside from "../components/Aside";
 import { useBlogContext } from "../store/blog-context";
+import { useDetailContext } from "../store/datail-context";
+import { toast } from "react-toastify";
 
 const UserPage = () => {
-  const { editMode, user, handleEditClick, deleteUserAndBlogs, isLoading } =
+  const { editMode, user, handleEditClick, deleteUserAndBlogs } =
     useUserContext();
+  const { deleteCommentsByUser, deleteLikesByUser } = useDetailContext();
   const { loading } = useBlogContext();
   const navigate = useNavigate();
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const handleDeleteUser = async () => {
-    await deleteUserAndBlogs(user.uid);
-    navigate("/auth");
+    if (
+      window.confirm(
+        "Czy na pewno chcesz usunąć swoje konto i wszystkie swoje blogi, komentarze oraz polubienia?"
+      )
+    ) {
+      setIsDeleting(true);
+      try {
+        const isCommentDeleted = await deleteCommentsByUser(user.uid);
+        const isLikesDeleted = await deleteLikesByUser(user.uid);
+        const isDeleted = await deleteUserAndBlogs(user.uid);
+        if (isDeleted && isCommentDeleted && isLikesDeleted) {
+          navigate("/auth");
+        }
+      } catch (err) {
+        console.log(err);
+        toast.error("Nie udało się usunąć konta użytkownika.");
+      } finally {
+        setIsDeleting(false);
+      }
+    }
   };
 
   if (loading) {
@@ -52,9 +74,9 @@ const UserPage = () => {
                 onClick={handleDeleteUser}
                 className={`${classes["user-page__button"]} ${classes["user-page__delete-btn"]}`}
                 textOnly
-                disabled={isLoading}
+                disabled={isDeleting}
               >
-                {isLoading ? "Usuwanie..." : "Usuń konto"}
+                {isDeleting ? "Usuwanie..." : "Usuń konto"}
               </Button>
             </div>
           )}

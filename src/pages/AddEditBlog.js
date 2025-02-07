@@ -15,6 +15,10 @@ import {
 import { toast } from "react-toastify";
 import { fetchBlogDetail } from "../utility/firebaseService";
 import TagsInput from "../components/UI/TagsInput";
+import photo from "../assets/photo.jpg";
+import photo2 from "../assets/bg1.jpg";
+import photo3 from "../assets/bg2.jpg";
+import photo4 from "../assets/bg3.jpg";
 
 const categoryOption = [
   "Technologia",
@@ -159,17 +163,37 @@ const AddEditBlog = () => {
       toast.error("Proszę poprawić błędy w formularzu.");
       return;
     }
+
+    const updatedForm = {
+      ...form,
+      imgURL: imgURL.trim()
+        ? imgURL
+        : imgURL === photo || imgURL === photo2
+        ? imgURL
+        : photo,
+    };
     if (!id) {
-      await handleAddBlog(form, (newBlog) => {
+      await handleAddBlog(updatedForm, (newBlog) => {
         updateBlogFromGlobalState(newBlog);
         navigate(`/detail/${newBlog.id}`);
       });
     } else {
-      await handleUpdateBlog(id, form, (updatedBlog) => {
+      await handleUpdateBlog(id, updatedForm, (updatedBlog) => {
         updateBlogFromGlobalState(updatedBlog);
         navigate(`/detail/${updatedBlog.id}`);
       });
     }
+  };
+
+  const handleSelectImage = (imagePath) => {
+    setForm((prevForm) => ({
+      ...prevForm,
+      imgURL: imagePath,
+    }));
+    setErrors((prev) => ({
+      ...prev,
+      imgURL: validateImgURL(imagePath),
+    }));
   };
 
   return (
@@ -241,7 +265,7 @@ const AddEditBlog = () => {
               className={`${classes["blog-form__form-control"]} ${classes["blog-form__category"]}`}
               onBlur={handleBlur}
             >
-              <option>Wybierz kategorię</option>
+              <option value="">Wybierz kategorię</option>
               {categoryOption.map((option, index) => (
                 <option
                   value={option || ""}
@@ -271,7 +295,7 @@ const AddEditBlog = () => {
           </div>
           <Input
             type="text"
-            placeholder="Wklej URL obrazu"
+            placeholder="Wklej URL obrazu lub wybierz zdjęcie"
             name="imgURL"
             value={imgURL}
             onChange={handleChange}
@@ -279,6 +303,32 @@ const AddEditBlog = () => {
             onBlur={handleBlur}
           />
           {errors.imgURL && <p className={classes.error}>{errors.imgURL}</p>}
+          <div className={classes.thumbnails}>
+            <img
+              src={photo}
+              alt="Miniatura 1"
+              className={classes.thumbnails__icon}
+              onClick={() => handleSelectImage(photo)}
+            />
+            <img
+              src={photo2}
+              alt="Miniatura 2"
+              className={classes.thumbnails__icon}
+              onClick={() => handleSelectImage(photo2)}
+            />
+            <img
+              src={photo3}
+              alt="Miniatura 2"
+              className={classes.thumbnails__icon}
+              onClick={() => handleSelectImage(photo3)}
+            />
+            <img
+              src={photo4}
+              alt="Miniatura 2"
+              className={classes.thumbnails__icon}
+              onClick={() => handleSelectImage(photo4)}
+            />
+          </div>
           <div className={classes["blog-form__actives"]}>
             <Button
               type="button"

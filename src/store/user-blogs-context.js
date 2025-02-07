@@ -22,7 +22,6 @@ export const UserBlogsProvider = ({ children }) => {
   const [pageCount, setPageCount] = useState(null);
   const [numOfPages, setNumOfPages] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-
   const [error, setError] = useState(null);
 
   const { user } = useUserContext();
