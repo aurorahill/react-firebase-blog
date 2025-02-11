@@ -1,24 +1,24 @@
 import React, { useEffect, useState, useCallback } from "react";
-import Heading from "../components/UI/Heading";
-import Input from "../components/UI/Input";
-import Button from "../components/UI/Button";
+import Heading from "../../components/UI/Heading";
+import Input from "../../components/UI/Input";
+import Button from "../../components/UI/Button";
 import classes from "./AddEditBlog.module.scss";
 import { useNavigate, useParams } from "react-router-dom";
-import { useBlogContext } from "../store/blog-context";
-import { useUserBlogsContext } from "../store/user-blogs-context";
+import { useBlogContext } from "../../store/blog-context";
+import { useUserBlogsContext } from "../../store/user-blogs-context";
 import {
   validateCategory,
   validateDescription,
   validateImgURL,
   validateTitle,
-} from "../utility/validate";
+} from "../../utility/validate";
 import { toast } from "react-toastify";
-import { fetchBlogDetail } from "../utility/firebaseService";
-import TagsInput from "../components/UI/TagsInput";
-import photo from "../assets/photo.jpg";
-import photo2 from "../assets/bg1.jpg";
-import photo3 from "../assets/bg2.jpg";
-import photo4 from "../assets/bg3.jpg";
+import { fetchBlogDetail } from "../../utility/firebaseService";
+import TagsInput from "../../components/UI/TagsInput";
+import photo from "../../assets/photo.jpg";
+import photo2 from "../../assets/bg1.jpg";
+import photo3 from "../../assets/bg2.jpg";
+import photo4 from "../../assets/bg3.jpg";
 
 const categoryOption = [
   "Technologia",

@@ -1,12 +1,12 @@
 import React, { useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 
-import SectionHeader from "../components/UI/SectionHeader";
-import BlogItem from "../components/blog/BlogItem";
-import Spinner from "../components/UI/Spinner";
-import { scrollToSection } from "../utility/scrollToSection";
+import SectionHeader from "../../components/UI/SectionHeader";
+import BlogItem from "../../components/blog/BlogItem/BlogItem";
+import Spinner from "../../components/UI/Spinner";
+import { scrollToSection } from "../../utility/scrollToSection";
 import classes from "./CategoryBlog.module.scss";
-import { useBlogContext } from "../store/blog-context";
+import { useBlogContext } from "../../store/blog-context";
 
 const CategoryBlog = () => {
   const { category } = useParams();

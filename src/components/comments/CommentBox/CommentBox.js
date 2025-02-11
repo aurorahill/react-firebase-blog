@@ -1,12 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
-import { useUserContext } from "../../store/auth-context";
-import Button from "../UI/Button";
+import { useUserContext } from "../../../store/auth-context";
+import Button from "../../UI/Button";
 import classes from "./CommentBox.module.scss";
-import { useDetailContext } from "../../store/datail-context";
-
-import Modal from "../UI/Modal";
+import { useDetailContext } from "../../../store/datail-context";
+import Modal from "../../UI/Modal";
 
 const CommentBox = ({ id }) => {
   const {

@@ -1,10 +1,10 @@
 import React from "react";
 import classes from "./BlogRoot.module.scss";
-import Trending from "../components/trending/Trending";
-import Aside from "../components/Aside";
+import Trending from "../../components/trending/Trending";
+import Aside from "../../components/Aside";
 import { Outlet } from "react-router-dom";
-import Spinner from "../components/UI/Spinner";
-import { useBlogContext } from "../store/blog-context";
+import Spinner from "../../components/UI/Spinner";
+import { useBlogContext } from "../../store/blog-context";
 
 const BlogRoot = () => {
   const { loading } = useBlogContext();

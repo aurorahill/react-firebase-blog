@@ -3,7 +3,7 @@ import { useUserBlogsContext } from "../../store/user-blogs-context";
 import classes from "./Blogs.module.scss";
 import SectionHeader from "../UI/SectionHeader";
 import Spinner from "../UI/Spinner";
-import BlogItem from "./BlogItem";
+import BlogItem from "./BlogItem/BlogItem";
 import Pagination from "../Pagination";
 import Modal from "../UI/Modal";
 import { Link } from "react-router-dom";

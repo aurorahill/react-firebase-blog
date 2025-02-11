@@ -1,8 +1,8 @@
 import React from "react";
-import { useUserContext } from "../../store/auth-context";
-import { useDetailContext } from "../../store/datail-context";
-import Input from "../UI/Input";
-import Button from "../UI/Button";
+import { useUserContext } from "../../../store/auth-context";
+import { useDetailContext } from "../../../store/datail-context";
+import Input from "../../UI/Input";
+import Button from "../../UI/Button";
 import { toast } from "react-toastify";
 import classes from "./UserEditForm.module.scss";
 

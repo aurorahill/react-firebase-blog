@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
-import BlogItem from "../components/blog/BlogItem";
+import BlogItem from "../../components/blog/BlogItem/BlogItem";
 import classes from "./Home.module.scss";
-import SectionHeader from "../components/UI/SectionHeader";
-import { useBlogContext } from "../store/blog-context";
-import Button from "../components/UI/Button";
-import Spinner from "../components/UI/Spinner";
-import Search from "../components/Search";
-import Modal from "../components/UI/Modal";
+import SectionHeader from "../../components/UI/SectionHeader";
+import { useBlogContext } from "../../store/blog-context";
+import Button from "../../components/UI/Button";
+import Spinner from "../../components/UI/Spinner";
+import Search from "../../components/Search";
+import Modal from "../../components/UI/Modal";
 
 const Home = () => {
   const {

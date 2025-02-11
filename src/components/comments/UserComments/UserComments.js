@@ -2,11 +2,10 @@ import React from "react";
 import { Timestamp } from "firebase/firestore";
 import PropTypes from "prop-types";
 import classes from "./UserComments.module.scss";
-import { useUserContext } from "../../store/auth-context";
-import Button from "../UI/Button";
-import { useDetailContext } from "../../store/datail-context";
-
-import { dataFormatter } from "../../utility/dataFormatter";
+import { useUserContext } from "../../../store/auth-context";
+import Button from "../../UI/Button";
+import { useDetailContext } from "../../../store/datail-context";
+import { dataFormatter } from "../../../utility/dataFormatter";
 
 const UserComments = ({ name, body, createdAt, msg, userId, id }) => {
   const { user } = useUserContext();

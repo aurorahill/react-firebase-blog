@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import ResetPassword from "../components/auth/ResetPassword";
+import ResetPassword from "../../components/auth/ResetPassword/ResetPassword";
 import classes from "./Auth.module.scss";
-import AuthForm from "../components/auth/AuthForm";
-import Heading from "../components/UI/Heading";
-import { useUserContext } from "../store/auth-context";
+import AuthForm from "../../components/auth/AuthForm/AuthForm";
+import Heading from "../../components/UI/Heading";
+import { useUserContext } from "../../store/auth-context";
 
 const Auth = () => {
   const [showModal, setShowModal] = useState(false);

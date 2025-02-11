@@ -1,13 +1,13 @@
 import React from "react";
 import { Timestamp } from "firebase/firestore";
 import PropTypes from "prop-types";
-import { shortText } from "../../utility/shortText";
-import Button from "../UI/Button";
-import photoImg from "../../assets/photo.jpg";
+import { shortText } from "../../../utility/shortText";
+import Button from "../../UI/Button";
+import photoImg from "../../../assets/photo.jpg";
 import classes from "./BlogItem.module.scss";
 import { Link } from "react-router-dom";
-import { dataFormatter } from "../../utility/dataFormatter";
-import ActionsIcons from "../ActionsIcons";
+import { dataFormatter } from "../../../utility/dataFormatter";
+import ActionsIcons from "../../ActionsIcons";
 
 const BlogItem = ({ item }) => {
   return (

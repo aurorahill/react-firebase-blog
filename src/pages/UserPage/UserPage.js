@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from "react";
-import { useUserContext } from "../store/auth-context";
+import React, { useState } from "react";
+import { useUserContext } from "../../store/auth-context";
 import { useNavigate } from "react-router-dom";
-import UserEditForm from "../components/auth/UserEditForm";
-import SectionHeader from "../components/UI/SectionHeader";
+import UserEditForm from "../../components/auth/UserEditForm/UserEditForm";
+import SectionHeader from "../../components/UI/SectionHeader";
 import classes from "./UserPage.module.scss";
-import Button from "../components/UI/Button";
-import Blogs from "../components/blog/Blogs";
+import Button from "../../components/UI/Button";
+import Blogs from "../../components/blog/Blogs";
 
-import Spinner from "../components/UI/Spinner";
-import Aside from "../components/Aside";
-import { useBlogContext } from "../store/blog-context";
-import { useDetailContext } from "../store/datail-context";
+import Spinner from "../../components/UI/Spinner";
+import Aside from "../../components/Aside";
+import { useBlogContext } from "../../store/blog-context";
+import { useDetailContext } from "../../store/datail-context";
 import { toast } from "react-toastify";
 
 const UserPage = () => {

@@ -1,18 +1,18 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import photoImg from "../assets/photo.jpg";
+import photoImg from "../../assets/photo.jpg";
 import classes from "./Detail.module.scss";
-import Spinner from "../components/UI/Spinner";
-import Aside from "../components/Aside";
-import RelatedBlog from "../components/related-blog/RelatedBlog";
-import Tags from "../components/Tags";
-import Comments from "../components/comments/Comments";
-import CommentBox from "../components/comments/CommentBox";
-import { useDetailContext } from "../store/datail-context";
-import Like from "../components/like/Like";
-import { dataFormatter } from "../utility/dataFormatter";
-import Modal from "../components/UI/Modal";
-import ActionsIcons from "../components/ActionsIcons";
+import Spinner from "../../components/UI/Spinner";
+import Aside from "../../components/Aside";
+import RelatedBlog from "../../components/related-blog/RelatedBlog";
+import Tags from "../../components/Tags";
+import Comments from "../../components/comments/Comments";
+import CommentBox from "../../components/comments/CommentBox/CommentBox";
+import { useDetailContext } from "../../store/datail-context";
+import Like from "../../components/like/Like";
+import { dataFormatter } from "../../utility/dataFormatter";
+import Modal from "../../components/UI/Modal";
+import ActionsIcons from "../../components/ActionsIcons";
 
 const Detail = () => {
   const { getBlogDetail, loading, blog, error, setError } = useDetailContext();
