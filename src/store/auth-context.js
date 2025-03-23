@@ -8,15 +8,7 @@ import {
   validatePassword,
   matchingPasswords,
 } from "../utility/validate";
-import {
-  signOutUser,
-  signInUser,
-  signUpUser,
-  updateUserProfile,
-  getAuthInstance,
-  deleteUser,
-  deleteUserBlogs,
-} from "../utility/firebaseService";
+import FirebaseService from "../utility/firebaseService";
 
 export const UserContext = createContext({
   user: null,
@@ -47,7 +39,7 @@ export default function UserContextProvider({ children }) {
   const [signUp, setSignUp] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const auth = getAuthInstance();
+  const auth = FirebaseService.auth.getAuthInstance();
 
   const toggleSignUp = () => {
     setSignUp((prev) => (prev = !prev));
@@ -169,13 +161,13 @@ export default function UserContextProvider({ children }) {
     try {
       let authenticatedUser;
       if (signUp) {
-        authenticatedUser = await signUpUser(
+        authenticatedUser = await FirebaseService.auth.signUp(
           email,
           password,
           `${firstName} ${lastName}`
         );
       } else {
-        authenticatedUser = await signInUser(email, password);
+        authenticatedUser = await FirebaseService.auth.signIn(email, password);
       }
       setUser(authenticatedUser);
       return true;
@@ -190,7 +182,7 @@ export default function UserContextProvider({ children }) {
 
   const logout = async () => {
     try {
-      await signOutUser();
+      await FirebaseService.auth.signOut();
       setUser(null);
       setState(initialState);
       setSignUp(false);
@@ -207,7 +199,7 @@ export default function UserContextProvider({ children }) {
         toast.error("All fields are required!");
         return;
       }
-      await updateUserProfile(
+      await FirebaseService.auth.updateProfile(
         auth.currentUser,
         `${state.firstName} ${state.lastName}`,
         state.email
@@ -226,8 +218,8 @@ export default function UserContextProvider({ children }) {
   const deleteUserAndBlogs = async (userId) => {
     setIsLoading(true);
     try {
-      await deleteUserBlogs(userId);
-      await deleteUser();
+      await FirebaseService.users.deleteUserBlogs(userId);
+      await FirebaseService.auth.deleteUser();
       setState(initialState);
       toast.success("Użytkownik i blogi zostały usunięte.");
       return true;

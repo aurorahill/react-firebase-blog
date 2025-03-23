@@ -7,14 +7,7 @@ import React, {
 } from "react";
 import PropTypes from "prop-types";
 import { toast } from "react-toastify";
-import {
-  fetchBlogs,
-  fetchTags,
-  fetch4Blogs,
-  fetch4MoreBlogs,
-  fetchBlogsByTag,
-  fetchBlogsByCategory,
-} from "../utility/firebaseService";
+import FirebaseService from "../utility/firebaseService";
 import { useUserContext } from "./auth-context";
 
 const BlogContext = createContext();
@@ -43,7 +36,7 @@ export const BlogContextProvider = ({ children }) => {
     async (tag) => {
       setLoadingPage(true);
       try {
-        const blogs = await fetchBlogsByTag(tag);
+        const blogs = await FirebaseService.blogs.fetchByTag(tag);
         setTagPage(blogs);
       } catch (err) {
         console.error("Error fetching blogs by tag:", error);
@@ -61,7 +54,7 @@ export const BlogContextProvider = ({ children }) => {
     async (category) => {
       setLoadingPage(true);
       try {
-        const blogs = await fetchBlogsByCategory(category);
+        const blogs = await FirebaseService.blogs.fetchByCategory(category);
         setCategoryPage(blogs);
       } catch (err) {
         console.error("Error fetching blogs by category:", error);
@@ -77,7 +70,7 @@ export const BlogContextProvider = ({ children }) => {
 
   const getTrendingBlogs = useCallback(async () => {
     try {
-      const trendBlogs = await fetchBlogs({ trending: "yes" });
+      const trendBlogs = await FirebaseService.blogs.fetchAll({ trending: "yes" });
       setTrendBlogs(trendBlogs);
     } catch (error) {
       console.error("Error fetching trending blogs:", error);
@@ -87,7 +80,7 @@ export const BlogContextProvider = ({ children }) => {
 
   const getRecentBlogs = useCallback(async () => {
     try {
-      const recentBlogs = await fetchBlogs({
+      const recentBlogs = await FirebaseService.blogs.fetchAll({
         sortBy: "timestamp",
         sortOrder: "desc",
         maxResults: 4,
@@ -101,7 +94,7 @@ export const BlogContextProvider = ({ children }) => {
 
   const getMostLikedBlogs = useCallback(async () => {
     try {
-      const mostLikedBlogs = await fetchBlogs({
+      const mostLikedBlogs = await FirebaseService.blogs.fetchAll({
         sortBy: "countLikes",
         sortOrder: "desc",
         maxResults: 3,
@@ -147,7 +140,7 @@ export const BlogContextProvider = ({ children }) => {
   const get4Blogs = useCallback(async () => {
     setLoading4More(true);
     try {
-      const docSnapshot = await fetch4Blogs();
+      const docSnapshot = await FirebaseService.blogs.fetch4();
       if (docSnapshot.length > 0) {
         setFirst4Blogs(docSnapshot);
         setFilteredBlogs(docSnapshot);
@@ -194,7 +187,7 @@ export const BlogContextProvider = ({ children }) => {
   const fetch4More = async () => {
     setLoading4More(true);
     try {
-      const { blogs: newBlogs, lastVisibleDoc } = await fetch4MoreBlogs(
+      const { blogs: newBlogs, lastVisibleDoc } = await FirebaseService.blogs.fetch4More(
         lastVisible
       );
 
@@ -217,9 +210,9 @@ export const BlogContextProvider = ({ children }) => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const blogTags = await fetchTags();
+      const blogTags = await FirebaseService.blogs.fetchTags();
       setTags(blogTags);
-      const allBlogs = await fetchBlogs({});
+      const allBlogs = await FirebaseService.blogs.fetchAll({});
       setAllBlogs(allBlogs);
     } catch (error) {
       console.log(error);

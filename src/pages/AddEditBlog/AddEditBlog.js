@@ -13,7 +13,7 @@ import {
   validateTitle,
 } from "../../utility/validate";
 import { toast } from "react-toastify";
-import { fetchBlogDetail } from "../../utility/firebaseService";
+import FirebaseService from "../../utility/firebaseService";
 import TagsInput from "../../components/UI/TagsInput/TagsInput";
 import photo from "../../assets/photo.jpg";
 import photo2 from "../../assets/bg1.jpg";
@@ -67,10 +67,10 @@ const AddEditBlog = () => {
   const getFormBlogDetail = useCallback(async () => {
     setLoading(true);
     try {
-      const snapshot = await fetchBlogDetail(id);
+      const snapshot = await FirebaseService.blogs.fetchBlogDetail(id);
       setForm(snapshot);
     } catch (err) {
-      console.log(err);
+      console.error(err);
     } finally {
       setLoading(false);
     }

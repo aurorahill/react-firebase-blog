@@ -6,7 +6,7 @@ import Button from "../../UI/Button/Button";
 import classes from "./ResetPassword.module.scss";
 import Heading from "../../UI/Heading/Heading";
 import { validateEmail } from "../../../utility/validate";
-import { resetPassword } from "../../../utility/firebaseService";
+import FirebaseService from "../../../utility/firebaseService";
 
 const ResetPassword = ({ onClose, open }) => {
   const [email, setEmail] = useState("");
@@ -27,7 +27,7 @@ const ResetPassword = ({ onClose, open }) => {
     }
     setIsPending(true);
     try {
-      await resetPassword(email);
+      await FirebaseService.auth.resetPassword(email);
       setMessage(
         "Email z linkiem do resetowania hasła został wysłany na Twojego emaila!"
       );
