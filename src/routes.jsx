@@ -11,7 +11,7 @@ import AddEditBlog from "./pages/AddEditBlog/AddEditBlog";
 import UserPage from "./pages/UserPage/UserPage";
 import About from "./pages/About/About";
 import Auth from "./pages/Auth/Auth";
-import { authLoader } from "./utility/authLoader";
+import { authLoader } from "./firebase/authLoader";
 
 export const router = createBrowserRouter([
   {

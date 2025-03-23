@@ -5,7 +5,7 @@ import { useDetailContext } from "../../store/datail-context";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import photoImg from "../../assets/photo.jpg";
 import Like from "../../components/Like/Like";
-import { dataFormatter } from "../../utility/dataFormatter";
+import { dateFormatter } from "../../utils/date";
 import Tags from "../../components/Tags/Tags";
 import ActionsIcons from "../../components/UI/ActionIcons/ActionsIcons";
 import Comments from "../../components/Comments/Comments";
@@ -41,7 +41,7 @@ const Detail = () => {
         <div className={classes.detail__overlay}></div>
         <div className={classes.detail__title}>
           <p className={classes.detail__category}>{blog?.category}</p>
-          <span>{dataFormatter(blog?.timestamp)}</span>
+          <span>{dateFormatter(blog?.timestamp)}</span>
 
           <h2>{blog?.title}</h2>
         </div>
@@ -54,17 +54,14 @@ const Detail = () => {
                 By&nbsp;
                 <span className={classes.detail__author}>{blog?.author}</span>
                 &nbsp;|&nbsp;
-                <span>{dataFormatter(blog?.timestamp)}</span>
+                <span>{dateFormatter(blog?.timestamp)}</span>
               </p>
               <Like id={id} />
             </div>
             <p className={classes.detail__description}>{blog?.description}</p>
 
             <Tags tags={blog?.tags} />
-            <ActionsIcons
-              item={blog}
-              id={id}
-            />
+            <ActionsIcons item={blog} id={id} />
           </section>
           <Comments id={id} />
           <CommentBox id={id} />
@@ -73,7 +70,7 @@ const Detail = () => {
       </div>
       <RelatedBlog id={id} />
       {error && (
-          <Modal
+        <Modal
           open={!!error}
           onClose={() => {
             setError(null);

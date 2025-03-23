@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import SectionHeader from "../../components/UI/SectionHeader/SectionHeader";
 import BlogItem from "../../components/Blog/BlogItem/BlogItem";
 import Spinner from "../../components/UI/Spinner/Spinner";
-import { scrollToSection } from "../../utility/scrollToSection";
+import { scrollToSection } from "../../utils/scroll";
 
 import classes from "./TagBlog.module.scss";
 import { useBlogContext } from "../../store/blog-context";

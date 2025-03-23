@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useCallback } from "react";
 import PropTypes from "prop-types";
-import FirebaseService from "../utility/firebaseService";
+import FirebaseService from "../firebase/firebaseService";
 import { toast } from "react-toastify";
 import { useUserContext } from "./auth-context";
 

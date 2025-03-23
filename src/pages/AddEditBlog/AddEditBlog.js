@@ -11,9 +11,9 @@ import {
   validateDescription,
   validateImgURL,
   validateTitle,
-} from "../../utility/validate";
+} from "../../utils/validate";
 import { toast } from "react-toastify";
-import FirebaseService from "../../utility/firebaseService";
+import FirebaseService from "../../firebase/firebaseService";
 import TagsInput from "../../components/UI/TagsInput/TagsInput";
 import photo from "../../assets/photo.jpg";
 import photo2 from "../../assets/bg1.jpg";

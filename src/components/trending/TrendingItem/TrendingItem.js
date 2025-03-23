@@ -4,10 +4,10 @@ import { Timestamp } from "firebase/firestore";
 import { Link } from "react-router-dom";
 import photoImg from "../../../assets/photo.jpg";
 import classes from "./TrendingItem.module.scss";
-import { dataFormatter } from "../../../utility/dataFormatter";
+import { dateFormatter } from "../../../utils/date";
 
 const TrendingItem = ({ item }) => {
-  return (
+  return (  
     <>
       <Link to={`/detail/${item.id}`}>
         <div className={classes.trending}>
@@ -22,7 +22,7 @@ const TrendingItem = ({ item }) => {
             <p className={classes.trending__title}>{item.title}</p>
             <p className={classes.trending__text}>
               <span>{item.author}</span>&nbsp;|&nbsp;
-              <span>{dataFormatter(item?.timestamp)}</span>
+              <span>{dateFormatter(item?.timestamp)}</span>
             </p>
           </div>
         </div>

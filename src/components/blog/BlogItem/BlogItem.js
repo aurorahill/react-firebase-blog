@@ -1,12 +1,12 @@
 import React from "react";
 import { Timestamp } from "firebase/firestore";
 import PropTypes from "prop-types";
-import { shortText } from "../../../utility/shortText";
+import { shortText } from "../../../utils/string";
 import Button from "../../UI/Button/Button";
 import photoImg from "../../../assets/photo.jpg";
 import classes from "./BlogItem.module.scss";
 import { Link } from "react-router-dom";
-import { dataFormatter } from "../../../utility/dataFormatter";
+import { dateFormatter } from "../../../utils/date";
 import ActionsIcons from "../../UI/ActionIcons/ActionsIcons";
 
 const BlogItem = ({ item }) => {
@@ -24,7 +24,7 @@ const BlogItem = ({ item }) => {
         <h3 className={classes.item__title}>{item.title}</h3>
         <div className={classes.item__content}>
           <p className={classes.item__author}>{item.author}</p>
-          <p className={classes.item__date}>{dataFormatter(item?.timestamp)}</p>
+          <p className={classes.item__date}>{dateFormatter(item?.timestamp)}</p>
         </div>
 
         <div className={classes.item__description}>

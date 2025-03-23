@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import classes from "./Card.module.scss";
 import { FaRegThumbsUp } from "react-icons/fa";
 import { FaRegComment } from "react-icons/fa";
-import { shortText } from "../../../utility/shortText";
+import { shortText } from "../../../utils/string";
 
 const Card = ({ title, id, description, imgURL, likes, comments }) => {
   return (

@@ -7,8 +7,8 @@ import {
   validateLastName,
   validatePassword,
   matchingPasswords,
-} from "../utility/validate";
-import FirebaseService from "../utility/firebaseService";
+} from "../utils/validate";
+import FirebaseService from "../firebase/firebaseService";
 
 export const UserContext = createContext({
   user: null,

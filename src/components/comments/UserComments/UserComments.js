@@ -5,7 +5,7 @@ import classes from "./UserComments.module.scss";
 import { useUserContext } from "../../../store/auth-context";
 import Button from "../../UI/Button/Button";
 import { useDetailContext } from "../../../store/datail-context";
-import { dataFormatter } from "../../../utility/dataFormatter";
+import { dateFormatter } from "../../../utils/date";
 
 const UserComments = ({ name, body, createdAt, msg, userId, id }) => {
   const { user } = useUserContext();
@@ -25,7 +25,7 @@ const UserComments = ({ name, body, createdAt, msg, userId, id }) => {
           </div>
           <div className={classes["comment-item__content"]}>
             <h3 className={classes["comment-item__title"]}>
-              {name} <span>{dataFormatter(createdAt)}</span>
+              {name} <span>{dateFormatter(createdAt)}</span>
             </h3>
             <p className={classes["comment-item__body"]}>{body}</p>
             {user?.uid && userId === user?.uid && (

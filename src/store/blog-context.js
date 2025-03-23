@@ -7,7 +7,7 @@ import React, {
 } from "react";
 import PropTypes from "prop-types";
 import { toast } from "react-toastify";
-import FirebaseService from "../utility/firebaseService";
+import FirebaseService from "../firebase/firebaseService";
 import { useUserContext } from "./auth-context";
 
 const BlogContext = createContext();

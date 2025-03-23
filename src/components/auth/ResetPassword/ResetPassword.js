@@ -5,8 +5,8 @@ import Input from "../../UI/Input/Input";
 import Button from "../../UI/Button/Button";
 import classes from "./ResetPassword.module.scss";
 import Heading from "../../UI/Heading/Heading";
-import { validateEmail } from "../../../utility/validate";
-import FirebaseService from "../../../utility/firebaseService";
+import { validateEmail } from "../../../utils/validate";
+import FirebaseService from "../../../firebase/firebaseService";
 
 const ResetPassword = ({ onClose, open }) => {
   const [email, setEmail] = useState("");
