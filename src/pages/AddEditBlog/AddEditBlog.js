@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
-import Heading from "../../components/UI/Heading";
-import Input from "../../components/UI/Input";
+import Heading from "../../components/UI/Heading/Heading";
+import Input from "../../components/UI/Input/Input";
 import Button from "../../components/UI/Button/Button";
 import classes from "./AddEditBlog.module.scss";
 import { useNavigate, useParams } from "react-router-dom";
@@ -14,7 +14,7 @@ import {
 } from "../../utility/validate";
 import { toast } from "react-toastify";
 import { fetchBlogDetail } from "../../utility/firebaseService";
-import TagsInput from "../../components/UI/TagsInput";
+import TagsInput from "../../components/UI/TagsInput/TagsInput";
 import photo from "../../assets/photo.jpg";
 import photo2 from "../../assets/bg1.jpg";
 import photo3 from "../../assets/bg2.jpg";

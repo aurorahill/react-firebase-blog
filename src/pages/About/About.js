@@ -3,7 +3,7 @@ import logoImg from "../../assets/bbr2.jpg";
 import { Link } from "react-router-dom";
 import classes from "./About.module.scss";
 import InfoCard from "../../components/InfoCard/InfoCard";
-import SectionHeader from "../../components/UI/SectionHeader";
+import SectionHeader from "../../components/UI/SectionHeader/SectionHeader";
 import Aside from "../../components/Aside/Aside";
 
 const About = () => {

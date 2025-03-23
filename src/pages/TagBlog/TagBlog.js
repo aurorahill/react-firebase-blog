@@ -1,9 +1,9 @@
 import React, { useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 
-import SectionHeader from "../../components/UI/SectionHeader";
+import SectionHeader from "../../components/UI/SectionHeader/SectionHeader";
 import BlogItem from "../../components/Blog/BlogItem/BlogItem";
-import Spinner from "../../components/UI/Spinner";
+import Spinner from "../../components/UI/Spinner/Spinner";
 import { scrollToSection } from "../../utility/scrollToSection";
 
 import classes from "./TagBlog.module.scss";
