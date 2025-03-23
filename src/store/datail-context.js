@@ -1,13 +1,6 @@
 import React, { useState, createContext, useContext, useCallback } from "react";
 import PropTypes from "prop-types";
-import {
-  fetchBlogDetail,
-  fetchRelatedBlogs,
-  updateBlogComments,
-  updateBlogLikes,
-  fetchBlogs,
-  updateUserBlog,
-} from "../utility/firebaseService";
+import FirebaseService from "../firebase/firebaseService";
 import { toast } from "react-toastify";
 import { Timestamp } from "firebase/firestore";
 
@@ -28,17 +21,21 @@ export const DetailContextProvider = ({ children }) => {
   const getBlogDetail = useCallback(async (id) => {
     setLoading(true);
     try {
-      const blogDetail = await fetchBlogDetail(id);
-      setBlog(blogDetail);
-      setComments(blogDetail.comments || []);
-      setLikes(blogDetail.likes || []);
-      setLikeCount(blogDetail.likes?.length || 0);
-      const relatedBlogsData = await fetchRelatedBlogs(blogDetail.tags);
-      setRelatedBlogs(relatedBlogsData);
-    } catch (err) {
-      console.error("Error fetching blog detail:", err);
+      const blogDetail = await FirebaseService.blogs.fetchBlogDetail(id);
+      if (blogDetail) {
+        setBlog(blogDetail);
+        setComments(blogDetail.comments || []);
+        setLikes(blogDetail.likes || []);
+        setLikeCount(blogDetail.likes ? blogDetail.likes.length : 0);
+        if (blogDetail.tags && blogDetail.tags.length > 0) {
+          const blogs = await FirebaseService.blogs.fetchRelatedBlogs(blogDetail.tags);
+          setRelatedBlogs(blogs.filter((blog) => blog.id !== id));
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching blog detail:", error);
       setError(
-        err.message || "Błąd podczas pobierania bloga. Spróbuj ponownie później"
+        error.message || "Błąd podczas pobierania bloga. Spróbuj ponownie później"
       );
     } finally {
       setLoading(false);
@@ -46,23 +43,16 @@ export const DetailContextProvider = ({ children }) => {
   }, []);
 
   const handleCommentDelete = async (createdAt, id) => {
-    if (window.confirm("Czy na pewno chcesz usunąć ten komentarz?")) {
-      try {
-        setSendingComment(true);
-        const updatedComments = comments.filter(
-          (comment) => comment.createdAt.seconds !== createdAt.seconds
-        );
-        await updateBlogComments(id, updatedComments);
-        setComments(updatedComments);
-        toast.success("Komentarz usunięty!");
-      } catch (err) {
-        console.error("Error deleting comment:", err);
-        toast.error(
-          "Nie udało się usunąć komentarza. Spróbuj ponownie później"
-        );
-      } finally {
-        setSendingComment(false);
-      }
+    const newComments = comments.filter((comment) => comment.createdAt !== createdAt);
+    setComments(newComments);
+    try {
+      await FirebaseService.blogs.updateBlogComments(id, newComments);
+      toast.success("Komentarz został usunięty!");
+    } catch (error) {
+      console.error("Error deleting comment:", error);
+      toast.error(
+        "Nie udało się usunąć komentarza. Spróbuj ponownie później"
+      );
     }
   };
 
@@ -70,7 +60,7 @@ export const DetailContextProvider = ({ children }) => {
   const updateCommentsUserName = async (userId, newFirstName, newLastName) => {
     setSendingComment(true);
     try {
-      const blogs = await fetchBlogs();
+      const blogs = await FirebaseService.blogs.fetchAll({});
       for (const blog of blogs) {
         const updatedComments = blog.comments.map((comment) => {
           if (comment.userId === userId) {
@@ -82,7 +72,7 @@ export const DetailContextProvider = ({ children }) => {
           return comment;
         });
 
-        await updateBlogComments(blog.id, updatedComments);
+        await FirebaseService.blogs.updateBlogComments(blog.id, updatedComments);
       }
     } catch (err) {
       console.error("Błąd podczas aktualizacji komentarzy:", err);
@@ -96,12 +86,12 @@ export const DetailContextProvider = ({ children }) => {
   const deleteCommentsByUser = async (userId) => {
     setSendingComment(true);
     try {
-      const blogs = await fetchBlogs();
+      const blogs = await FirebaseService.blogs.fetchAll({});
       const blogUpdatePromises = blogs.map(async (blog) => {
         const updatedComments = blog.comments.filter(
           (comment) => comment.userId !== userId
         );
-        await updateBlogComments(blog.id, updatedComments);
+        await FirebaseService.blogs.updateBlogComments(blog.id, updatedComments);
       });
 
       await Promise.all(blogUpdatePromises);
@@ -130,7 +120,7 @@ export const DetailContextProvider = ({ children }) => {
           body: userComment,
         };
         const updatedComments = [...comments, newComment];
-        await updateBlogComments(id, updatedComments);
+        await FirebaseService.blogs.updateBlogComments(id, updatedComments);
         setComments(updatedComments);
         setUserComment("");
         toast.success("Komentarz dodany!");
@@ -151,16 +141,13 @@ export const DetailContextProvider = ({ children }) => {
   const updateBlogAuthor = async (user, firstName, lastName) => {
     setSendingComment(true);
     try {
-      const blogs = await fetchBlogs(); // Pobierz wszystkie blogi
-      for (const blog of blogs) {
-        if (blog.userId === user.uid) {
-          // Sprawdź, czy to blog tego użytkownika
-          const updatedData = {
-            author: `${firstName} ${lastName}`, // Zaktualizuj autora
-          };
-          // Zaktualizuj bloga
-          await updateUserBlog(blog.id, updatedData, user);
-        }
+      const allBlogs = await FirebaseService.blogs.fetchAll({});
+      const userBlogs = allBlogs.filter((blog) => blog.userId === user.uid);
+      for (const blog of userBlogs) {
+        const updatedData = {
+          author: `${firstName} ${lastName}`,
+        };
+        await FirebaseService.blogs.update(blog.id, updatedData, user);
       }
       toast.success(
         "Dane zostały zaktualizowane. Odśwież stronę, by zobaczyć zmiany!"
@@ -191,7 +178,7 @@ export const DetailContextProvider = ({ children }) => {
       setLikes(newLikes);
       setLikeCount(newLikes.length);
       try {
-        await updateBlogLikes(blogId, newLikes);
+        await FirebaseService.blogs.updateBlogLikes(blogId, newLikes);
       } catch (err) {
         console.log("Error saving likes:", err);
         setError(
@@ -210,10 +197,10 @@ export const DetailContextProvider = ({ children }) => {
   const deleteLikesByUser = async (userId) => {
     setSendingComment(true);
     try {
-      const blogs = await fetchBlogs();
+      const blogs = await FirebaseService.blogs.fetchAll({});
       for (const blog of blogs) {
         const updatedLikes = blog.likes.filter((id) => id !== userId);
-        await updateBlogLikes(blog.id, updatedLikes);
+        await FirebaseService.blogs.updateBlogLikes(blog.id, updatedLikes);
       }
       toast.success("Usunięto wszystkie lajki.");
       return true;

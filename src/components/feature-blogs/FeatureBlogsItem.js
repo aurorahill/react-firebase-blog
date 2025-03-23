@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import photoImg from "../../assets/photo.jpg";
 import classes from "./FeatureBlogsItem.module.scss";
-import { dataFormatter } from "../../utility/dataFormatter";
+import { dateFormatter } from "../../utils/date";
 
 const FeatureBlogsItem = ({ item }) => {
   const navigate = useNavigate();
@@ -23,7 +23,7 @@ const FeatureBlogsItem = ({ item }) => {
       <div className={classes.popular__content}>
         <p className={classes.popular__title}>{item.title}</p>
         <p className={classes.popular__date}>
-          {dataFormatter(item?.timestamp)}
+          {dateFormatter(item?.timestamp)}
         </p>
       </div>
     </div>

@@ -1,14 +1,6 @@
 import React, { createContext, useContext, useState, useCallback } from "react";
 import PropTypes from "prop-types";
-import {
-  fetch6UserBlogs,
-  fetchPrevUserBlogs,
-  fetchNextUserBlogs,
-  fetchAllUserBlogs,
-  deleteBlog,
-  addUserBlog,
-  updateUserBlog,
-} from "../utility/firebaseService";
+import FirebaseService from "../firebase/firebaseService";
 import { toast } from "react-toastify";
 import { useUserContext } from "./auth-context";
 
@@ -32,46 +24,44 @@ export const UserBlogsProvider = ({ children }) => {
     if (!userId) return;
     setLoading(true);
     try {
-      const docSnapshot = await fetchAllUserBlogs(userId);
+      const docSnapshot = await FirebaseService.users.fetchAllUserBlogs(userId);
       if (docSnapshot.empty) {
+        setPaginationBlogs([]);
+        setPageCount(0);
         setNumOfPages(0);
+        return;
       }
-      const totalPage = Math.ceil(docSnapshot.size / 6);
-      setNumOfPages(totalPage);
+      setPageCount(docSnapshot.docs.length);
+      setNumOfPages(Math.ceil(docSnapshot.docs.length / 6));
     } catch (err) {
       console.error("Error fetching user blogs:", err);
-      setError(
-        err.message || "Błąd podczas pobierania blogów. Spróbuj ponownie."
-      );
+      setError(err.message || "Błąd podczas pobierania blogów. Spróbuj ponownie.");
     } finally {
       setLoading(false);
     }
   }, [userId]);
 
-  // Pobranie 6 pierwszych blogów
-  const getBlogs = useCallback(async () => {
+  const get6Blogs = useCallback(async () => {
     if (!userId) return;
     setLoading(true);
     try {
-      const docSnapshot = await fetch6UserBlogs(userId);
+      const docSnapshot = await FirebaseService.users.fetch6UserBlogs(userId);
       if (docSnapshot.empty) {
         setPaginationBlogs([]);
-        setPageCount(0);
-        setLastPaginationVisible(null);
+        return;
       }
-      const newBlogs = docSnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setPaginationBlogs(newBlogs);
-      setPageCount(docSnapshot.size);
-      setLastPaginationVisible(docSnapshot.docs[docSnapshot.docs.length - 1]);
+      const lastVisible = docSnapshot.docs[docSnapshot.docs.length - 1];
+      setLastPaginationVisible(lastVisible);
+      setPaginationBlogs(
+        docSnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+          docSnapshot: doc,
+        }))
+      );
     } catch (err) {
       console.error("Error fetching paginated user blogs:", err);
-      setError(
-        err.message ||
-          "Błąd podczas pobierania blogów. Spróbuj ponownie później."
-      );
+      setError(err.message || "Błąd podczas pobierania blogów. Spróbuj ponownie później.");
     } finally {
       setLoading(false);
     }
@@ -90,25 +80,32 @@ export const UserBlogsProvider = ({ children }) => {
 
   // Pobranie poprzednich blogów
   const fetchPrev = async () => {
+    if (currentPage <= 1) return;
     setLoading(true);
     try {
-      const docSnapshot = await fetchPrevUserBlogs(
+      const docSnapshot = await FirebaseService.users.fetchPrevUserBlogs(
         userId,
         lastPaginationVisible,
         numOfPages,
         currentPage,
         pageCount
       );
+      if (docSnapshot.empty) {
+        return;
+      }
+      setCurrentPage((prev) => prev - 1);
+      const lastVisible = docSnapshot.docs[docSnapshot.docs.length - 1];
+      setLastPaginationVisible(lastVisible);
       setPaginationBlogs(
-        docSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
+        docSnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+          docSnapshot: doc,
+        }))
       );
-      setLastPaginationVisible(docSnapshot.docs[docSnapshot.docs.length - 1]);
     } catch (err) {
       console.error("Error fetching previous paginated user blogs:", err);
-      setError(
-        err.message ||
-          "Błąd podczas pobierania blogów. Spróbuj ponownie później."
-      );
+      setError(err.message || "Błąd podczas pobierania blogów. Spróbuj ponownie później.");
     } finally {
       setLoading(false);
     }
@@ -116,22 +113,29 @@ export const UserBlogsProvider = ({ children }) => {
 
   // Pobranie następnych blogów
   const fetchNext = async () => {
+    if (currentPage >= numOfPages) return;
     setLoading(true);
     try {
-      const docSnapshot = await fetchNextUserBlogs(
+      const docSnapshot = await FirebaseService.users.fetchNextUserBlogs(
         userId,
         lastPaginationVisible
       );
+      if (docSnapshot.empty) {
+        return;
+      }
+      setCurrentPage((prev) => prev + 1);
+      const lastVisible = docSnapshot.docs[docSnapshot.docs.length - 1];
+      setLastPaginationVisible(lastVisible);
       setPaginationBlogs(
-        docSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
+        docSnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+          docSnapshot: doc,
+        }))
       );
-      setLastPaginationVisible(docSnapshot.docs[docSnapshot.docs.length - 1]);
     } catch (err) {
       console.error("Error fetching next paginated user blogs:", err);
-      setError(
-        err.message ||
-          "Błąd podczas pobierania blogów. Spróbuj ponownie później."
-      );
+      setError(err.message || "Błąd podczas pobierania blogów. Spróbuj ponownie później.");
     } finally {
       setLoading(false);
     }
@@ -141,12 +145,14 @@ export const UserBlogsProvider = ({ children }) => {
     if (window.confirm("Czy na pewno chcesz usunąć ten blog?")) {
       setDeleting(true);
       try {
-        await deleteBlog(id);
+        await FirebaseService.blogs.delete(id);
         toast.success("Blog usunięty!");
         setPaginationBlogs((prevBlogs) =>
           prevBlogs.filter((blog) => blog.id !== id)
         );
         if (onDeleteSuccess) onDeleteSuccess(id);
+        await getAllUserBlogs();
+        await get6Blogs();
       } catch (err) {
         console.log(err);
         toast.error("Nie udało się usunąć bloga.");
@@ -159,7 +165,7 @@ export const UserBlogsProvider = ({ children }) => {
   const handleAddBlog = async (blogData, onSubmitSuccess) => {
     setLoading(true);
     try {
-      const newBlog = await addUserBlog(blogData, user);
+      const newBlog = await FirebaseService.blogs.add(blogData, user);
       setPaginationBlogs((prevBlogs) => [...prevBlogs, newBlog]);
       if (onSubmitSuccess) onSubmitSuccess(newBlog);
       toast.success("Twój blog został dodany!");
@@ -174,7 +180,7 @@ export const UserBlogsProvider = ({ children }) => {
   const handleUpdateBlog = async (blogId, updatedData, onSubmitSuccess) => {
     setLoading(true);
     try {
-      const updatedBlog = await updateUserBlog(blogId, updatedData, user);
+      const updatedBlog = await FirebaseService.blogs.update(blogId, updatedData, user);
       setPaginationBlogs((prevBlogs) =>
         prevBlogs.map((blog) =>
           blog.id === blogId ? { ...updatedBlog, id: blogId } : blog
@@ -200,7 +206,7 @@ export const UserBlogsProvider = ({ children }) => {
     currentPage,
     error,
     setError,
-    getBlogs,
+    getBlogs: get6Blogs,
     getAllUserBlogs,
     deleteUserBlog,
     deleting,

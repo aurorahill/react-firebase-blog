@@ -1,0 +1,47 @@
+import React, { useEffect, useRef } from "react";
+import { useParams } from "react-router-dom";
+
+import SectionHeader from "../../components/UI/SectionHeader/SectionHeader";
+import BlogItem from "../../components/Blog/BlogItem/BlogItem";
+import Spinner from "../../components/UI/Spinner/Spinner";
+import { scrollToSection } from "../../utils/scroll";
+
+import classes from "./TagBlog.module.scss";
+import { useBlogContext } from "../../store/blog-context";
+
+const TagBlog = () => {
+  const { getTagPage, tagPage, loadingPage: loading } = useBlogContext();
+  const { tag } = useParams();
+  const tagBlogsRef = useRef(null);
+
+  useEffect(() => {
+    getTagPage(tag).then(() => {
+      setTimeout(() => scrollToSection(tagBlogsRef.current), 0);
+    });
+  }, [tag, getTagPage]);
+
+  return (
+    <section
+      className={classes["tag-blogs"]}
+      ref={tagBlogsRef}
+    >
+      <SectionHeader backButton>
+        Tag: <strong>{tag.toUpperCase()}</strong>
+      </SectionHeader>
+      {loading ? (
+        <Spinner />
+      ) : (
+        <div className={classes["tag-blogs__wrapper"]}>
+          {tagPage?.map((item) => (
+            <BlogItem
+              item={item}
+              key={item.id}
+            />
+          ))}
+        </div>
+      )}
+    </section>
+  );
+};
+
+export default TagBlog;

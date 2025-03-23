@@ -1,10 +1,10 @@
 import { isEmpty } from "lodash";
 import PropTypes from "prop-types";
 import React from "react";
-import UserComments from "./UserComments";
+import UserComments from "./UserComments/UserComments";
 import classes from "./Comments.module.scss";
 import { useDetailContext } from "../../store/datail-context";
-import ScrollWrapper from "../UI/ScrollWrapper";
+import ScrollWrapper from "../UI/Scroll/ScollWrapper/ScrollWrapper";
 
 const Comments = ({ id }) => {
   const { comments } = useDetailContext();
