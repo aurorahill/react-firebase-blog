@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import SectionHeader from "../UI/SectionHeader";
+import SectionHeader from "../UI/SectionHeader/SectionHeader";
 import Card from "./Card/Card";
 import classes from "./RelatedBlog.module.scss";
 import { useDetailContext } from "../../store/datail-context";

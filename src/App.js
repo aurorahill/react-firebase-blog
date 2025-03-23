@@ -15,11 +15,11 @@ import { BlogContextProvider } from "./store/blog-context";
 import TagBlog from "./pages/TagBlog/TagBlog";
 import BlogRoot from "./pages/BlogRoot/BlogRoot";
 import CategoryBlog from "./pages/CategoryBlog/CategoryBlog";
-import ScrollToTop from "./components/UI/ScrollToTop";
+import ScrollToTop from "./components/UI/Scroll/ScrollToTop/ScrollToTop";
 import { DetailContextProvider } from "./store/datail-context";
 import UserPage from "./pages/UserPage/UserPage";
 import { UserBlogsProvider } from "./store/user-blogs-context";
-import CookieBanner from "./components/UI/CookieBanner";
+import CookieBanner from "./components/UI/CookieBanner/CookieBanner";
 
 const router = createBrowserRouter([
   {

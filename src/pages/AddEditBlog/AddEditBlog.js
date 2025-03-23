@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import Heading from "../../components/UI/Heading";
 import Input from "../../components/UI/Input";
-import Button from "../../components/UI/Button";
+import Button from "../../components/UI/Button/Button";
 import classes from "./AddEditBlog.module.scss";
 import { useNavigate, useParams } from "react-router-dom";
 import { useBlogContext } from "../../store/blog-context";

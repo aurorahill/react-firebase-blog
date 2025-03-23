@@ -2,9 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Timestamp } from "firebase/firestore";
 import { Link } from "react-router-dom";
-import photoImg from "../../assets/photo.jpg";
+import photoImg from "../../../assets/photo.jpg";
 import classes from "./TrendingItem.module.scss";
-import { dataFormatter } from "../../utility/dataFormatter";
+import { dataFormatter } from "../../../utility/dataFormatter";
 
 const TrendingItem = ({ item }) => {
   return (

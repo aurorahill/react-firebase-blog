@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import ResetPassword from "../../components/auth/ResetPassword/ResetPassword";
+import ResetPassword from "../../components/Auth/ResetPassword/ResetPassword";
 import classes from "./Auth.module.scss";
-import AuthForm from "../../components/auth/AuthForm/AuthForm";
-import Heading from "../../components/UI/Heading";
+import AuthForm from "../../components/Auth/AuthForm/AuthForm";
+import Heading from "../../components/UI/Heading/Heading";
 import { useUserContext } from "../../store/auth-context";
 
 const Auth = () => {

@@ -1,13 +1,13 @@
 import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { useBlogContext } from "../store/blog-context";
-import Tags from "./Tags";
-import FeatureBlogs from "./feature-blogs/FeatureBlogs";
+import { useBlogContext } from "../../store/blog-context";
+import Tags from "../Tags/Tags";
+import FeatureBlogs from "../Feature-Blogs/FeatureBlogs";
 import classes from "./Aside.module.scss";
-import Spinner from "./UI/Spinner";
-import Search from "./Search";
-import Category from "./Category";
-import Modal from "./UI/Modal";
+import Spinner from "../UI/Spinner/Spinner";
+import Search from "../Search/Search";
+import Category from "../Category/Category";
+import Modal from "../UI/Modal/Modal";
 
 const Aside = () => {
   const {
@@ -30,24 +30,16 @@ const Aside = () => {
   if (loading) {
     return <Spinner />;
   }
+
   return (
     <>
       <aside className={classes.aside}>
         {location.pathname === "/" && (
           <Search className={classes.aside__search} />
         )}
-        <Tags
-          header="Tagi"
-          tags={tags}
-        />
-        <FeatureBlogs
-          blogs={mostLikedBlogs}
-          title="Popularne"
-        />
-        <FeatureBlogs
-          blogs={recentBlogs}
-          title="Najnowsze"
-        />
+        <Tags header="Tagi" tags={tags} />
+        <FeatureBlogs blogs={mostLikedBlogs} title="Popularne" />
+        <FeatureBlogs blogs={recentBlogs} title="Najnowsze" />
         <Category />
       </aside>
       {error && (

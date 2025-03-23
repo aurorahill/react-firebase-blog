@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import Modal from "../../UI/Modal";
-import Input from "../../UI/Input";
-import Button from "../../UI/Button";
+import Modal from "../../UI/Modal/Modal";
+import Input from "../../UI/Input/Input";
+import Button from "../../UI/Button/Button";
 import classes from "./ResetPassword.module.scss";
-import Heading from "../../UI/Heading";
+import Heading from "../../UI/Heading/Heading";
 import { validateEmail } from "../../../utility/validate";
 import { resetPassword } from "../../../utility/firebaseService";
 

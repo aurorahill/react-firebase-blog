@@ -1,9 +1,9 @@
 import React from "react";
 import classes from "./BlogRoot.module.scss";
-import Trending from "../../components/trending/Trending";
-import Aside from "../../components/Aside";
+import Trending from "../../components/Trending/Trending";
+import Aside from "../../components/Aside/Aside";
 import { Outlet } from "react-router-dom";
-import Spinner from "../../components/UI/Spinner";
+import Spinner from "../../components/UI/Spinner/Spinner";
 import { useBlogContext } from "../../store/blog-context";
 
 const BlogRoot = () => {

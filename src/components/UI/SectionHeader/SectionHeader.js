@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import classes from "./SectionHeader.module.scss";
-import Button from "./Button";
+import Button from "../Button/Button";
 
 const SectionHeader = ({ children, className, backButton }) => {
   const navigate = useNavigate();

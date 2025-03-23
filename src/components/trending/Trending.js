@@ -3,11 +3,11 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
-import TrendingItem from "./TrendingItem";
+import TrendingItem from "./TrendingItem/TrendingItem";
 import classes from "./Trending.module.scss";
 import { useBlogContext } from "../../store/blog-context";
-import Spinner from "../UI/Spinner";
-import SectionHeader from "../UI/SectionHeader";
+import Spinner from "../UI/Spinner/Spinner";
+import SectionHeader from "../UI/SectionHeader/SectionHeader";
 
 const Trending = () => {
   const { trendBlogs, getTrendingBlogs } = useBlogContext();

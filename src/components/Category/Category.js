@@ -1,8 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import SectionHeader from "./UI/SectionHeader";
+import SectionHeader from "../UI/SectionHeader/SectionHeader";
 import classes from "./Category.module.scss";
-import { useBlogContext } from "../store/blog-context";
+import { useBlogContext } from "../../store/blog-context";
 
 const Category = () => {
   const { categoryCount: catgBlogCount } = useBlogContext();

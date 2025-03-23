@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import classes from "./Tags.module.scss";
-import SectionHeader from "./UI/SectionHeader";
+import SectionHeader from "../UI/SectionHeader/SectionHeader";
 import { Link, useLocation } from "react-router-dom";
-import ScrollWrapper from "./UI/ScrollWrapper";
+import ScrollWrapper from "../UI/Scroll/ScollWrapper/ScrollWrapper";
 
 const Tags = ({ header, tags }) => {
   const location = useLocation();

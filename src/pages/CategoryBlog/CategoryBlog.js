@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 
 import SectionHeader from "../../components/UI/SectionHeader";
-import BlogItem from "../../components/blog/BlogItem/BlogItem";
+import BlogItem from "../../components/Blog/BlogItem/BlogItem";
 import Spinner from "../../components/UI/Spinner";
 import { scrollToSection } from "../../utility/scrollToSection";
 import classes from "./CategoryBlog.module.scss";

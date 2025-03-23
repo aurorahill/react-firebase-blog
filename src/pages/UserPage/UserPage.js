@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { useUserContext } from "../../store/auth-context";
 import { useNavigate } from "react-router-dom";
-import UserEditForm from "../../components/auth/UserEditForm/UserEditForm";
-import SectionHeader from "../../components/UI/SectionHeader";
+import UserEditForm from "../../components/Auth/UserEditForm/UserEditForm";
+import SectionHeader from "../../components/UI/SectionHeader/SectionHeader";
 import classes from "./UserPage.module.scss";
-import Button from "../../components/UI/Button";
-import Blogs from "../../components/blog/Blogs";
+import Button from "../../components/UI/Button/Button";
+import Blogs from "../../components/Blog/Blogs";
 
-import Spinner from "../../components/UI/Spinner";
-import Aside from "../../components/Aside";
+import Spinner from "../../components/UI/Spinner/Spinner";
+import Aside from "../../components/Aside/Aside";
 import { useBlogContext } from "../../store/blog-context";
 import { useDetailContext } from "../../store/datail-context";
 import { toast } from "react-toastify";

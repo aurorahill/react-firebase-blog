@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 import { useUserBlogsContext } from "../../store/user-blogs-context";
 import classes from "./Blogs.module.scss";
-import SectionHeader from "../UI/SectionHeader";
-import Spinner from "../UI/Spinner";
+import SectionHeader from "../UI/SectionHeader/SectionHeader";
+import Spinner from "../UI/Spinner/Spinner";
 import BlogItem from "./BlogItem/BlogItem";
-import Pagination from "../Pagination";
-import Modal from "../UI/Modal";
+import Pagination from "../Pagination/Pagination";
+import Modal from "../UI/Modal/Modal";
 import { Link } from "react-router-dom";
 import { useUserContext } from "../../store/auth-context";
 

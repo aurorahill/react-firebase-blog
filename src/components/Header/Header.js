@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { useUserContext } from "../store/auth-context";
+import { useUserContext } from "../../store/auth-context";
 import classes from "./Header.module.scss";
 import { FiMenu, FiX } from "react-icons/fi";
 import { toast } from "react-toastify";

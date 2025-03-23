@@ -1,12 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useUserContext } from "../store/auth-context";
 import { Link } from "react-router-dom";
 import classes from "./ActionsIcons.module.scss";
-import { useBlogContext } from "../store/blog-context";
-import { useUserBlogsContext } from "../store/user-blogs-context";
-import Button from "./UI/Button";
+import { useUserContext } from "../../../store/auth-context";
+import { useBlogContext } from "../../../store/blog-context";
+import { useUserBlogsContext } from "../../../store/user-blogs-context";
+import Button from "../Button/Button";
 
 const ActionsIcons = ({ item, id }) => {
   const { user } = useUserContext();

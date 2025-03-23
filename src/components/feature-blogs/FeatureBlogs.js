@@ -1,7 +1,7 @@
 import React from "react";
 import { Timestamp } from "firebase/firestore";
 import PropTypes from "prop-types";
-import SectionHeader from "../UI/SectionHeader";
+import SectionHeader from "../UI/SectionHeader/SectionHeader";
 import FeatureBlogsItem from "./FeatureBlogsItem";
 
 const FeatureBlogs = ({ title, blogs }) => {

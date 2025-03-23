@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
-import { useUserContext } from "../../store/auth-context";
-import { useDetailContext } from "../../store/datail-context";
+
 import LikeStatus from "./LikeStatus";
 import classes from "./Like.module.scss";
-import Button from "../UI/Button";
-import Modal from "../UI/Modal";
+import Button from "../UI/Button/Button";
+import Modal from "../UI/Modal/Modal";
+import { useDetailContext } from "../../store/datail-context";
+import { useUserContext } from "../../store/auth-context";
 
 const Like = ({ id: blogId }) => {
   const { likes, showTooltip, setShowTooltip, handleLike, error, setError } =

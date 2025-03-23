@@ -1,18 +1,18 @@
 import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
-import photoImg from "../../assets/photo.jpg";
 import classes from "./Detail.module.scss";
-import Spinner from "../../components/UI/Spinner";
-import Aside from "../../components/Aside";
-import RelatedBlog from "../../components/related-blog/RelatedBlog";
-import Tags from "../../components/Tags";
-import Comments from "../../components/comments/Comments";
-import CommentBox from "../../components/comments/CommentBox/CommentBox";
+import { useParams } from "react-router-dom";
 import { useDetailContext } from "../../store/datail-context";
-import Like from "../../components/like/Like";
+import Spinner from "../../components/UI/Spinner/Spinner";
+import photoImg from "../../assets/photo.jpg";
+import Like from "../../components/Like/Like";
 import { dataFormatter } from "../../utility/dataFormatter";
-import Modal from "../../components/UI/Modal";
-import ActionsIcons from "../../components/ActionsIcons";
+import Tags from "../../components/Tags/Tags";
+import ActionsIcons from "../../components/UI/ActionIcons/ActionsIcons";
+import Comments from "../../components/Comments/Comments";
+import CommentBox from "../../components/Comments/CommentBox/CommentBox";
+import Aside from "../../components/Aside/Aside";
+import RelatedBlog from "../../components/Related-Blog/RelatedBlog";
+import Modal from "../../components/UI/Modal/Modal";
 
 const Detail = () => {
   const { getBlogDetail, loading, blog, error, setError } = useDetailContext();
@@ -73,7 +73,7 @@ const Detail = () => {
       </div>
       <RelatedBlog id={id} />
       {error && (
-        <Modal
+          <Modal
           open={!!error}
           onClose={() => {
             setError(null);

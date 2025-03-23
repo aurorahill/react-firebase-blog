@@ -1,10 +1,10 @@
 import React from "react";
 import logoImg from "../../assets/bbr2.jpg";
 import { Link } from "react-router-dom";
-import Aside from "../../components/Aside";
 import classes from "./About.module.scss";
-import InfoCard from "../../components/InfoCard";
+import InfoCard from "../../components/InfoCard/InfoCard";
 import SectionHeader from "../../components/UI/SectionHeader";
+import Aside from "../../components/Aside/Aside";
 
 const About = () => {
   return (

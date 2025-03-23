@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import classes from "./CookieBanner.module.scss";
-import Button from "./Button";
+import Button from "../Button/Button";
 
 const CookieBanner = () => {
   const [cookieEaten, setCookieEaten] = useState(false);

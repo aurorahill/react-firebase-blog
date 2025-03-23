@@ -1,8 +1,8 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-import Header from "../../components/Header";
 import classes from "./Root.module.scss";
-import Footer from "../../components/Footer";
+import Header from "../../components/Header/Header";
+import Footer from "../../components/Footer/Footer";
 import PullToRefresh from "react-simple-pull-to-refresh";
 
 const RootLayout = () => {

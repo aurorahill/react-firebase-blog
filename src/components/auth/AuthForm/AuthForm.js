@@ -1,7 +1,7 @@
 import React from "react";
-import Input from "../../UI/Input";
+import Input from "../../UI/Input/Input";
 import { useNavigate } from "react-router-dom";
-import Button from "../../UI/Button";
+import Button from "../../UI/Button/Button";
 import classes from "./AuthForm.module.scss";
 import { useUserContext } from "../../../store/auth-context";
 

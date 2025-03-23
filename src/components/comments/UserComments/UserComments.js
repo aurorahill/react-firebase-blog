@@ -3,7 +3,7 @@ import { Timestamp } from "firebase/firestore";
 import PropTypes from "prop-types";
 import classes from "./UserComments.module.scss";
 import { useUserContext } from "../../../store/auth-context";
-import Button from "../../UI/Button";
+import Button from "../../UI/Button/Button";
 import { useDetailContext } from "../../../store/datail-context";
 import { dataFormatter } from "../../../utility/dataFormatter";
 

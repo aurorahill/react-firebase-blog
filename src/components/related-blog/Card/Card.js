@@ -3,9 +3,9 @@ import PropTypes from "prop-types";
 import { Timestamp } from "firebase/firestore";
 import { Link } from "react-router-dom";
 import classes from "./Card.module.scss";
-import { shortText } from "../../../utility/shortText";
 import { FaRegThumbsUp } from "react-icons/fa";
 import { FaRegComment } from "react-icons/fa";
+import { shortText } from "../../../utility/shortText";
 
 const Card = ({ title, id, description, imgURL, likes, comments }) => {
   return (
